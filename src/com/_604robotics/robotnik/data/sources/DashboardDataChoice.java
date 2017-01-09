@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * A choice of data from the smart dashboard.
  */
 public class DashboardDataChoice implements Data {
-    private final SendableChooser chooser = new SendableChooser();
+    private final SendableChooser<Double> chooser = new SendableChooser<Double>();
     
     /**
      * Creates a dashboard data choice.

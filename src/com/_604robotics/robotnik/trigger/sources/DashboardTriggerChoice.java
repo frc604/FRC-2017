@@ -1,6 +1,7 @@
 package com._604robotics.robotnik.trigger.sources;
 
 import com._604robotics.robotnik.trigger.Trigger;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -8,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * A choice of triggers from the smart dashboard.
  */
 public class DashboardTriggerChoice {
-    private final SendableChooser chooser = new SendableChooser();
+    private final SendableChooser<DashboardTriggerOption> chooser = new SendableChooser<DashboardTriggerOption>();
     private class DashboardTriggerOption implements Trigger {
         @Override
         public boolean run () {
