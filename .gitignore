@@ -126,3 +126,5 @@ sysProps.xml
 .project
 .classpath
 
+build.properties
+build.xml
