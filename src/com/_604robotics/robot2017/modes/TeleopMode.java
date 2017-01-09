@@ -20,20 +20,20 @@ public class TeleopMode extends Coordinator {
     private final XboxController manipulator = new XboxController(0 /* Port Constant */);
 
     public TeleopMode () {        
-        driver.leftStick.X.setDeadband(0 /* Calibration Constant */);
-        driver.leftStick.Y.setDeadband(0 /* Calibration Constant */);
+        driver.leftStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
+        driver.leftStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
 
-        driver.leftStick.X.setFactor(0 /* Calibration Constant */);
-        driver.leftStick.Y.setFactor(0 /* Calibration Constant */);
+        driver.leftStick.X.setFactor(Calibration.TELEOP_FACTOR);
+        driver.leftStick.Y.setFactor(Calibration.TELEOP_FACTOR);
 
-        driver.rightStick.X.setDeadband(0 /* Calibration Constant */);
-        driver.rightStick.Y.setDeadband(0 /* Calibration Constant */);
+        driver.rightStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
+        driver.rightStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
 
-        driver.rightStick.X.setFactor(0 /* Calibration Constant */);
-        driver.rightStick.Y.setFactor(0 /* Calibration Constant */);
+        driver.rightStick.X.setFactor(Calibration.TELEOP_FACTOR);
+        driver.rightStick.Y.setFactor(Calibration.TELEOP_FACTOR);
 
-        manipulator.leftStick.Y.setDeadband(0 /* Calibration Constant */);
-        manipulator.rightStick.Y.setDeadband(0 /* Calibration Constant */);
+        manipulator.leftStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
+        manipulator.rightStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
     }
 
     @Override
