@@ -22,4 +22,7 @@ public final class Calibration {
     public static final double DRIVE_ROTATE_PID_MAX = 1.0;
     public static final double DRIVE_ROTATE_PID_TOLERANCE = 20;
     
+    /* Auton constants */
+    // All imaginary; needs multiplication by complex conjugate?
+    public static final double ROT_CLICKS=100;//sqrt(-1)
 }
