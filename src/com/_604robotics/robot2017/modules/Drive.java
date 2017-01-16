@@ -48,34 +48,34 @@ public class Drive extends Module {
 
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
     
-	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZONTAL_GYRO);
+	private final AnalogGyro horizGyro = new AnalogGyro(0);
     
-    private final PIDController pidMove = new PIDController(
-            Calibration.DRIVE_MOVE_PID_P,
-            Calibration.DRIVE_MOVE_PID_I,
-            Calibration.DRIVE_MOVE_PID_D,
+    private final PIDController pidLeft = new PIDController(
+            Calibration.DRIVE_LEFT_PID_P,
+            Calibration.DRIVE_LEFT_PID_I,
+            Calibration.DRIVE_LEFT_PID_D,
             encoderLeft,
             pidOutput.move);
     
-    private final PIDController pidRotate = new PIDController(
-            Calibration.DRIVE_ROTATE_PID_P,
-            Calibration.DRIVE_ROTATE_PID_I,
-            Calibration.DRIVE_ROTATE_PID_D,
-            horizGyro,
+    private final PIDController pidRight = new PIDController(
+            Calibration.DRIVE_RIGHT_PID_P,
+            Calibration.DRIVE_RIGHT_PID_I,
+            Calibration.DRIVE_RIGHT_PID_D,
+            encoderRight,
             pidOutput.rotate);
     private final Timer timer = new Timer();
 
     public Drive () {
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
-        pidMove.setOutputRange(-Calibration.DRIVE_MOVE_PID_MAX, Calibration.DRIVE_MOVE_PID_MAX);
-        pidRotate.setOutputRange(-Calibration.DRIVE_ROTATE_PID_MAX, Calibration.DRIVE_ROTATE_PID_MAX);
+        pidLeft.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
+        pidRight.setOutputRange(-Calibration.DRIVE_RIGHT_PID_MAX, Calibration.DRIVE_RIGHT_PID_MAX);
         horizGyro.calibrate();
-        pidMove.setAbsoluteTolerance(Calibration.DRIVE_MOVE_PID_TOLERANCE);
-        pidRotate.setAbsoluteTolerance(Calibration.DRIVE_ROTATE_PID_TOLERANCE);
+        pidLeft.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
+        pidRight.setAbsoluteTolerance(Calibration.DRIVE_RIGHT_PID_TOLERANCE);
 
-        SmartDashboard.putData("Drive Move PID", pidMove);
-        SmartDashboard.putData("Drive Rotate PID", pidRotate);
+        SmartDashboard.putData("Drive Move PID", pidLeft);
+        SmartDashboard.putData("Drive Rotate PID", pidRight);
 
         this.set(new DataMap() {{
             add("Left Drive Clicks", encoderLeft::get);
@@ -84,8 +84,8 @@ public class Drive extends Module {
             add("Left Drive Rate", encoderLeft::getRate);
             add("Right Drive Rate", encoderRight::getRate);
 
-            add("Move PID Error", pidMove::getAvgError);
-            add("Rotate PID Error", pidRotate::getAvgError);
+            add("Move PID Error", pidLeft::getAvgError);
+            add("Rotate PID Error", pidRight::getAvgError);
             
             add("Horizonal Gyro Angle", horizGyro::getAngle);
 
@@ -93,9 +93,9 @@ public class Drive extends Module {
 
         this.set(new TriggerMap() {{
             add("At Move Servo Target", () ->
-                pidMove.isEnabled() && pidMove.onTarget());
+                pidLeft.isEnabled() && pidLeft.onTarget());
             add("At Rotate Servo Target", () ->
-                pidRotate.isEnabled() && pidRotate.onTarget());
+                pidRight.isEnabled() && pidRight.onTarget());
         }});
 
         this.set(new ElasticController() {{
@@ -183,24 +183,24 @@ public class Drive extends Module {
                     encoderLeft.reset();
                     encoderRight.reset();
                     pidOutput.rotate.pidWrite(0);
-                    pidMove.setSetpoint(data.get("Clicks"));
-                    pidMove.enable();
+                    pidLeft.setSetpoint(data.get("Clicks"));
+                    pidLeft.enable();
                 }
 
                 public void run (ActionData data){
                     if (encoderLeft.get() != data.get("Clicks")) {
-                        pidMove.reset();
+                        pidLeft.reset();
                         encoderLeft.reset();
                         encoderRight.reset();
                         
-                        pidMove.setSetpoint(data.get("Clicks"));
-                        pidMove.enable();
+                        pidLeft.setSetpoint(data.get("Clicks"));
+                        pidLeft.enable();
                     }
 
                 }
 
                 public void end (ActionData data) {
-                    pidMove.reset();
+                    pidLeft.reset();
                 }
             });
             add("Servo Rotate", new Action(new FieldMap() {{
@@ -209,23 +209,23 @@ public class Drive extends Module {
                 public void begin (ActionData data) {
                 	horizGyro.reset();
                     pidOutput.move.pidWrite(0);
-                    pidRotate.setSetpoint(data.get("Angle"));
-                    pidRotate.enable();
+                    pidRight.setSetpoint(data.get("Angle"));
+                    pidRight.enable();
                 }
 
                 public void run (ActionData data){
-                    if (pidRotate.getSetpoint() != data.get("Angle")) {
+                    if (pidRight.getSetpoint() != data.get("Angle")) {
                     	horizGyro.reset();
-                        pidRotate.reset();
+                        pidRight.reset();
 
-                        pidRotate.setSetpoint(data.get("Angle"));
-                        pidRotate.enable();
+                        pidRight.setSetpoint(data.get("Angle"));
+                        pidRight.enable();
                     }
 
                 }
 
                 public void end (ActionData data) {
-                    pidRotate.reset();
+                    pidRight.reset();
                 }
             });
         }});

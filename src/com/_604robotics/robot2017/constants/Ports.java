@@ -5,8 +5,6 @@ public class Ports {
 
 	// NONE OF THESE ARE REAL
 	
-    public static final int HORIZONTAL_GYRO = 0;//sqrt(-1)
-	
 	public static final int ULTRASONIC_LEFT = 0;//sqrt(-1)
 	public static final int ULTRASONIC_RIGHT = 1;//sqrt(-1)
 	
