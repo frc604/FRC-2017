@@ -1,8 +1,6 @@
 package com._604robotics.robot2017.modules;
 
-import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robotnik.data.DataMap;
-import com._604robotics.robotnik.data.sources.DashboardData;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.trigger.TriggerMap;
 import com._604robotics.robotnik.trigger.sources.DashboardTriggerChoice;
@@ -15,9 +13,9 @@ public class Dashboard extends Module {
             add("Drive Off", driveOn.add("Drive Off"));
             
             final DashboardTriggerChoice autonObstacle = new DashboardTriggerChoice("Auton Obstacle");
-            add("Option 1", autonObstacle.addDefault("Option 1"));
-            add("Option 2", autonObstacle.add("Option 2"));
-            add("Option 3", autonObstacle.add("Option 3"));
+            add("Forward", autonObstacle.addDefault("Forward"));
+            add("Backward", autonObstacle.add("Backward"));
+            add("Rotate", autonObstacle.add("Rotate"));
 			
             final DashboardTriggerChoice autonOn = new DashboardTriggerChoice("Auton Mode");
             add("Auton On", autonOn.addDefault("Auton On"));
