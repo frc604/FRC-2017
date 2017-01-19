@@ -15,6 +15,7 @@ import com._604robotics.robotnik.trigger.TriggerMap;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +45,18 @@ public class Drive extends Module {
             false, CounterBase.EncodingType.k4X);
 
     private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
+    
+    private double pid_power_cap = 0.6;
+    
+    private double PIDUltraOut = 0D;
+    
+    private final PIDController pidUltra = new PIDController(Calibration.DRIVE_ULTRA_PID_P, 
+    		Calibration.DRIVE_ULTRA_PID_I, Calibration.DRIVE_LEFT_PID_D, null, new PIDOutput () {
+    	public void pidWrite (double output) {
+    		if( output > 0 ) PIDUltraOut = (output > pid_power_cap) ? pid_power_cap : output;
+    		else PIDUltraOut = (output < -pid_power_cap) ? -pid_power_cap : output;
+    	}
+    });
     
     private final PIDController pidLeft = new PIDController(
             Calibration.DRIVE_LEFT_PID_P,
