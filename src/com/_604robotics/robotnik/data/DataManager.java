@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com._604robotics.robotnik.Safety;
+import com._604robotics.robotnik.Settings;
 import com._604robotics.robotnik.exceptions.NonExistentDataError;
 import com._604robotics.robotnik.logging.Logger;
 import com._604robotics.robotnik.memory.IndexedTable;
@@ -35,7 +36,9 @@ public class DataManager {
         final DataReference ref = this.dataTable.get(name);
         if (ref == null) {
         	Logger.missing("DataReference", name);
-        	throw new NonExistentDataError("Attempted to access nonexistent data" + name);
+        	if (Settings.DEBUG_THROW==2) {
+        		throw new NonExistentDataError("Attempted to access nonexistent data" + name);
+        	}
         }
         return ref;
     }

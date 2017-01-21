@@ -1,8 +1,10 @@
 package com._604robotics.robotnik.action;
 
+import com._604robotics.robotnik.Settings;
 import com._604robotics.robotnik.action.field.Field;
 import com._604robotics.robotnik.action.field.FieldMap;
 import com._604robotics.robotnik.data.DataReference;
+import com._604robotics.robotnik.exceptions.NonExistentDataError;
 import com._604robotics.robotnik.logging.Logger;
 import com._604robotics.robotnik.memory.IndexedTable;
 import com._604robotics.robotnik.module.ModuleReference;
@@ -43,7 +45,8 @@ public class ActionData {
      * @return Whether the field's value is non-zero.
      */
     public boolean is (String name) {
-        return this.lookup(name) > 0;
+    	/* Avoid roundoff issues */
+        return Math.abs(this.lookup(name)) < 0.0000001;
     }
 
     /**
@@ -70,7 +73,11 @@ public class ActionData {
         final DataReference data = module.getData(name);
         if (data == null) {
             Logger.missing("DataReference", name);
-            return 0D;
+            if (Settings.DEBUG_THROW==2) {
+            	throw new NonExistentDataError("Attempted to access nonexistent data" + name);
+            } else {
+            	return 0D;
+            }
         } else {
             return data.get();
         }
@@ -86,7 +93,12 @@ public class ActionData {
     }
 
     private double lookup (String name) {
-        if (!this.table.knowsAbout(name)) Logger.missing("Field", name);
+        if (!this.table.knowsAbout(name)) {
+        	Logger.missing("Field", name);
+        	if (Settings.DEBUG_THROW==2) {
+        		throw new NonExistentDataError("Attempted to access nonexistent data" + name);
+        	}
+        }
         return this.table.getNumber(name, 0D);
     }
 }
