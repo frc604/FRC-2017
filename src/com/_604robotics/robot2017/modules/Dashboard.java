@@ -25,7 +25,7 @@ public class Dashboard extends Module {
             add("Debug Off", debugOn.addDefault("Debug Off"));
             add("Debug On", debugOn.add("Debug On"));  
             
-            final DashboardTriggerChoice driveMode = new DashboardTriggerChoice("Drive Mode");
+            //final DashboardTriggerChoice driveMode = new DashboardTriggerChoice("Drive Mode");
             
         }});
 

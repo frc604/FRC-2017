@@ -36,7 +36,7 @@ public class TriggerManager {
         final TriggerReference ref = this.triggerTable.get(name);
         if (ref == null) {
         	Logger.missing("TriggerReference", name);
-        	if (Settings.DEBUG_THROW==2) {
+        	if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
         		throw new NonExistentTriggerError("Attempted to access nonexistent trigger" + name);
         	}
         }

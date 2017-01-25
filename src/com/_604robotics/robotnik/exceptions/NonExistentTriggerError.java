@@ -1,5 +1,8 @@
 package com._604robotics.robotnik.exceptions;
 
+/**
+ * Error thrown when the framework attempts to access a nonexistent Trigger.
+ */
 public class NonExistentTriggerError extends Error {
 
 	private static final long serialVersionUID = -6789130806923912458L;

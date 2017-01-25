@@ -36,7 +36,7 @@ public class ModuleManager {
         ModuleReference ref = this.moduleTable.get(name);
         if (ref == null) {
         	Logger.missing("ModuleReference", name);
-        	if (Settings.DEBUG_THROW==2) {
+        	if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
         		throw new NonExistentModuleError("Attempted to access nonexistent module" + name);
         	}
         }
