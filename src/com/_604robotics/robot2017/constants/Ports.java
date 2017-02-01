@@ -7,8 +7,10 @@ public class Ports {
 	
     public static final int HORIZONTAL_GYRO = 0;
 	
-	public static final int ULTRASONIC_LEFT = 0;
-	public static final int ULTRASONIC_RIGHT = 1;
+    public static final int COMPRESSOR = 0;
+    
+	public static final int ULTRASONIC_LEFT = 2;
+	public static final int ULTRASONIC_RIGHT = 3;
 	
 	public static final int DRIVE_FRONT_LEFT_MOTOR = 8;
     public static final int DRIVE_REAR_LEFT_MOTOR = 9;
