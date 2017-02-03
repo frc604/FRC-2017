@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com._604robotics.robotnik.Settings;
 import com._604robotics.robotnik.exceptions.NonExistentDataError;
+import com._604robotics.robotnik.exceptions.OverwriteDataError;
+import com._604robotics.robotnik.logging.Logger;
 
 /**
  * A map containing data.
@@ -18,6 +21,12 @@ public class DataMap implements Iterable<Map.Entry<String, Data>> {
      * @param data Data to add.
      */
     protected void add (String name, Data data) {
+    	if (this.dataTable.containsKey(name)) {
+    		Logger.warn("Attempting to add Data "+name+ " when this already exists");
+    		if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
+    			throw new OverwriteDataError();
+    		}
+    	}
         this.dataTable.put(name, data);
     }
 

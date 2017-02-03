@@ -121,6 +121,7 @@ Temporary Items
 #Build Files generated when deploying code to RoboRIO
 build
 bin
+doc
 dist
 sysProps.xml
 .project
