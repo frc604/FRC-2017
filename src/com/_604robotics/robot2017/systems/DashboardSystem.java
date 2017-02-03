@@ -24,6 +24,13 @@ public class DashboardSystem extends Coordinator {
            		 modules.getModule("Ultrasonic").getData("Left Inches")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Right Inches",
             	 modules.getModule("Ultrasonic").getData("Right Inches")));
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Compressor Current",
+            	modules.getModule("Regulator").getData("Compressor Current")));
+            
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Compressor Enabled",
+            	modules.getModule("Regulator").getTrigger("Compressor Enabled")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Pressure Switch",
+            	modules.getModule("Regulator").getTrigger("Pressure Switch")));
         }
     }
 }
