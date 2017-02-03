@@ -22,4 +22,6 @@ public final class Calibration {
     public static final double DRIVE_ROTATE_PID_MAX = 1.0;
     public static final double DRIVE_ROTATE_PID_TOLERANCE = 20;
     
+    public static final double SEPARATION = 10.0;
+    
 }

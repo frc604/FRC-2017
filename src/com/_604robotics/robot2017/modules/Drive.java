@@ -1,5 +1,6 @@
 package com._604robotics.robot2017.modules;
 
+
 import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.action.Action;
@@ -9,8 +10,7 @@ import com._604robotics.robotnik.action.field.FieldMap;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.ArcadeDrivePIDOutput;
-import com._604robotics.robotnik.prefabs.devices.TankDrivePIDOutput;
-import com._604robotics.robotnik.trigger.Trigger;
+import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -47,6 +47,8 @@ public class Drive extends Module {
             false, CounterBase.EncodingType.k4X);
 
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
+    // private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
+    private final UltrasonicPair ultra = new UltrasonicPair(0, 1, Calibration.SEPARATION);
     
 	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZONTAL_GYRO);
     
@@ -88,6 +90,10 @@ public class Drive extends Module {
             add("Rotate PID Error", pidRotate::getAvgError);
             
             add("Horizonal Gyro Angle", horizGyro::getAngle);
+            
+            add("Inches", ultra::getDistance);
+            
+            add("Ultra Angle", ultra::getAngle);
 
         }});
 
@@ -96,6 +102,8 @@ public class Drive extends Module {
                 pidMove.isEnabled() && pidMove.onTarget());
             add("At Rotate Servo Target", () ->
                 pidRotate.isEnabled() && pidRotate.onTarget());
+            add("Past Ultra Target", () ->
+            	(ultra.getDistance() < 50.0));
         }});
 
         this.set(new ElasticController() {{
@@ -226,6 +234,98 @@ public class Drive extends Module {
 
                 public void end (ActionData data) {
                     pidRotate.reset();
+                }
+            });
+            add("Ultra Orient", new Action(new FieldMap() {{
+            }})
+            {
+            	public void run (ActionData data)
+            	{
+            		if( ultra.getAngle(1) > 7 )
+            		{
+            			drive.tankDrive(-0.15, 0.15);
+            		}
+            		if( ultra.getAngle(1) < 7 )
+            		{
+            			drive.tankDrive(0.15, -0.15);
+            		}
+            	}
+            });
+            add("Ultra Match", new Action(new FieldMap() {{
+            }})
+            {
+            	public void run (ActionData data){
+            		if( ultra.getAngle(1) > horizGyro.getAngle() + 7 )
+            		{
+            			drive.tankDrive(-0.15, 0.15);
+            		}
+            		if( ultra.getAngle(1) < horizGyro.getAngle() - 7 )
+            		{
+            			drive.tankDrive(0.15, -0.15);
+            		}
+            	}
+            });
+            add("Ultra Oscil", new Action(new FieldMap() {{
+                define("inches", 0D);
+            }}) {
+                
+                public void run (ActionData data){
+                	// at half distance, half power
+                	// so like
+                	// > 24 inches, 0.8 power
+                	// > 12 inches, 0.4 power
+                	// > 6 inches, 0.2 power
+                	// > 3 inches, 0.1 power
+                	// > 1 inches, 0.05 power
+                	double inches = ultra.getDistance(1);
+                	if( inches > (data.get("inches")+24) )
+                	{
+                		drive.tankDrive(0.5, 0.5);
+                	}
+                	else if( inches >(data.get("inches")+12) )
+                	{
+                		drive.tankDrive(0.4, 0.4);
+                	}
+                	else if( inches >(data.get("inches")+6) )
+                	{
+                		drive.tankDrive(0.3, 0.3);
+                	}
+                	else if( inches >(data.get("inches")+3) )
+                	{
+                		drive.tankDrive(0.25, 0.25);
+                	}
+                	else if( inches >(data.get("inches")+1) )
+                	{
+                		drive.tankDrive(0.2, 0.2);
+                	}
+                	else if( inches <(data.get("inches")-1) )
+                	{
+                		drive.tankDrive(-0.2, -0.2);
+                	}
+                	else if( inches <(data.get("inches")-3) )
+                	{
+                		drive.tankDrive(-0.25, -0.25);
+                	}
+                	else if( inches <(data.get("inches")-6) )
+                	{
+                		drive.tankDrive(-0.3, -0.3);
+                	}
+                	else if( inches <(data.get("inches")-12) )
+                	{
+                		drive.tankDrive(-0.4, -0.4);
+                	}
+                	else if( inches <(data.get("inches")-24) )
+                	{
+                		drive.tankDrive(-0.5, -0.5);
+                	}
+                	else
+                	{
+                		drive.stopMotor();
+                	}
+                }
+                
+                public void end (ActionData data) {
+                	drive.stopMotor();
                 }
             });
         }});

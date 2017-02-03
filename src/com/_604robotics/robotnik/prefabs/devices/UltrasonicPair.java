@@ -1,6 +1,8 @@
 package com._604robotics.robotnik.prefabs.devices;
 import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 
+import edu.wpi.first.wpilibj.AnalogInput;
+
 public class UltrasonicPair {
 
 	private AnalogUltrasonic left;
@@ -23,6 +25,10 @@ public class UltrasonicPair {
 	{
 		return right.getDistance() - left.getDistance();
 	}
+	public double getDifference(int sample)
+	{
+		return right.getDistance(sample) - left.getDistance(sample);
+	}
 	/*
 	 * returns the angle of the robot relative to a wall
 	 * If it is facing the wall, the angle is zero.
@@ -32,6 +38,18 @@ public class UltrasonicPair {
 	{
 		double angle = Math.acos(separation/Math.pow((Math.pow(separation, 2) + Math.pow(getDifference(), 2)), 0.5));
 		if( getDifference() < 0 )
+		{
+			return angle * -1;
+		}
+		else
+		{
+			return angle;
+		}
+	}
+	public double getAngle(int sample)
+	{
+		double angle = Math.acos(separation/Math.pow((Math.pow(separation, 2) + Math.pow(getDifference(sample), 2)), 0.5));
+		if( getDifference(sample) < 0 )
 		{
 			return angle * -1;
 		}
@@ -70,5 +88,16 @@ public class UltrasonicPair {
 			return "straight";
 		}
 	}
-	
+	public double getDistance()
+	{
+		double leftDistance = left.getDistance();
+		double rightDistance = right.getDistance();
+		return Math.min(leftDistance, rightDistance);
+	}
+	public double getDistance(int sample)
+	{
+		double leftDistance = left.getDistance(sample);
+		double rightDistance = right.getDistance(sample);
+		return Math.min(leftDistance, rightDistance);
+	}
 }
