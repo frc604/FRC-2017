@@ -136,6 +136,35 @@ public class Drive extends Module {
                     drive.stopMotor();
                 }
             });
+            add("Dynamic Drive", new Action(new FieldMap () {{
+                define("leftY", 0D);
+                define("leftX", 0D);
+                define("rightY", 0D);
+                define("rightX", 0D);
+                define("doTank", 1D);
+                define("doArcade",0D);
+            }}) {
+                public void run (ActionData data) {
+                	//i++;
+                	//if triggerstuff.get("isTank")
+                    if( data.get("doTank")==1 )
+                    {
+                    	drive.tankDrive(data.get("leftY"), data.get("rightY"));
+                    }
+                    //else
+                    //if triggerstuff.get("isArcade")
+                    if( data.get("doArcade")==1 )
+                    {
+                    	drive.arcadeDrive(data.get("leftY"), data.get("rightX"));
+                    }
+                }
+                
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                    //i=0;
+                }
+            });
+
             /*
             add("Stick Drive", new Action(new FieldMap () {{
                 define("throttle", 0D);
