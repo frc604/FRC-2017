@@ -8,6 +8,7 @@ import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
 import com._604robotics.robot2017.modules.Regulator;
 import com._604robotics.robot2017.systems.DashboardSystem;
+import com._604robotics.robot2017.systems.DynamicDriveSystem;
 import com._604robotics.robotnik.Robot;
 import com._604robotics.robotnik.coordinator.CoordinatorList;
 import com._604robotics.robotnik.coordinator.ModeMap;
@@ -30,6 +31,7 @@ public class Robot2017 extends Robot {
 
         this.set(new CoordinatorList() {{
             add(new DashboardSystem());
+            add(new DynamicDriveSystem());
         }});
     }
 }
