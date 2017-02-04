@@ -37,6 +37,9 @@ public class DashboardSystem extends Coordinator {
             	modules.getModule("Regulator").getTrigger("Pressure Switch")));
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Past Ultra Target",
             	modules.getModule("Drive").getTrigger("Past Ultra Target")));
+            
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop",
+            	modules.getModule("BumpSensor").getTrigger("Boop")));
         }
     }
 }

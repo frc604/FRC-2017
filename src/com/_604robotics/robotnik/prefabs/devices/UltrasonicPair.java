@@ -1,8 +1,6 @@
 package com._604robotics.robotnik.prefabs.devices;
 import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-
 public class UltrasonicPair {
 
 	private AnalogUltrasonic left;
