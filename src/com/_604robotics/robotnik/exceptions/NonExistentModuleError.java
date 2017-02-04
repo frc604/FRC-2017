@@ -1,5 +1,8 @@
 package com._604robotics.robotnik.exceptions;
 
+/**
+ * Error thrown when the framework attempts to access a nonexistent Module.
+ */
 public class NonExistentModuleError extends Error {
 
 	private static final long serialVersionUID = 194037194244570447L;

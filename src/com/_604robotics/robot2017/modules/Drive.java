@@ -11,15 +11,19 @@ import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.ArcadeDrivePIDOutput;
 import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
+import com._604robotics.robotnik.prefabs.devices.TankDrivePIDOutput;
+import com._604robotics.robotnik.trigger.Trigger;
+import com._604robotics.robotnik.prefabs.devices.TankDrivePIDOutput;
+import com._604robotics.robotnik.trigger.Trigger;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Module {
@@ -46,38 +50,47 @@ public class Drive extends Module {
             Ports.DRIVE_ENCODER_RIGHT_B,
             false, CounterBase.EncodingType.k4X);
 
-    private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
+    private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
+    private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     // private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
     private final UltrasonicPair ultra = new UltrasonicPair(0, 1, Calibration.SEPARATION);
     
-	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZONTAL_GYRO);
+    private double pid_power_cap = 0.6;
     
-    private final PIDController pidMove = new PIDController(
-            Calibration.DRIVE_MOVE_PID_P,
-            Calibration.DRIVE_MOVE_PID_I,
-            Calibration.DRIVE_MOVE_PID_D,
+    private double PIDUltraOut = 0D;
+    
+    private final PIDController pidUltra = new PIDController(Calibration.DRIVE_ULTRA_PID_P, 
+    		Calibration.DRIVE_ULTRA_PID_I, Calibration.DRIVE_LEFT_PID_D, null, new PIDOutput () {
+    	public void pidWrite (double output) {
+    		if( output > 0 ) PIDUltraOut = (output > pid_power_cap) ? pid_power_cap : output;
+    		else PIDUltraOut = (output < -pid_power_cap) ? -pid_power_cap : output;
+    	}
+    });
+    
+    private final PIDController pidLeft = new PIDController(
+            Calibration.DRIVE_LEFT_PID_P,
+            Calibration.DRIVE_LEFT_PID_I,
+            Calibration.DRIVE_LEFT_PID_D,
             encoderLeft,
-            pidOutput.move);
+            pidOutput.left);
     
-    private final PIDController pidRotate = new PIDController(
-            Calibration.DRIVE_ROTATE_PID_P,
-            Calibration.DRIVE_ROTATE_PID_I,
-            Calibration.DRIVE_ROTATE_PID_D,
-            horizGyro,
-            pidOutput.rotate);
-    private final Timer timer = new Timer();
+    private final PIDController pidRight = new PIDController(
+            Calibration.DRIVE_RIGHT_PID_P,
+            Calibration.DRIVE_RIGHT_PID_I,
+            Calibration.DRIVE_RIGHT_PID_D,
+            encoderRight,
+            pidOutput.right);
 
     public Drive () {
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
-        pidMove.setOutputRange(-Calibration.DRIVE_MOVE_PID_MAX, Calibration.DRIVE_MOVE_PID_MAX);
-        pidRotate.setOutputRange(-Calibration.DRIVE_ROTATE_PID_MAX, Calibration.DRIVE_ROTATE_PID_MAX);
-        horizGyro.calibrate();
-        pidMove.setAbsoluteTolerance(Calibration.DRIVE_MOVE_PID_TOLERANCE);
-        pidRotate.setAbsoluteTolerance(Calibration.DRIVE_ROTATE_PID_TOLERANCE);
+        pidLeft.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
+        pidRight.setOutputRange(-Calibration.DRIVE_RIGHT_PID_MAX, Calibration.DRIVE_RIGHT_PID_MAX);
+        pidLeft.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
+        pidRight.setAbsoluteTolerance(Calibration.DRIVE_RIGHT_PID_TOLERANCE);
 
-        SmartDashboard.putData("Drive Move PID", pidMove);
-        SmartDashboard.putData("Drive Rotate PID", pidRotate);
+        SmartDashboard.putData("Drive Move PID", pidLeft);
+        SmartDashboard.putData("Drive Rotate PID", pidRight);
 
         this.set(new DataMap() {{
             add("Left Drive Clicks", encoderLeft::get);
@@ -86,22 +99,22 @@ public class Drive extends Module {
             add("Left Drive Rate", encoderLeft::getRate);
             add("Right Drive Rate", encoderRight::getRate);
 
-            add("Move PID Error", pidMove::getAvgError);
-            add("Rotate PID Error", pidRotate::getAvgError);
             
             add("Horizonal Gyro Angle", horizGyro::getAngle);
             
             add("Inches", ultra::getDistance);
             
             add("Ultra Angle", ultra::getAngle);
+            
+            add("Horizonal Gyro Angle", horizGyro::getAngle);
+            add("Move PID Error", pidLeft::getAvgError);
+            add("Rotate PID Error", pidRight::getAvgError);
 
         }});
 
         this.set(new TriggerMap() {{
             add("At Move Servo Target", () ->
-                pidMove.isEnabled() && pidMove.onTarget());
-            add("At Rotate Servo Target", () ->
-                pidRotate.isEnabled() && pidRotate.onTarget());
+                pidLeft.isEnabled() && pidLeft.onTarget());
             add("Past Ultra Target", () ->
             	(ultra.getDistance() < 50.0));
         }});
@@ -140,6 +153,35 @@ public class Drive extends Module {
                     drive.stopMotor();
                 }
             });
+            add("Dynamic Drive", new Action(new FieldMap () {{
+                define("leftY", 0D);
+                define("leftX", 0D);
+                define("rightY", 0D);
+                define("rightX", 0D);
+                define("doTank", 1D);
+                define("doArcade",0D);
+            }}) {
+                public void run (ActionData data) {
+                	//i++;
+                	//if triggerstuff.get("isTank")
+                    if( data.get("doTank")==1 )
+                    {
+                    	drive.tankDrive(data.get("leftY"), data.get("rightY"));
+                    }
+                    //else
+                    //if triggerstuff.get("isArcade")
+                    if( data.get("doArcade")==1 )
+                    {
+                    	drive.arcadeDrive(data.get("leftY"), data.get("rightX"));
+                    }
+                }
+                
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                    //i=0;
+                }
+            });
+
             /*
             add("Stick Drive", new Action(new FieldMap () {{
                 define("throttle", 0D);
@@ -185,55 +227,42 @@ public class Drive extends Module {
             });
             */
             add("Servo Move", new Action(new FieldMap() {{
-                define("Clicks", 0D);
+                define("ClickLeft", 0D);
+                define("ClickRight",0D);
             }}) {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
-                    pidOutput.rotate.pidWrite(0);
-                    pidMove.setSetpoint(data.get("Clicks"));
-                    pidMove.enable();
+                    pidOutput.left.pidWrite(0);
+                    pidOutput.right.pidWrite(0);
+                    pidLeft.setSetpoint(data.get("ClickLeft"));
+                    pidLeft.enable();
+                    pidRight.setSetpoint(data.get("ClickRight"));
+                    pidRight.enable();
                 }
 
                 public void run (ActionData data){
-                    if (encoderLeft.get() != data.get("Clicks")) {
-                        pidMove.reset();
+                    if (encoderLeft.get() != data.get("ClickLeft")) {
+                        pidLeft.reset();
                         encoderLeft.reset();
+                        
+                        pidLeft.setSetpoint(data.get("ClickLeft"));
+                        pidLeft.enable();
+                    }
+                    
+                    if (encoderRight.get() != data.get("ClickRight")) {
+                        pidRight.reset();
                         encoderRight.reset();
                         
-                        pidMove.setSetpoint(data.get("Clicks"));
-                        pidMove.enable();
+                        pidRight.setSetpoint(data.get("ClickRight"));
+                        pidRight.enable();
                     }
 
                 }
 
                 public void end (ActionData data) {
-                    pidMove.reset();
-                }
-            });
-            add("Servo Rotate", new Action(new FieldMap() {{
-                define("Angle", 0D);
-            }}) {
-                public void begin (ActionData data) {
-                	horizGyro.reset();
-                    pidOutput.move.pidWrite(0);
-                    pidRotate.setSetpoint(data.get("Angle"));
-                    pidRotate.enable();
-                }
-
-                public void run (ActionData data){
-                    if (pidRotate.getSetpoint() != data.get("Angle")) {
-                    	horizGyro.reset();
-                        pidRotate.reset();
-
-                        pidRotate.setSetpoint(data.get("Angle"));
-                        pidRotate.enable();
-                    }
-
-                }
-
-                public void end (ActionData data) {
-                    pidRotate.reset();
+                    pidLeft.reset();
+                    pidRight.reset();
                 }
             });
             add("Ultra Orient", new Action(new FieldMap() {{

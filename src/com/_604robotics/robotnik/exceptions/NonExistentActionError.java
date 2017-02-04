@@ -1,5 +1,8 @@
 package com._604robotics.robotnik.exceptions;
 
+/**
+ * Error thrown when the framework attempts to access a nonexistent Action.
+ */
 public class NonExistentActionError extends Error {
 
 	private static final long serialVersionUID = -5836259750395154663L;

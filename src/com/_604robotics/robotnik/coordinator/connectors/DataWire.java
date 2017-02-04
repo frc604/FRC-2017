@@ -152,7 +152,7 @@ public class DataWire {
      */
     public void conduct () {
         if (isActive()) {
-            getRecipient().sendData(getFieldName(), getData().get());
+            recipient.sendData(fieldName, data.get());
         }
     }
 }

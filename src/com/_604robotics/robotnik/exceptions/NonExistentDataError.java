@@ -1,5 +1,8 @@
 package com._604robotics.robotnik.exceptions;
 
+/**
+ * Error thrown when the framework attempts to access a nonexistent Data.
+ */
 public class NonExistentDataError extends Error {
 
 	private static final long serialVersionUID = 121078116205737454L;
