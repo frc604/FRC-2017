@@ -13,8 +13,6 @@ import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
 
-import edu.wpi.first.wpilibj.Joystick;
-
 public class TeleopMode extends Coordinator {
     private final XboxController driver = new XboxController(0 /* Port Constant */);
     private final XboxController manipulator = new XboxController(0 /* Port Constant */);
@@ -38,6 +36,6 @@ public class TeleopMode extends Coordinator {
 
     @Override
     protected void apply (ModuleManager modules) {
-        
+        /* When hooking up dynamic drive, add override bindings */
     }
 }

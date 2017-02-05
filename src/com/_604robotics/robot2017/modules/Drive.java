@@ -156,13 +156,15 @@ public class Drive extends Module {
                 define("rightX", 0D);
                 define("doTank", 1D);
                 define("doArcade",0D);
+                define("throttle",1D);
             }}) {
                 public void run (ActionData data) {
-                	//i++;
+                	double throttle = data.get("throttle");
                 	//if triggerstuff.get("isTank")
                     if( data.get("doTank")==1 )
                     {
-                    	drive.tankDrive(data.get("leftY"), data.get("rightY"));
+                    	drive.tankDrive(throttle*data.get("leftY"),
+                    					throttle*data.get("rightY"));
                     }
                     //else
                     //if triggerstuff.get("isArcade")
