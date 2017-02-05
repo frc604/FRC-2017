@@ -74,6 +74,16 @@ public class DynamicToggle extends Module {
             		}
             	}
             });
+            add("OverrideTank", new Action() {
+				public void begin (ActionData data) {
+            		driveChange = DriveSwitch.TANK;
+            	}
+            });
+            add("OverrideArcade", new Action() {
+				public void begin (ActionData data) {
+            		driveChange = DriveSwitch.ARCADE;
+            	}
+            });
         }});
     }
 }

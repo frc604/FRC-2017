@@ -3,17 +3,12 @@ package com._604robotics.robot2017.modes;
 import com._604robotics.robotnik.coordinator.Coordinator;
 import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.coordinator.connectors.DataWire;
-import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.module.ModuleManager;
-import com._604robotics.robotnik.prefabs.controller.joystick.JoystickController;
 import com._604robotics.robotnik.prefabs.controller.xbox.XboxController;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
-import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
-
-import edu.wpi.first.wpilibj.Joystick;
 
 public class TeleopMode extends Coordinator {
     private final XboxController driver = new XboxController(0 /* Port Constant */);
@@ -37,8 +32,7 @@ public class TeleopMode extends Coordinator {
     }
 
     @Override
-    protected void apply (ModuleManager modules) {
-    	
+    protected void apply (ModuleManager modules) {    	
     	/* Dynamic Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Dynamic Drive"), new TriggerAnd(
@@ -81,6 +75,7 @@ public class TeleopMode extends Coordinator {
     		final TriggerToggle climbToggle = new TriggerToggle(driver.buttons.Y, false);
             this.bind(new Binding(modules.getModule("Climber").getAction("Run"), climbToggle.on));
             this.bind(new Binding(modules.getModule("Climber").getAction("Idle"), climbToggle.off));
-    	}
+    	}        
+        /* When hooking up dynamic drive, add override bindings */
     }
 }
