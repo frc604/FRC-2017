@@ -49,6 +49,26 @@ public class TeleopMode extends Coordinator {
         		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
         		modules.getModule("Dashboard").getTrigger("Drive On")
         	)));
+        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("Check"), new TriggerAnd(
+            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
+            		modules.getModule("Dashboard").getTrigger("Drive On"),
+            		driver.buttons.A, driver.buttons.B
+            	)));
+        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideTank"), new TriggerAnd(
+            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
+            		modules.getModule("Dashboard").getTrigger("Drive On"),
+            		driver.buttons.A
+            	)));
+        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideArcade"), new TriggerAnd(
+            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
+            		modules.getModule("Dashboard").getTrigger("Drive On"),
+            		driver.buttons.B
+            	)));
+        	/* Order matters - need to find way to run Check if both are pushed */
+        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("Check"), new TriggerAnd(
+            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
+            		modules.getModule("Dashboard").getTrigger("Drive On")
+            	)));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightY", driver.rightStick.Y));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
     	}
@@ -76,6 +96,5 @@ public class TeleopMode extends Coordinator {
             this.bind(new Binding(modules.getModule("Climber").getAction("Run"), climbToggle.on));
             this.bind(new Binding(modules.getModule("Climber").getAction("Idle"), climbToggle.off));
     	}        
-        /* When hooking up dynamic drive, add override bindings */
     }
 }
