@@ -20,10 +20,8 @@ public class DashboardSystem extends Coordinator {
                     modules.getModule("Drive").getData("Left Drive Rate")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Right Drive Rate",
                     modules.getModule("Drive").getData("Right Drive Rate")));
-            this.fill(new DataWire(DashboardOutput.asDouble(), "Left Inches",
-           		 modules.getModule("Ultrasonic").getData("Left Inches")));
-            this.fill(new DataWire(DashboardOutput.asDouble(), "Right Inches",
-            	 modules.getModule("Ultrasonic").getData("Right Inches")));
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Inches",
+           		 modules.getModule("Drive").getData("Inches")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Compressor Current",
             	modules.getModule("Regulator").getData("Compressor Current")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Inches",
@@ -39,7 +37,7 @@ public class DashboardSystem extends Coordinator {
             	modules.getModule("Drive").getTrigger("Past Ultra Target")));
             
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop",
-            	modules.getModule("BumpSensor").getTrigger("Boop")));
+            	modules.getModule("Climber").getTrigger("Boop")));
         }
     }
 }

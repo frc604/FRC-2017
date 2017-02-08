@@ -47,7 +47,7 @@ public class Drive extends Module {
             false, CounterBase.EncodingType.k4X);
 
     private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
-    private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
+    //private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     // private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
     private final UltrasonicPair ultra = new UltrasonicPair(0, 1, Calibration.SEPARATION);
     
@@ -55,6 +55,7 @@ public class Drive extends Module {
     
     private double PIDUltraOut = 0D;
     
+    /*
     private final PIDController pidUltra = new PIDController(Calibration.DRIVE_ULTRA_PID_P, 
     		Calibration.DRIVE_ULTRA_PID_I, Calibration.DRIVE_LEFT_PID_D, null, new PIDOutput () {
     	public void pidWrite (double output) {
@@ -62,7 +63,7 @@ public class Drive extends Module {
     		else PIDUltraOut = (output < -pid_power_cap) ? -pid_power_cap : output;
     	}
     });
-    
+    */
     private final PIDController pidLeft = new PIDController(
             Calibration.DRIVE_LEFT_PID_P,
             Calibration.DRIVE_LEFT_PID_I,
@@ -95,14 +96,12 @@ public class Drive extends Module {
             add("Left Drive Rate", encoderLeft::getRate);
             add("Right Drive Rate", encoderRight::getRate);
 
-            
-            add("Horizonal Gyro Angle", horizGyro::getAngle);
-            
+                        
             add("Inches", ultra::getDistance);
             
             add("Ultra Angle", ultra::getAngle);
             
-            add("Horizonal Gyro Angle", horizGyro::getAngle);
+            //add("Horizonal Gyro Angle", horizGyro::getAngle);
             add("Move PID Error", pidLeft::getAvgError);
             add("Rotate PID Error", pidRight::getAvgError);
 
@@ -278,6 +277,7 @@ public class Drive extends Module {
             		}
             	}
             });
+            /*
             add("Ultra Match", new Action(new FieldMap() {{
             }})
             {
@@ -292,6 +292,7 @@ public class Drive extends Module {
             		}
             	}
             });
+            */
             add("Ultra Oscil", new Action(new FieldMap() {{
                 define("inches", 0D);
             }}) {

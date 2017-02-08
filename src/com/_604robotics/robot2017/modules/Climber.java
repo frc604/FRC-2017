@@ -28,7 +28,7 @@ public class Climber extends Module{
         			motor.stopMotor();
         		}
         	});
-            addDefault("Run", new Action(new FieldMap() {{
+            add("Run", new Action(new FieldMap() {{
             }}) {
                 public void run (ActionData data) {
                     motor.set(1.0);
