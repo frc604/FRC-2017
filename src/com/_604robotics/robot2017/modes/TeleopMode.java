@@ -6,6 +6,8 @@ import com._604robotics.robotnik.coordinator.connectors.DataWire;
 import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.controller.xbox.XboxController;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
+import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
+import com._604robotics.robotnik.prefabs.trigger.TriggerOr;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
@@ -45,29 +47,23 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Dynamic Toggle Module */
     	{
-        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("Check"), new TriggerAnd(
-        		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
-        		modules.getModule("Dashboard").getTrigger("Drive On")
-        	)));
-        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("Check"), new TriggerAnd(
+    		TriggerAnd DynamicOn=new TriggerAnd(
+            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
+            		modules.getModule("Dashboard").getTrigger("Drive On")
+            );
+    		TriggerAnd DynamicConflict=new TriggerAnd(
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
             		modules.getModule("Dashboard").getTrigger("Drive On"),
             		driver.buttons.A, driver.buttons.B
-            	)));
+            );
+        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("Check"), 
+        		new TriggerOr(DynamicOn, DynamicConflict)
+        	));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideTank"), new TriggerAnd(
-            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
-            		modules.getModule("Dashboard").getTrigger("Drive On"),
-            		driver.buttons.A
+            		DynamicOn, driver.buttons.A
             	)));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideArcade"), new TriggerAnd(
-            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
-            		modules.getModule("Dashboard").getTrigger("Drive On"),
-            		driver.buttons.B
-            	)));
-        	/* Order matters - need to find way to run Check if both are pushed */
-        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("Check"), new TriggerAnd(
-            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
-            		modules.getModule("Dashboard").getTrigger("Drive On")
+            		DynamicOn, driver.buttons.B
             	)));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightY", driver.rightStick.Y));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));

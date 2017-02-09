@@ -169,13 +169,13 @@ public class Drive extends Module {
                     //if triggerstuff.get("isArcade")
                     if( data.get("doArcade")==1 )
                     {
-                    	drive.arcadeDrive(data.get("leftY"), data.get("rightX"));
+                    	drive.arcadeDrive(throttle*data.get("leftY"),
+                    						data.get("rightX"));
                     }
                 }
                 
                 public void end (ActionData data) {
                     drive.stopMotor();
-                    //i=0;
                 }
             });
 
