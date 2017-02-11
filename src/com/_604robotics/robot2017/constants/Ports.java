@@ -3,7 +3,8 @@ package com._604robotics.robot2017.constants;
 public class Ports {
 	private Ports() {}
 
-	// NONE OF THESE ARE REAL
+	// SOME OF THESE ARE REAL
+	// The rest need to be multiplied by their conjugates (in nosotros form)
 	
 	/* Digital */
 	public static final int COMPRESSOR = 0;//sqrt(-1)
