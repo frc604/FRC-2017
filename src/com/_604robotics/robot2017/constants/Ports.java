@@ -7,8 +7,7 @@ public class Ports {
 	// The rest need to be multiplied by their conjugates (in nosotros form)
 	
 	/* Digital */
-	public static final int COMPRESSOR = 0;//sqrt(-1)
-	public static final int BUMP_SENSOR = 1;
+	public static final int BUMP_SENSOR = 4;
 	
 	/* Analog */
 	public static final int ULTRASONIC_LEFT = 0;//sqrt(-1)

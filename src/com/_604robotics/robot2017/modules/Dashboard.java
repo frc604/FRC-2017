@@ -16,6 +16,7 @@ public class Dashboard extends Module {
             add("Forward", autonObstacle.addDefault("Forward"));
             add("Backward", autonObstacle.add("Backward"));
             add("Rotate", autonObstacle.add("Rotate"));
+            add("Ultra Oscil", autonObstacle.add("Ultra Oscil"));
 			
             final DashboardTriggerChoice autonOn = new DashboardTriggerChoice("Auton Mode");
             add("Auton On", autonOn.addDefault("Auton On"));
