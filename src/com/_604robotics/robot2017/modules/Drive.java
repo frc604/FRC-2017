@@ -1,6 +1,5 @@
 package com._604robotics.robot2017.modules;
 
-
 import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.action.Action;
@@ -10,6 +9,7 @@ import com._604robotics.robotnik.action.field.FieldMap;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
+import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 import com._604robotics.robotnik.prefabs.devices.TankDrivePIDOutput;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
@@ -62,7 +62,7 @@ public class Drive extends Module {
     
     //private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
-    private final UltrasonicPair ultra = new UltrasonicPair(0, 1, Calibration.ULTRA_SEPARATION);
+    private final UltrasonicPair ultra = new UltrasonicPair(new AnalogUltrasonic(Ports.ULTRASONIC_LEFT), new AnalogUltrasonic(Ports.ULTRASONIC_RIGHT), Calibration.ULTRA_SEPARATION);
     
     /*
     private double pid_power_cap = 0.6;
@@ -245,29 +245,29 @@ public class Drive extends Module {
                 	// > 6 inches, 0.2 power
                 	// > 3 inches, 0.1 power
                 	// > 1 inches, 0.05 power
-                	double inches = ultra.getDistance(1);
-                	if (inches > data.get("inches") + 24) {
-                		drive.tankDrive(0.5, 0.5);
-                	} else if (inches > data.get("inches") + 12) {
-                		drive.tankDrive(0.4, 0.4);
-                	} else if (inches > data.get("inches") + 6) {
-                		drive.tankDrive(0.3, 0.3);
-                	} else if (inches > data.get("inches") + 3) {
-                		drive.tankDrive(0.25, 0.25);
-                	} else if (inches > data.get("inches") + 1) {
-                		drive.tankDrive(0.2, 0.2);
-                	} else if (inches < data.get("inches") - 1) {
-                		drive.tankDrive(-0.2, -0.2);
-                	} else if (inches < data.get("inches") - 3) {
-                		drive.tankDrive(-0.25, -0.25);
-                	} else if (inches < data.get("inches") - 6) {
-                		drive.tankDrive(-0.3, -0.3);
-                	} else if (inches < data.get("inches") - 12) {
-                		drive.tankDrive(-0.4, -0.4);
-                	} else if (inches < data.get("inches") - 24) {
-                		drive.tankDrive(-0.5, -0.5);
+                    
+                	double displacement = ultra.getDistance(1) - data.get("inches");
+                	double distance = Math.abs(displacement);
+                	
+                	double power = 0;
+                	if (distance > 24) {
+                	    power = 0.5;
+                	} else if (distance > 12) {
+                		power = 0.4;
+                	} else if (distance > 6) {
+                		power = 0.3;
+                	} else if (distance > 3) {
+                		power = 0.25;
+                	} else if (distance > 1) {
+                		power = 0.2;
+                	}
+                	
+                	power *= Math.signum(displacement);
+                	
+                	if(power != 0) {
+                	    drive.tankDrive(power, power);
                 	} else {
-                		drive.stopMotor();
+                	    drive.stopMotor();
                 	}
                 }
                 

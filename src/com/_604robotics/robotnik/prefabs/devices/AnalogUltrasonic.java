@@ -2,72 +2,74 @@ package com._604robotics.robotnik.prefabs.devices;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 
-public class AnalogUltrasonic extends AnalogInput {
+/**
+ * Analog ultrasonic sensor.
+ */
+public class AnalogUltrasonic extends AnalogInput implements Ultrasonic {
+    private static final int DEFAULT_SAMPLES = 64;
+    private static final double INCHES_PER_VOLT = 42.56;
+    
+    /**
+     * Creates an analog ultrasonic sensor.
+     * @param port Analog port of the sensor.
+     */
+    public AnalogUltrasonic (int port) {
+        super(port);
+    }
 
-	int m_port = 0;
-	private final double INCHES_PER_VOLT = 42.56;
-	
-	public AnalogUltrasonic()
-	{
-		super(0);
-	}
-	public AnalogUltrasonic(int port)
-	{
-		super(port);
-		this.m_port = port;
-	}
-	public double getAnalog()
-	{
-		double total = 0;
-		for( int f=0; f<64; f++ )
-		{
-			total += super.getValue();
-		}
-		total /= 64;
-		return total;
-	}
-	public double getAnalog(int sample)
-	{
-		double total = 0;
-		for( int f=0; f<sample; f++ )
-		{
-			total += super.getValue();
-		}
-		total /= sample;
-		return total;
-	}
-	public double getVoltage()
-	{
-		double total = 0;
-		for( int f=0; f<64; f++ )
-		{
-			total += super.getVoltage();
-		}
-		total /= 64;
-		return total;
-	}
-	public double getVoltage(int sample)
-	{
-		double total = 0;
-		for( int f=0; f<sample; f++ )
-		{
-			total += super.getVoltage();
-		}
-		total /= sample;
-		return total;
-	}
-	public double getDistance()
-	{
-		double voltage = this.getVoltage();
-		return voltage * this.INCHES_PER_VOLT;
-	}
-	public double getDistance(int sample)
-	{
-		double voltage = this.getVoltage(sample);
-		return voltage * this.INCHES_PER_VOLT;
-	}
-	public double getPort()
-	{
-		return this.m_port;
-	}
+    /**
+     * Gets the current analog value of the sensor using 64 samples.
+     * @return The current analog value of the sensor.
+     */
+    public double getAnalog () {
+        return this.getAnalog(DEFAULT_SAMPLES);
+    }
+
+    /**
+     * Gets the current analog value of the sensor.
+     * @param samples Number of samples to take.
+     * @return The current analog value of the sensor.
+     */
+    public double getAnalog (int samples) {
+        double total = 0;
+        for (int f = 0; f < samples; f++) {
+            total += super.getValue();
+        }
+        
+        total /= samples;
+        return total;
+    }
+
+    /**
+     * Gets the current voltage of the sensor using 64 samples.
+     * @return The current voltage of the sensor.
+     */
+    public double getVoltage () {
+        return this.getVoltage(DEFAULT_SAMPLES);
+    }
+
+    /**
+     * Gets the current voltage of the sensor.
+     * @param samples Number of samples to take.
+     * @return The current voltage of the sensor.
+     */
+    public double getVoltage (int samples) {
+        double total = 0;
+        for (int f = 0; f < samples; f++) {
+            total += super.getVoltage();
+        }
+        
+        total /= samples;
+        return total;
+    }
+
+    @Override
+    public double getDistance () {
+        return this.getVoltage() * INCHES_PER_VOLT;
+    }
+
+    @Override
+    public double getDistance (int samples) {
+        return this.getVoltage(samples) * INCHES_PER_VOLT;
+    }
 }

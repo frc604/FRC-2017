@@ -1,101 +1,116 @@
 package com._604robotics.robotnik.prefabs.devices;
-import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 
+/**
+ * A pair of ultrasonic sensors.
+ */
 public class UltrasonicPair {
+    private Ultrasonic left;
+    private Ultrasonic right;
+    private double separation;
 
-	private AnalogUltrasonic left;
-	private AnalogUltrasonic right;
-	private double separation;
-	
-	public UltrasonicPair()
-	{
-		this.left = new AnalogUltrasonic(0);
-		this.right = new AnalogUltrasonic(1);
-		this.separation = 1D;
-	}
-	public UltrasonicPair(int left, int right, double separation)
-	{
-		this.left = new AnalogUltrasonic(left);
-		this.right = new AnalogUltrasonic(right);
-		this.separation = 1D;
-	}
-	public double getDifference()
-	{
-		return right.getDistance() - left.getDistance();
-	}
-	public double getDifference(int sample)
-	{
-		return right.getDistance(sample) - left.getDistance(sample);
-	}
-	/*
-	 * returns the angle of the robot relative to a wall
-	 * If it is facing the wall, the angle is zero.
-	 * Facing to the left returns a negative angle.
-	 */
-	public double getAngle()
-	{
-		double angle = Math.acos(separation/Math.pow((Math.pow(separation, 2) + Math.pow(getDifference(), 2)), 0.5));
-		if( getDifference() < 0 )
-		{
-			return angle * -1;
-		}
-		else
-		{
-			return angle;
-		}
-	}
-	public double getAngle(int sample)
-	{
-		double angle = Math.acos(separation/Math.pow((Math.pow(separation, 2) + Math.pow(getDifference(sample), 2)), 0.5));
-		if( getDifference(sample) < 0 )
-		{
-			return angle * -1;
-		}
-		else
-		{
-			return angle;
-		}
-	}
-	public String getDirection()
-	{
-		if( this.getDifference() < 0 )
-		{
-			return "left";
-		}
-		else if( this.getDifference() > 0 )
-		{
-			return "right";
-		}
-		else
-		{
-			return "straight";
-		}
-	}
-	public String getDirection(double tolerance)
-	{
-		if( this.getDifference() < -tolerance )
-		{
-			return "left";
-		}
-		if( this.getDifference() > tolerance )
-		{
-			return "right";
-		}
-		else
-		{
-			return "straight";
-		}
-	}
-	public double getDistance()
-	{
-		double leftDistance = left.getDistance();
-		double rightDistance = right.getDistance();
-		return Math.min(leftDistance, rightDistance);
-	}
-	public double getDistance(int sample)
-	{
-		double leftDistance = left.getDistance(sample);
-		double rightDistance = right.getDistance(sample);
-		return Math.min(leftDistance, rightDistance);
-	}
+    /**
+     * Creates a new ultrasonic pair.
+     * @param left Left sensor.
+     * @param right Right sensor.
+     * @param separation Distance between the sensors, in inches.
+     */
+    public UltrasonicPair (Ultrasonic left, Ultrasonic right, double separation) {
+        this.left = left;
+        this.right = right;
+        this.separation = separation;
+    }
+
+    /**
+     * Gets the difference in the distances read by the sensors using 64 samples.
+     * @return The difference in the distances read by the sensors.
+     */
+    public double getDifference () {
+        return this.right.getDistance() - this.left.getDistance();
+    }
+
+    /**
+     * Gets the difference in the distances read by the sensors.
+     * @param samples Number of samples to take.
+     * @return The difference in the distances read by the sensors.
+     */
+    public double getDifference (int samples) {
+        return this.right.getDistance(samples) - this.left.getDistance(samples);
+    }
+
+    /**
+     * Gets the angle of the sensors relative to a wall using 64 samples. To the left is negative, straight-on is zero, and to the right is positive.
+     * @return The angle of the sensors relative to a wall.
+     */
+    public double getAngle () {
+        double angle = Math.acos(this.separation / Math.pow((Math.pow(this.separation, 2) + Math.pow(getDifference(), 2)), 0.5));
+        if (getDifference() < 0) {
+            return angle * -1;
+        } else {
+            return angle;
+        }
+    }
+
+    /**
+     * Gets the angle of the sensors relative to a wall. To the left is negative, straight-on is zero, and to the right is positive.
+     * @param samples Number of samples to take.
+     * @return The angle of the sensors relative to a wall.
+     */
+    public double getAngle (int samples) {
+        double angle = Math.acos(this.separation / Math.pow((Math.pow(this.separation, 2) + Math.pow(getDifference(samples), 2)), 0.5));
+        if (this.getDifference(samples) < 0) {
+            return angle * -1;
+        } else {
+            return angle;
+        }
+    }
+
+    /**
+     * Gets the direction that the sensors are facing relative to a wall.
+     * @return The direction that the sensors are facing relative to a wall.
+     */
+    public String getDirection () {
+        if (this.getDifference() < 0) {
+            return "left";
+        } else if (this.getDifference() > 0) {
+            return "right";
+        } else {
+            return "straight";
+        }
+    }
+
+    /**
+     * Gets the direction that the sensors are facing relative to a wall.
+     * @param tolerance Tolerance value used to differentiate left and right from straight-on.
+     * @return The direction that the sensors are facing relative to a wall.
+     */
+    public String getDirection (double tolerance) {
+        if (this.getDifference() < -tolerance) {
+            return "left";
+        } else if (this.getDifference() > tolerance) {
+            return "right";
+        } else {
+            return "straight";
+        }
+    }
+
+    /**
+     * Gets the distance read by the sensors using 64 samples.
+     * @return The distance read by the sensors.
+     */
+    public double getDistance () {
+        double leftDistance = this.left.getDistance();
+        double rightDistance = this.right.getDistance();
+        return Math.min(leftDistance, rightDistance);
+    }
+
+    /**
+     * Gets the distance read by the sensors.
+     * @param samples Number of samples to take.
+     * @return The distance read by the sensors.
+     */
+    public double getDistance (int samples) {
+        double leftDistance = this.left.getDistance(samples);
+        double rightDistance = this.right.getDistance(samples);
+        return Math.min(leftDistance, rightDistance);
+    }
 }
