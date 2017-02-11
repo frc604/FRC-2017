@@ -1,4 +1,4 @@
-package com._604robotics.robotnik.prefabs.measure;
+package com._604robotics.robotnik.prefabs.devices;
 
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
