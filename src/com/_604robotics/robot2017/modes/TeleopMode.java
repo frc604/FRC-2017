@@ -68,10 +68,10 @@ public class TeleopMode extends Coordinator {
         		new TriggerOr(DynamicOn, DynamicConflict)
         	));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideTank"), new TriggerAnd(
-            		DynamicOn, driver.buttons.A
+            		DynamicOn, driver.buttons.A, new TriggerNot(driver.buttons.B)
             	)));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideArcade"), new TriggerAnd(
-            		DynamicOn, driver.buttons.B
+            		DynamicOn, driver.buttons.B, new TriggerNot(driver.buttons.A)
             	)));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightY", driver.rightStick.Y));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
