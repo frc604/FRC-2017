@@ -1,4 +1,4 @@
-package com._604robotics.robot2017.modules;
+package com._604robotics.robotnik.prefabs.devices;
 
 import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.data.DataMap;
@@ -11,6 +11,7 @@ public class Regulator extends Module {
     private final Compressor compressor = new Compressor(Ports.COMPRESSOR);
 
     public Regulator () {
+    	/* Shouldn't technically be necessary */
         compressor.setClosedLoopControl(true);
 
         set(new DataMap() {{

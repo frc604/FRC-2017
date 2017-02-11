@@ -20,19 +20,12 @@ public class DashboardSystem extends Coordinator {
                     modules.getModule("Drive").getData("Left Drive Rate")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Right Drive Rate",
                     modules.getModule("Drive").getData("Right Drive Rate")));
-            this.fill(new DataWire(DashboardOutput.asDouble(), "Compressor Current",
-            		modules.getModule("Regulator").getData("Compressor Current")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Inches",
                 	modules.getModule("Drive").getData("Ultra Inches")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Angle",
                 	modules.getModule("Drive").getData("Ultra Angle")));
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Past Ultra Target",
                 	modules.getModule("Drive").getTrigger("Past Ultra Target")));
-            
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Compressor Enabled",
-            		modules.getModule("Regulator").getTrigger("Compressor Enabled")));
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Pressure Switch",
-            		modules.getModule("Regulator").getTrigger("Pressure Switch")));
 
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop",
             		modules.getModule("Climber").getTrigger("Boop")));
