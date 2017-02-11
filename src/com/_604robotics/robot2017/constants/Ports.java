@@ -7,12 +7,12 @@ public class Ports {
 	// The rest need to be multiplied by their conjugates (in nosotros form)
 	
 	/* Digital */
-	public static final int COMPRESSOR = 0;//sqrt(-1)
+	public static final int COMPRESSOR = 0;
 	public static final int BUMP_SENSOR = 1;
 	
 	/* Analog */
-	public static final int ULTRASONIC_LEFT = 0;//sqrt(-1)
-	public static final int ULTRASONIC_RIGHT = 1;//sqrt(-1)
+	public static final int ULTRASONIC_LEFT = 0;
+	public static final int ULTRASONIC_RIGHT = 1;
 	
 	public static final int HORIZGYRO = 2;
 	
@@ -22,11 +22,14 @@ public class Ports {
     public static final int DRIVE_FRONT_RIGHT_MOTOR = 5;
     public static final int DRIVE_REAR_RIGHT_MOTOR = 7;
     
+    public static final int CLIMBER_MOTOR = 0;
+    
+    /* Encoders */
     public static final int DRIVE_ENCODER_RIGHT_A = 2;
     public static final int DRIVE_ENCODER_RIGHT_B = 3;
     public static final int DRIVE_ENCODER_LEFT_A = 1;
     public static final int DRIVE_ENCODER_LEFT_B = 0;
     
-    public static final int CLIMBER_MOTOR = 0;
-	
+    /* Solenoids */
+    public static final int SHIFTER = 0;
 }

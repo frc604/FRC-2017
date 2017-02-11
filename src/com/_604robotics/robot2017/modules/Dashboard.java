@@ -28,8 +28,8 @@ public class Dashboard extends Module {
             final DashboardTriggerChoice driveMode = new DashboardTriggerChoice("Drive Mode");
             add("Dynamic Drive", driveMode.addDefault("Dynamic Drive"));
             add("Toggle Drive", driveMode.add("Toggle Drive"));
-            add("Basic Drive", driveMode.add("Basic Drive"));
-                        
+            add("Tank Drive", driveMode.add("Tank Drive"));
+            add("Arcade Drive", driveMode.add("Arcade Drive"));
         }});
 
         this.set(new DataMap() {{

@@ -7,10 +7,8 @@ import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.controller.xbox.XboxController;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
 import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
-import com._604robotics.robotnik.prefabs.trigger.TriggerOr;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robot2017.constants.Calibration;
-import com._604robotics.robot2017.constants.Ports;
 
 public class TeleopMode extends Coordinator {
     private final XboxController driver = new XboxController(0 /* Port Constant */);
@@ -35,44 +33,37 @@ public class TeleopMode extends Coordinator {
 
     @Override
     protected void apply (ModuleManager modules) {
-    	/* Backup Drive */
+    	/* Tank Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
     				modules.getModule("Dashboard").getTrigger("Drive On"),
-            		modules.getModule("Dashboard").getTrigger("Basic Drive"))));
+            		modules.getModule("Dashboard").getTrigger("Tank Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
     	}
+    	/* Arcade Drive */
+    	{
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
+    				modules.getModule("Dashboard").getTrigger("Drive On"),
+            		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
+    	}
     	/* Dynamic Drive */
     	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Dynamic Drive"), new TriggerAnd(
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
             		modules.getModule("Dashboard").getTrigger("Drive On"),
-            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"))));
-            this.fill(new DataWire(modules.getModule("Drive").getAction("Dynamic Drive"), "leftY", driver.leftStick.Y));
-            this.fill(new DataWire(modules.getModule("Drive").getAction("Dynamic Drive"), "leftX", driver.leftStick.X));
-            this.fill(new DataWire(modules.getModule("Drive").getAction("Dynamic Drive"), "rightY", driver.rightStick.Y));
-            this.fill(new DataWire(modules.getModule("Drive").getAction("Dynamic Drive"), "rightX", driver.rightStick.X));
-    	}
-    	/* Dynamic Toggle Module */
-    	{
-    		TriggerAnd DynamicOn=new TriggerAnd(
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
-            		modules.getModule("Dashboard").getTrigger("Drive On")
-            );
-    		TriggerAnd DynamicConflict=new TriggerAnd(
-            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
+            		modules.getModule("DynamicToggle").getTrigger("Tank Drive"))));
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
             		modules.getModule("Dashboard").getTrigger("Drive On"),
-            		driver.buttons.A, driver.buttons.B
-            );
-        	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("Check"), 
-        		new TriggerOr(DynamicOn, DynamicConflict)
-        	));
+            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
+            		modules.getModule("DynamicToggle").getTrigger("Arcade Drive"))));
+    		
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideTank"), new TriggerAnd(
-            		DynamicOn, driver.buttons.A, new TriggerNot(driver.buttons.B)
-            	)));
+            		driver.buttons.A, new TriggerNot(driver.buttons.B))));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideArcade"), new TriggerAnd(
-            		DynamicOn, driver.buttons.B, new TriggerNot(driver.buttons.A)
-            	)));
+            		driver.buttons.B, new TriggerNot(driver.buttons.A))));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightY", driver.rightStick.Y));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
     	}
@@ -82,24 +73,22 @@ public class TeleopMode extends Coordinator {
     		final TriggerToggle driveMode = new TriggerToggle(driver.buttons.X, false);
     		
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
-    					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
-    					driveMode.off)
-    				));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
-    		
+    				modules.getModule("Dashboard").getTrigger("Drive On"),
+    				modules.getModule("Dashboard").getTrigger("Toggle Drive"),
+    				driveMode.off)));
+
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
+    				modules.getModule("Dashboard").getTrigger("Drive On"),
 					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
-					driveMode.on)
-				));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
+					driveMode.on)));
+    	}
+    	/* Shiter */
+    	{
+            this.bind(new Binding(modules.getModule("Shifter").getAction("High Gear"), driver.buttons.LB));
     	}
     	/* Climber */
     	{
-    		final TriggerToggle climbToggle = new TriggerToggle(driver.buttons.Y, false);
-            this.bind(new Binding(modules.getModule("Climber").getAction("Run"), climbToggle.on));
-            this.bind(new Binding(modules.getModule("Climber").getAction("Idle"), climbToggle.off));
-    	}        
+            this.bind(new Binding(modules.getModule("Climber").getAction("Run"), new TriggerToggle(driver.buttons.Y, false).on));
+    	}
     }
 }

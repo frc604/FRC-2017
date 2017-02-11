@@ -47,15 +47,26 @@ public class Drive extends Module {
             false, CounterBase.EncodingType.k4X);
 
     private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
+    private final PIDController pidLeft = new PIDController(
+            Calibration.DRIVE_LEFT_PID_P,
+            Calibration.DRIVE_LEFT_PID_I,
+            Calibration.DRIVE_LEFT_PID_D,
+            encoderLeft,
+            pidOutput.left);
+    private final PIDController pidRight = new PIDController(
+            Calibration.DRIVE_RIGHT_PID_P,
+            Calibration.DRIVE_RIGHT_PID_I,
+            Calibration.DRIVE_RIGHT_PID_D,
+            encoderRight,
+            pidOutput.right);
+    
     //private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
-    // private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
+    //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
     private final UltrasonicPair ultra = new UltrasonicPair(0, 1, Calibration.SEPARATION);
     
-    private double pid_power_cap = 0.6;
-    
-    private double PIDUltraOut = 0D;
-    
     /*
+    private double pid_power_cap = 0.6;
+    private double PIDUltraOut = 0D;
     private final PIDController pidUltra = new PIDController(Calibration.DRIVE_ULTRA_PID_P, 
     		Calibration.DRIVE_ULTRA_PID_I, Calibration.DRIVE_LEFT_PID_D, null, new PIDOutput () {
     	public void pidWrite (double output) {
@@ -64,19 +75,6 @@ public class Drive extends Module {
     	}
     });
     */
-    private final PIDController pidLeft = new PIDController(
-            Calibration.DRIVE_LEFT_PID_P,
-            Calibration.DRIVE_LEFT_PID_I,
-            Calibration.DRIVE_LEFT_PID_D,
-            encoderLeft,
-            pidOutput.left);
-    
-    private final PIDController pidRight = new PIDController(
-            Calibration.DRIVE_RIGHT_PID_P,
-            Calibration.DRIVE_RIGHT_PID_I,
-            Calibration.DRIVE_RIGHT_PID_D,
-            encoderRight,
-            pidOutput.right);
 
     public Drive () {
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -96,22 +94,18 @@ public class Drive extends Module {
             add("Left Drive Rate", encoderLeft::getRate);
             add("Right Drive Rate", encoderRight::getRate);
 
-                        
-            add("Inches", ultra::getDistance);
-            
-            add("Ultra Angle", ultra::getAngle);
-            
-            //add("Horizonal Gyro Angle", horizGyro::getAngle);
             add("Move PID Error", pidLeft::getAvgError);
             add("Rotate PID Error", pidRight::getAvgError);
 
+            add("Ultra Inches", ultra::getDistance);
+            add("Ultra Angle", ultra::getAngle);
+            
+            //add("Horizonal Gyro Angle", horizGyro::getAngle);
         }});
 
         this.set(new TriggerMap() {{
-            add("At Move Servo Target", () ->
-                pidLeft.isEnabled() && pidLeft.onTarget());
-            add("Past Ultra Target", () ->
-            	(ultra.getDistance() < 50.0));
+            add("At Move Servo Target", () -> pidLeft.isEnabled() && pidLeft.onTarget());
+            add("Past Ultra Target", () -> ultra.getDistance() < 50.0);
         }});
 
         this.set(new ElasticController() {{
@@ -148,54 +142,8 @@ public class Drive extends Module {
                     drive.stopMotor();
                 }
             });
-            add("Dynamic Drive", new Action(new FieldMap () {{
-                define("leftY", 0D);
-                define("leftX", 0D);
-                define("rightY", 0D);
-                define("rightX", 0D);
-                define("doTank", 1D);
-                define("doArcade",0D);
-                define("throttle",1D);
-            }}) {
-                public void run (ActionData data) {
-                	double throttle = data.get("throttle");
-                	//if triggerstuff.get("isTank")
-                    if( data.get("doTank")==1 )
-                    {
-                    	drive.tankDrive(throttle*data.get("leftY"),
-                    					throttle*data.get("rightY"));
-                    }
-                    //else
-                    //if triggerstuff.get("isArcade")
-                    if( data.get("doArcade")==1 )
-                    {
-                    	drive.arcadeDrive(throttle*data.get("leftY"),
-                    						data.get("rightX"));
-                    }
-                }
-                
-                public void end (ActionData data) {
-                    drive.stopMotor();
-                }
-            });
-
-            /*
-            add("Stick Drive", new Action(new FieldMap () {{
-                define("throttle", 0D);
-                define("turn", 0D);
-            }}) {
-                public void run (ActionData data) {
-                    // double throttle = data.is("Throttled") ? 0.5 : 1;
-                	drive.arcadeDrive(data.get("throttle"), data.get("turn"));
-                }
-
-                public void end (ActionData data) {
-                    drive.stopMotor();
-                }
-            });
-            */
-            /*
-            add("Servo Move", new Action(new FieldMap() {{
+            
+            /* add("Servo Move", new Action(new FieldMap() {{
                 define("Clicks", 0D);
             }}) {
                 public void begin (ActionData data) {
@@ -221,8 +169,8 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     pidMove.reset();
                 }
-            });
-            */
+            }); */
+            
             add("Servo Move", new Action(new FieldMap() {{
                 define("ClickLeft", 0D);
                 define("ClickRight",0D);
@@ -254,7 +202,6 @@ public class Drive extends Module {
                         pidRight.setSetpoint(data.get("ClickRight"));
                         pidRight.enable();
                     }
-
                 }
 
                 public void end (ActionData data) {
@@ -262,41 +209,34 @@ public class Drive extends Module {
                     pidRight.reset();
                 }
             });
-            add("Ultra Orient", new Action(new FieldMap() {{
-            }})
-            {
-            	public void run (ActionData data)
-            	{
-            		if( ultra.getAngle(1) > 7 )
-            		{
+            
+            add("Ultra Orient", new Action() {
+            	public void run (ActionData data) {
+            		if (ultra.getAngle(1) > 7) {
             			drive.tankDrive(-0.15, 0.15);
             		}
-            		if( ultra.getAngle(1) < 7 )
-            		{
+            		
+            		if (ultra.getAngle(1) < 7) {
             			drive.tankDrive(0.15, -0.15);
             		}
             	}
             });
-            /*
-            add("Ultra Match", new Action(new FieldMap() {{
-            }})
-            {
+            
+            /* add("Ultra Match", new Action() {
             	public void run (ActionData data){
-            		if( ultra.getAngle(1) > horizGyro.getAngle() + 7 )
-            		{
+            		if (ultra.getAngle(1) > horizGyro.getAngle() + 7) {
             			drive.tankDrive(-0.15, 0.15);
             		}
-            		if( ultra.getAngle(1) < horizGyro.getAngle() - 7 )
-            		{
+            		
+            		if (ultra.getAngle(1) < horizGyro.getAngle() - 7) {
             			drive.tankDrive(0.15, -0.15);
             		}
             	}
-            });
-            */
+            }); */
+            
             add("Ultra Oscil", new Action(new FieldMap() {{
                 define("inches", 0D);
             }}) {
-                
                 public void run (ActionData data){
                 	// at half distance, half power
                 	// so like
@@ -306,48 +246,27 @@ public class Drive extends Module {
                 	// > 3 inches, 0.1 power
                 	// > 1 inches, 0.05 power
                 	double inches = ultra.getDistance(1);
-                	if( inches > (data.get("inches")+24) )
-                	{
+                	if (inches > data.get("inches") + 24) {
                 		drive.tankDrive(0.5, 0.5);
-                	}
-                	else if( inches >(data.get("inches")+12) )
-                	{
+                	} else if (inches > data.get("inches") + 12) {
                 		drive.tankDrive(0.4, 0.4);
-                	}
-                	else if( inches >(data.get("inches")+6) )
-                	{
+                	} else if (inches > data.get("inches") + 6) {
                 		drive.tankDrive(0.3, 0.3);
-                	}
-                	else if( inches >(data.get("inches")+3) )
-                	{
+                	} else if (inches > data.get("inches") + 3) {
                 		drive.tankDrive(0.25, 0.25);
-                	}
-                	else if( inches >(data.get("inches")+1) )
-                	{
+                	} else if (inches > data.get("inches") + 1) {
                 		drive.tankDrive(0.2, 0.2);
-                	}
-                	else if( inches <(data.get("inches")-1) )
-                	{
+                	} else if (inches < data.get("inches") - 1) {
                 		drive.tankDrive(-0.2, -0.2);
-                	}
-                	else if( inches <(data.get("inches")-3) )
-                	{
+                	} else if (inches < data.get("inches") - 3) {
                 		drive.tankDrive(-0.25, -0.25);
-                	}
-                	else if( inches <(data.get("inches")-6) )
-                	{
+                	} else if (inches < data.get("inches") - 6) {
                 		drive.tankDrive(-0.3, -0.3);
-                	}
-                	else if( inches <(data.get("inches")-12) )
-                	{
+                	} else if (inches < data.get("inches") - 12) {
                 		drive.tankDrive(-0.4, -0.4);
-                	}
-                	else if( inches <(data.get("inches")-24) )
-                	{
+                	} else if (inches < data.get("inches") - 24) {
                 		drive.tankDrive(-0.5, -0.5);
-                	}
-                	else
-                	{
+                	} else {
                 		drive.stopMotor();
                 	}
                 }
