@@ -112,6 +112,8 @@ public class Drive extends Module {
                 pidLeft.isEnabled() && pidLeft.onTarget());
             add("Past Ultra Target", () ->
             	(ultra.getDistance() < 50.0));
+            add("Always False", () ->
+            	false);
         }});
 
         this.set(new ElasticController() {{

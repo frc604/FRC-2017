@@ -39,9 +39,15 @@ public class TeleopMode extends Coordinator {
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
     				modules.getModule("Dashboard").getTrigger("Drive On"),
-            		modules.getModule("Dashboard").getTrigger("Basic Drive"))));
+            		modules.getModule("Dashboard").getTrigger("Tank Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
+    		
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
+    				modules.getModule("Dashboard").getTrigger("Drive On"),
+            		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
     	}
     	/* Dynamic Drive */
     	{
@@ -68,15 +74,17 @@ public class TeleopMode extends Coordinator {
         		new TriggerOr(DynamicOn, DynamicConflict)
         	));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideTank"), new TriggerAnd(
-            		DynamicOn, driver.buttons.A
+            		DynamicOn, driver.buttons.A, new TriggerNot(driver.buttons.B)
             	)));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideArcade"), new TriggerAnd(
-            		DynamicOn, driver.buttons.B
+            		DynamicOn, driver.buttons.B, new TriggerNot(driver.buttons.A)
             	)));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightY", driver.rightStick.Y));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
     	}
     	/* Toggle Drive */
+    	/* Please compare against the driver toggle stuff above and choose one to keep */
+    	/*
     	{
     		final TriggerToggle driveMode = new TriggerToggle(driver.buttons.X, false);
     		
@@ -94,6 +102,7 @@ public class TeleopMode extends Coordinator {
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
     	}
+    	*/
     	/* Climber */
     	{
     		final TriggerToggle climbToggle = new TriggerToggle(driver.buttons.Y, false);
