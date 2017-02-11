@@ -84,7 +84,7 @@ public class TeleopMode extends Coordinator {
     	*/
     	/* Shiter */
     	{
-            this.bind(new Binding(modules.getModule("Shifter").getAction("High Gear"), driver.buttons.LB));
+            this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), driver.buttons.LB));
     	}
     	/* Climber */
     	{

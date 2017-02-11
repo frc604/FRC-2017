@@ -1,7 +1,5 @@
 package com._604robotics.robot2017.constants;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-
 public final class Calibration {
     private Calibration () {}
     
@@ -31,11 +29,7 @@ public final class Calibration {
     public static final double DRIVE_ULTRA_PID_D = 0.0005;
     public static final double DRIVE_ULTRA_PID_MAX = 1.0;
     public static final double DRIVE_ULTRA_PID_TOLERANCE = 20;
-    
-    /* Shifter Solenoid Constants */
-    public static final Value SHIFTER_LOW_GEAR = Value.kReverse;
-    public static final Value SHIFTER_HIGH_GEAR = Value.kForward;
-    
+
     /* Auton constants */
     // All imaginary; needs multiplication by complex conjugate?
     public static final double FWD_CLICKS=100;//sqrt(-1)

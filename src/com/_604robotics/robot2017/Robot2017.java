@@ -7,13 +7,13 @@ import com._604robotics.robot2017.modules.Climber;
 import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
-import com._604robotics.robot2017.modules.Shifter;
 import com._604robotics.robot2017.modules.Vision;
 import com._604robotics.robot2017.systems.DashboardSystem;
 import com._604robotics.robotnik.Robot;
 import com._604robotics.robotnik.coordinator.CoordinatorList;
 import com._604robotics.robotnik.coordinator.ModeMap;
 import com._604robotics.robotnik.module.ModuleMap;
+import com._604robotics.robotnik.prefabs.modules.GearShifter;
 import com._604robotics.robotnik.prefabs.modules.Regulator;
 
 public class Robot2017 extends Robot {
@@ -28,8 +28,8 @@ public class Robot2017 extends Robot {
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());
             add("DynamicToggle", new DynamicToggle());
+            add("GearShifter", new GearShifter(Ports.SHIFTER_SOLENOID_FORWARD, Ports.SHIFTER_SOLENOID_REVERSE));
             add("Regulator", new Regulator(Ports.COMPRESSOR));
-            add("Shifter", new Shifter());
             add("Vision", new Vision());
         }});
 
