@@ -1,5 +1,6 @@
 package com._604robotics.robot2017;
 
+import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robot2017.modes.AutonomousMode;
 import com._604robotics.robot2017.modes.TeleopMode;
 import com._604robotics.robot2017.modules.Climber;
@@ -13,7 +14,7 @@ import com._604robotics.robotnik.Robot;
 import com._604robotics.robotnik.coordinator.CoordinatorList;
 import com._604robotics.robotnik.coordinator.ModeMap;
 import com._604robotics.robotnik.module.ModuleMap;
-import com._604robotics.robotnik.prefabs.devices.Regulator;
+import com._604robotics.robotnik.prefabs.modules.Regulator;
 
 public class Robot2017 extends Robot {
     public Robot2017() {
@@ -27,7 +28,7 @@ public class Robot2017 extends Robot {
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());
             add("DynamicToggle", new DynamicToggle());
-            add("Regulator", new Regulator());
+            add("Regulator", new Regulator(Ports.COMPRESSOR));
             add("Shifter", new Shifter());
             add("Vision", new Vision());
         }});
