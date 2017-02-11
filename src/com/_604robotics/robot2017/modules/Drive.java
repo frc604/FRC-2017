@@ -62,7 +62,7 @@ public class Drive extends Module {
     
     //private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
-    private final UltrasonicPair ultra = new UltrasonicPair(0, 1, Calibration.SEPARATION);
+    private final UltrasonicPair ultra = new UltrasonicPair(0, 1, Calibration.ULTRA_SEPARATION);
     
     /*
     private double pid_power_cap = 0.6;

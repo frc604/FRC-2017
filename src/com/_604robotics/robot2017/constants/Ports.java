@@ -31,5 +31,6 @@ public class Ports {
     public static final int DRIVE_ENCODER_LEFT_B = 0;
     
     /* Solenoids */
-    public static final int SHIFTER = 0;
+    public static final int SHIFTER_SOLENOID_FORWARD = 0;
+    public static final int SHIFTER_SOLENOID_REVERSE = 0;
 }
