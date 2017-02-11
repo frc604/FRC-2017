@@ -106,7 +106,6 @@ public class Drive extends Module {
         this.set(new TriggerMap() {{
             add("At Move Servo Target", () -> pidLeft.isEnabled() && pidLeft.onTarget());
             add("Past Ultra Target", () -> ultra.getDistance() < 50.0);
-            add("Always False", () -> false);
         }});
 
         this.set(new ElasticController() {{

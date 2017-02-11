@@ -8,51 +8,51 @@ import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 public class DynamicToggle extends Module {
-	private static enum DriveSwitch {
-		ARCADE,
-		TANK;
-	}
-	
-	private DriveSwitch driveChange = DriveSwitch.TANK;
-	
+    private static enum DriveSwitch {
+        ARCADE,
+        TANK;
+    }
+    
+    private DriveSwitch driveChange = DriveSwitch.TANK;
+    
     public DynamicToggle () {
-    	this.set(new TriggerMap() {{
-    		add("Tank Drive", () -> driveChange == DriveSwitch.TANK);
-    		add("Arcade Drive", () -> driveChange == DriveSwitch.ARCADE);
-    	}});
-    	
+        this.set(new TriggerMap() {{
+            add("Tank Drive", () -> driveChange == DriveSwitch.TANK);
+            add("Arcade Drive", () -> driveChange == DriveSwitch.ARCADE);
+        }});
+        
         this.set(new ElasticController() {{
             addDefault("Check", new Action(new FieldMap () {{
-            	define("rightY", 0D);
-            	define("rightX", 0D);
+                define("rightY", 0D);
+                define("rightX", 0D);
             }}) {
-				public void begin (ActionData data) {
-            		driveChange = DriveSwitch.TANK;
-            	}
-				
-            	public void run (ActionData data) {
-            		if (driveChange == DriveSwitch.TANK) {
-            			if (Math.abs(data.get("rightY")) <= 0.2 && Math.abs(data.get("rightX")) > 0.3) {
-            				driveChange = DriveSwitch.ARCADE;
-            			}
-            		} else {
-            			if (Math.abs(data.get("rightX")) <= 0.2 && Math.abs(data.get("rightY")) > 0.3) {
-            				driveChange = DriveSwitch.TANK;
-            			}
-            		}
-            	}
+                public void begin (ActionData data) {
+                    driveChange = DriveSwitch.TANK;
+                }
+                
+                public void run (ActionData data) {
+                    if (driveChange == DriveSwitch.TANK) {
+                        if (Math.abs(data.get("rightY")) <= 0.2 && Math.abs(data.get("rightX")) > 0.3) {
+                            driveChange = DriveSwitch.ARCADE;
+                        }
+                    } else {
+                        if (Math.abs(data.get("rightX")) <= 0.2 && Math.abs(data.get("rightY")) > 0.3) {
+                            driveChange = DriveSwitch.TANK;
+                        }
+                    }
+                }
             });
             
             add("OverrideTank", new Action() {
-				public void begin (ActionData data) {
-            		driveChange = DriveSwitch.TANK;
-            	}
+                public void begin (ActionData data) {
+                    driveChange = DriveSwitch.TANK;
+                }
             });
             
             add("OverrideArcade", new Action() {
-				public void begin (ActionData data) {
-            		driveChange = DriveSwitch.ARCADE;
-            	}
+                public void begin (ActionData data) {
+                    driveChange = DriveSwitch.ARCADE;
+                }
             });
         }});
     }

@@ -23,10 +23,10 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
-        	add("Climber", new Climber());
-        	add("Dashboard", new Dashboard());
-        	add("Drive", new Drive());
-        	add("DynamicToggle", new DynamicToggle());
+            add("Climber", new Climber());
+            add("Dashboard", new Dashboard());
+            add("Drive", new Drive());
+            add("DynamicToggle", new DynamicToggle());
             add("Regulator", new Regulator());
             add("Shifter", new Shifter());
             add("Vision", new Vision());

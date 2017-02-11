@@ -47,14 +47,6 @@ public class TeleopMode extends Coordinator {
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
     	}
-    	/* Arcade Drive */
-    	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
-    				modules.getModule("Dashboard").getTrigger("Drive On"),
-            		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
-    	}
     	/* Dynamic Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(

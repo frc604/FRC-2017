@@ -14,7 +14,9 @@ import com._604robotics.robotnik.coordinator.groups.Group;
 import com._604robotics.robotnik.coordinator.steps.Step;
 import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.measure.TriggerMeasure;
+import com._604robotics.robotnik.prefabs.trigger.TriggerAlways;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
+import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 
 public class AutonomousMode extends Coordinator {
     protected void apply (ModuleManager modules) {
@@ -70,12 +72,8 @@ public class AutonomousMode extends Coordinator {
                 }));
                 group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Oscil"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
-                		step("Moth PID", new Step(new TriggerMeasure(new TriggerAnd(
-                    			modules.getModule("Drive").getTrigger("Always False"))
-                				// runs indefinitely
-                    	), new Coordinator() {
+                		step("Moth PID", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
-                    			
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Oscil")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Oscil"), "inches", 50.0));
                     		}
