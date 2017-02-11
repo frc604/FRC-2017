@@ -6,8 +6,7 @@ public class Ports {
 	// NONE OF THESE ARE REAL
 	
 	/* Digital */
-	public static final int COMPRESSOR = 0;//sqrt(-1)
-	public static final int BUMP_SENSOR = 1;
+	public static final int BUMP_SENSOR = 4;
 	
 	/* Analog */
 	public static final int ULTRASONIC_LEFT = 0;//sqrt(-1)
