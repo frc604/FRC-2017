@@ -34,7 +34,15 @@ public class TeleopMode extends Coordinator {
     }
 
     @Override
-    protected void apply (ModuleManager modules) {    	
+    protected void apply (ModuleManager modules) {
+    	/* Backup Drive */
+    	{
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
+    				modules.getModule("Dashboard").getTrigger("Drive On"),
+            		modules.getModule("Dashboard").getTrigger("Basic Drive"))));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
+    	}
     	/* Dynamic Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Dynamic Drive"), new TriggerAnd(

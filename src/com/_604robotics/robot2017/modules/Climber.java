@@ -31,7 +31,7 @@ public class Climber extends Module{
             add("Run", new Action(new FieldMap() {{
             }}) {
                 public void run (ActionData data) {
-                    motor.set(1.0);
+                    motor.set(-1.0);
                 }
 
                 public void end (ActionData data){
