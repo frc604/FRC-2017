@@ -21,11 +21,10 @@ public class Ports {
     public static final int DRIVE_FRONT_RIGHT_MOTOR = 5;
     public static final int DRIVE_REAR_RIGHT_MOTOR = 7;
     
-    public static final int DRIVE_ENCODER_RIGHT_A = 2;//sqrt(-1)
-    public static final int DRIVE_ENCODER_RIGHT_B = 3;//sqrt(-1)
-    public static final int DRIVE_ENCODER_LEFT_A = 4;//sqrt(-1)
-    public static final int DRIVE_ENCODER_LEFT_B = 5;//sqrt(-1)
-    // haha very funny ryan
+    public static final int DRIVE_ENCODER_RIGHT_A = 2;
+    public static final int DRIVE_ENCODER_RIGHT_B = 3;
+    public static final int DRIVE_ENCODER_LEFT_A = 1;
+    public static final int DRIVE_ENCODER_LEFT_B = 0;
     
     public static final int CLIMBER_MOTOR = 0;
 	
