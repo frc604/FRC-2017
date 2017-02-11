@@ -27,6 +27,7 @@ public class Robot2017 extends Robot {
         	add("Dashboard", new Dashboard());
         	add("Drive", new Drive());
         	add("DynamicToggle", new DynamicToggle());
+        	add("Regulator", new Regulator());
         }});
 
         this.set(new CoordinatorList() {{

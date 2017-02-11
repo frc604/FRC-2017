@@ -1,5 +1,6 @@
 package com._604robotics.robotnik.prefabs.devices;
 
+import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.trigger.TriggerMap;
@@ -7,10 +8,9 @@ import com._604robotics.robotnik.trigger.TriggerMap;
 import edu.wpi.first.wpilibj.Compressor;
 
 public class Regulator extends Module {
-    private final Compressor compressor;
+    private final Compressor compressor = new Compressor(Ports.COMPRESSOR);
 
-    public Regulator (int port) {
-    	compressor = new Compressor(port);
+    public Regulator () {
     	/* Shouldn't technically be necessary */
         compressor.setClosedLoopControl(true);
 
