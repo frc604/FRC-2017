@@ -36,17 +36,13 @@ public abstract class Module {
      * @param dataMap The module's data map.
      */
     protected void set (DataMap dataMap) {
-    	int inputLen=0;
-    	Iterator<Entry<String, Data>> count=this.dataMap.iterator();
-    	while ( count.hasNext() ) {
-    		inputLen++;
-    	}
-    	if (inputLen!=0) {
+    	if (this.dataMap.size() > 0) {
     		Logger.warn("DataMap has already been set and will be overridden!");
-    		if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
+    		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
     			throw new OverwriteDataError();
     		}
     	}
+    	
     	this.dataMap = dataMap;
     }
 
@@ -55,17 +51,13 @@ public abstract class Module {
      * @param triggerMap The module's trigger map.
      */
     protected void set (TriggerMap triggerMap) {
-    	int inputLen=0;
-    	Iterator<Entry<String, Trigger>> count=this.triggerMap.iterator();
-    	while ( count.hasNext() ) {
-    		inputLen++;
-    	}
-    	if (inputLen!=0) {
+    	if (this.triggerMap.size() > 0) {
     		Logger.warn("TriggerMap has already been set and will be overridden!");
-    		if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
+    		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
     			throw new OverwriteDataError();
     		}
     	}
+    	
         this.triggerMap = triggerMap;
     }
 
@@ -76,10 +68,11 @@ public abstract class Module {
     protected void set (ActionController actionController) {
     	if (!this.actionController.getClass().isInstance(new DummyController())) {
     		Logger.warn("ActionController has already been set and will be overridden!");
-    		if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
+    		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
     			throw new OverwriteDataError();
     		}
     	}
+    	
         this.actionController = actionController;
     }
 

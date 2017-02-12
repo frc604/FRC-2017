@@ -73,11 +73,11 @@ public class ActionData {
         final DataReference data = module.getData(name);
         if (data == null) {
             Logger.missing("DataReference", name);
-            if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
-            	throw new NonExistentDataError("Attempted to access nonexistent data" + name);
-            } else {
-            	return 0D;
+            if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
+            	throw new NonExistentDataError("Attempted to access nonexistent data " + name);
             }
+            
+            return 0D;
         } else {
             return data.get();
         }
@@ -95,8 +95,8 @@ public class ActionData {
     private double lookup (String name) {
         if (!this.table.knowsAbout(name)) {
         	Logger.missing("Field", name);
-        	if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
-        		throw new NonExistentDataError("Attempted to access nonexistent data" + name);
+        	if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
+        		throw new NonExistentDataError("Attempted to access nonexistent data " + name);
         	}
         }
         return this.table.getNumber(name, 0D);

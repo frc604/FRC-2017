@@ -36,10 +36,11 @@ public class DataManager {
         final DataReference ref = this.dataTable.get(name);
         if (ref == null) {
         	Logger.missing("DataReference", name);
-        	if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
-        		throw new NonExistentDataError("Attempted to access nonexistent data" + name);
+        	if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
+        		throw new NonExistentDataError("Attempted to access nonexistent data " + name);
         	}
         }
+        
         return ref;
     }
 

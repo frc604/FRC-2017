@@ -35,6 +35,14 @@ public class TriggerMap implements Iterable<Map.Entry<String, Trigger>> {
         return returnTrigger;
     }
 
+    /**
+     * Gets the size of the trigger map.
+     * @return The trigger map's size.
+     */
+    public int size() {
+    	return this.triggerTable.size();
+    }
+    
     @Override
     public Iterator<Map.Entry<String, Trigger>> iterator () {
         return this.triggerTable.entrySet().iterator();

@@ -22,11 +22,12 @@ public class DataMap implements Iterable<Map.Entry<String, Data>> {
      */
     protected void add (String name, Data data) {
     	if (this.dataTable.containsKey(name)) {
-    		Logger.warn("Attempting to add Data "+name+ " when this already exists");
-    		if (Settings.DEBUG_THROW>=Settings.SET_DEBUG) {
+    		Logger.warn("Attempting to add data " + name + " when this already exists");
+    		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
     			throw new OverwriteDataError();
     		}
     	}
+    	
         this.dataTable.put(name, data);
     }
 
@@ -39,9 +40,18 @@ public class DataMap implements Iterable<Map.Entry<String, Data>> {
     protected Data getData (String name) {
         Data returnData = this.dataTable.get(name);
         if (returnData == null) {
-        	throw new NonExistentDataError("Attempted to access nonexistent data" + name);
+        	throw new NonExistentDataError("Attempted to access nonexistent data " + name);
         }
+        
         return returnData;
+    }
+    
+    /**
+     * Gets the size of the data map.
+     * @return The data map's size.
+     */
+    public int size () {
+    	return this.dataTable.size();
     }
 
     @Override
