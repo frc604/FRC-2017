@@ -4,6 +4,7 @@ import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
+import com._604robotics.robotnik.action.field.FieldMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
@@ -26,9 +27,11 @@ public class Climber extends Module {
         		}
         	});
         	
-            add("Run", new Action() {
+            add("Run", new Action(new FieldMap () {{
+                define("Power", 0D);
+            }}) {
                 public void run (ActionData data) {
-                    motor.set(-1);
+                    motor.set(data.get("Power"));
                 }
 
                 public void end (ActionData data){

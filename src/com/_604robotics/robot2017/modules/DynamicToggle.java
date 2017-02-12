@@ -27,7 +27,7 @@ public class DynamicToggle extends Module {
                 define("rightX", 0D);
             }}) {
                 public void begin (ActionData data) {
-                    driveChange = DriveSwitch.TANK;
+                    driveChange = DriveSwitch.ARCADE;
                 }
                 
                 public void run (ActionData data) {
