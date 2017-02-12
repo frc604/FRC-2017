@@ -40,6 +40,7 @@ public class DataMap implements Iterable<Map.Entry<String, Data>> {
     protected Data getData (String name) {
         Data returnData = this.dataTable.get(name);
         if (returnData == null) {
+        	Logger.missing("Data", name);
         	throw new NonExistentDataError("Attempted to access nonexistent data " + name);
         }
         

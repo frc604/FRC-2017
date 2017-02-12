@@ -92,7 +92,7 @@ public class AS5145B implements PIDSource {
 
     @Override
     public void setPIDSourceType (PIDSourceType sourceType) {
-        if (sourceType != PIDSourceType.kRate) {
+        if (sourceType != PIDSourceType.kDisplacement) {
             throw new IllegalArgumentException("AS5145B class only implements PIDSourceType.kDisplacement");
         }
     }

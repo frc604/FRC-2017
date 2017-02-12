@@ -92,7 +92,7 @@ public class MA3A10 implements PIDSource {
 
     @Override
     public void setPIDSourceType (PIDSourceType sourceType) {
-        if (sourceType != PIDSourceType.kRate) {
+        if (sourceType != PIDSourceType.kDisplacement) {
             throw new IllegalArgumentException("MA3A10 class only implements PIDSourceType.kDisplacement");
         }
     }

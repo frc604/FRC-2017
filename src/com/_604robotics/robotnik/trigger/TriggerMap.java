@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import com._604robotics.robotnik.exceptions.NonExistentTriggerError;
+import com._604robotics.robotnik.logging.Logger;
 
 /**
  * A map containing triggers.
@@ -30,8 +31,10 @@ public class TriggerMap implements Iterable<Map.Entry<String, Trigger>> {
     protected Trigger getTrigger (String name) {
         Trigger returnTrigger = this.triggerTable.get(name);
         if (returnTrigger == null) {
+        	Logger.missing("Trigger", name);
         	throw new NonExistentTriggerError("Attempted to access nonexistent trigger" + name);
         }
+        
         return returnTrigger;
     }
 
