@@ -81,7 +81,7 @@ public class TeleopMode extends Coordinator {
 					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
 					driveMode.on)));
     	}
-    	/* Shiter */
+    	/* Shifter */
     	{
             this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), driver.buttons.LB));
     	}
