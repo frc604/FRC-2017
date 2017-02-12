@@ -42,7 +42,7 @@ public class UltrasonicPair {
      * @return The angle of the sensors relative to a wall.
      */
     public double getAngle () {
-        double angle = Math.acos(this.separation / Math.pow((Math.pow(this.separation, 2) + Math.pow(getDifference(), 2)), 0.5));
+        double angle = Math.atan(getDifference()/separation);
         if (getDifference() < 0) {
             return angle * -1;
         } else {
