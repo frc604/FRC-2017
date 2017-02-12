@@ -68,8 +68,6 @@ public class TeleopMode extends Coordinator {
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
     	}
     	/* Toggle Drive */
-    	/* Please compare against the driver toggle stuff above and choose one to keep */
-    	/*
     	{
     		final TriggerToggle driveMode = new TriggerToggle(driver.buttons.X, false);
     		
@@ -83,7 +81,6 @@ public class TeleopMode extends Coordinator {
 					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
 					driveMode.on)));
     	}
-    	*/
     	/* Shiter */
     	{
             this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), driver.buttons.LB));
