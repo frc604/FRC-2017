@@ -10,10 +10,11 @@ import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 import com._604robotics.robotnik.prefabs.trigger.TriggerOr;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robot2017.constants.Calibration;
+import com._604robotics.robot2017.constants.Ports;
 
 public class TeleopMode extends Coordinator {
-    private final XboxController driver = new XboxController(0 /* Port Constant */);
-    private final XboxController manipulator = new XboxController(1 /* Port Constant */);
+    private final XboxController driver = new XboxController(Ports.CONTROLLER_DRIVER);
+    private final XboxController manipulator = new XboxController(Ports.CONTROLLER_MANIPULATOR);
 
     public TeleopMode () {        
         driver.leftStick.X.setDeadband(Calibration.TELEOP_DEADBAND);

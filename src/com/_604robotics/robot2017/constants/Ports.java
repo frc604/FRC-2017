@@ -6,6 +6,10 @@ public class Ports {
     // SOME OF THESE ARE REAL
     // The rest need to be multiplied by their conjugates (in nosotros form)
     
+    /* Controllers */
+    public static final int CONTROLLER_DRIVER = 0;
+    public static final int CONTROLLER_MANIPULATOR = 1;
+    
     /* Digital */
     public static final int COMPRESSOR = 0;
     public static final int BUMP_SENSOR = 4;
