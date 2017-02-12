@@ -29,6 +29,7 @@ public class DashboardSystem extends Coordinator {
 
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop",
             		modules.getModule("Climber").getTrigger("Boop")));
+            
         }
     }
 }

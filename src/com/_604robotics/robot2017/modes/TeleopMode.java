@@ -5,6 +5,7 @@ import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.coordinator.connectors.DataWire;
 import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.controller.xbox.XboxController;
+import com._604robotics.robotnik.prefabs.outputs.DashboardOutput;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
 import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 import com._604robotics.robotnik.prefabs.trigger.TriggerOr;
@@ -87,10 +88,8 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Climber */
     	{
-            this.bind(new Binding(modules.getModule("Climber").getAction("Run"), new TriggerOr(driver.buttons.RB, driver.buttons.RT)));
-
-            this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", 1.0, driver.buttons.RB));
-            this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", 0.5, driver.buttons.RT));
+       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.RT));
+    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Value", driver.triggers.Right));            
     	}
     }
 }
