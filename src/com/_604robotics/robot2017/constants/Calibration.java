@@ -32,7 +32,7 @@ public final class Calibration {
 
     /* Auton constants */
     // All imaginary; needs multiplication by complex conjugate?
-    public static final double FWD_CLICKS=100;//sqrt(-1)
-    public static final double BKWD_CLICKS=-100;//sqrt(-1)
+    public static final double FWD_CLICKS=-100;//sqrt(-1)
+    public static final double BKWD_CLICKS=100;//sqrt(-1)
     public static final double ROT_CLICKS=100;//sqrt(-1)
 }
