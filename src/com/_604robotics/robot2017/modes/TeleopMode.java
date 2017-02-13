@@ -89,7 +89,7 @@ public class TeleopMode extends Coordinator {
     	/* Climber */
     	{
        		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.RT));
-    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Value", driver.triggers.Right));            
+    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Right));            
     	}
     }
 }

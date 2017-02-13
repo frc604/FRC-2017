@@ -42,7 +42,8 @@ public class UltrasonicPair {
      * @return The angle of the sensors relative to a wall.
      */
     public double getAngle () {
-        double angle = Math.atan(getDifference()/separation);
+    	double radians = Math.atan(getDifference()/separation);
+		double angle = radians * 180 / Math.PI;
         if (getDifference() < 0) {
             return angle * -1;
         } else {
