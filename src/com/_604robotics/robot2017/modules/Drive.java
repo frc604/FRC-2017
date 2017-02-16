@@ -212,11 +212,12 @@ public class Drive extends Module {
             
             add("Ultra Orient", new Action() {
             	public void run (ActionData data) {
-            		if (ultra.getAngle(1) > 7) {
+            		double error=(ultra.getAngle(1)-7);
+            		if (error>0.01) {
             			drive.tankDrive(-0.15, 0.15);
             		}
             		
-            		if (ultra.getAngle(1) < 7) {
+            		if (error<0.01) {
             			drive.tankDrive(0.15, -0.15);
             		}
             	}
@@ -275,10 +276,10 @@ public class Drive extends Module {
                     if(ultra.inRange()) {
 	                	double difference = ultra.getDifference(1);
 	                	
-	                	if( difference > 1 ) {
+	                	if( difference > 1.01 ) {
 	                		drive.tankDrive(-0.1, 0.1);
 	                	}
-	                	else if( difference < 1 ) {
+	                	else if( difference < 0.99 ) {
 	                		drive.tankDrive(0.1, -0.1);
 	                	}
 	                	else {
@@ -299,10 +300,10 @@ public class Drive extends Module {
 	                	double distance = Math.abs(displacement);
 	                	double difference = ultra.getDifference(1);
 	                	
-	                	if( difference > 1 ) {
+	                	if( difference > 1.01 ) {
 	                		drive.tankDrive(-0.1, 0.1);
 	                	}
-	                	else if( difference < 1 ) {
+	                	else if( difference < 0.99 ) {
 	                		drive.tankDrive(0.1, -0.1);
 	                	}
 	                	else {
