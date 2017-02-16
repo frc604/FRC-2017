@@ -56,6 +56,7 @@ public class TeleopMode extends Coordinator {
     		
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
+    				new TriggerNot(driver.buttons.Y),
             		new TriggerNot(driver.buttons.RT),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
@@ -66,12 +67,14 @@ public class TeleopMode extends Coordinator {
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
             		new TriggerNot(driver.buttons.RB),
+            		new TriggerNot(driver.buttons.Y),
             		new TriggerNot(driver.buttons.RT),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
             		modules.getModule("DynamicToggle").getTrigger("Tank Drive"))));
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
+    				new TriggerNot(driver.buttons.Y),
             		new TriggerNot(driver.buttons.RT),
             		modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
@@ -112,10 +115,10 @@ public class TeleopMode extends Coordinator {
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.Y));
 
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight"), driver.buttons.LB));
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight"), driver.buttons.RB));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight"), "inches", 12));
     		
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.LT));
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.RT));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", 12));
     	}
     }
