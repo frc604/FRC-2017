@@ -21,7 +21,8 @@ public final class Calibration {
     public static final double DRIVE_RIGHT_PID_MAX = 1.0;
     public static final double DRIVE_RIGHT_PID_TOLERANCE = 20;
     
-    public static final double ULTRA_SEPARATION = 10.0;
+    public static final double ULTRA_SEPARATION = 22.0;
+    public static final double RANGE = 72.0; // 6 feet
     
     /* Drive Right Constants */
     public static final double DRIVE_ULTRA_PID_P = 0.02;

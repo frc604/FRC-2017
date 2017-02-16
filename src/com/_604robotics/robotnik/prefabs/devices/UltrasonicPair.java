@@ -1,5 +1,7 @@
 package com._604robotics.robotnik.prefabs.devices;
 
+import com._604robotics.robot2017.constants.Calibration;
+
 /**
  * A pair of ultrasonic sensors.
  */
@@ -114,4 +116,48 @@ public class UltrasonicPair {
         double rightDistance = this.right.getDistance(samples);
         return Math.min(leftDistance, rightDistance);
     }
+    /**
+     * Gets the distance read by the left sensor using 64 samples.
+     * @return The distance read by the left sensor.
+     */
+    public double getLeftDistance()
+	{
+		return left.getDistance();
+	}
+    /**
+     * Gets the distance read by the right sensor using 64 samples.
+     * @return The distance read by the right sensor.
+     */
+	public double getRightDistance()
+	{
+		return right.getDistance();
+	}
+	/**
+     * Gets the distance read by the left sensor.
+     * @param samples Number of samples to take.
+     * @return The distance read by the left sensor.
+     */
+	public double getLeftDistance(int sample)
+	{
+		return left.getDistance(sample);
+	}
+	/**
+     * Gets the distance read by the right sensor.
+     * @param samples Number of samples to take.
+     * @return The distance read by the right sensor.
+     */
+	public double getRightDistance(int sample)
+	{
+		return right.getDistance(sample);
+	}
+	/**
+	 * Determines if the sensors are within their operating range.
+	 * This range can be determined in the Calibration.java file.
+	 * @return Whether or not the sensors are within their operating range.
+	 */
+	public boolean inRange()
+	{
+		return Math.max(getLeftDistance(1), getRightDistance(1)) < Calibration.RANGE;
+	}
+    
 }

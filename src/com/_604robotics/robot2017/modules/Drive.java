@@ -238,39 +238,149 @@ public class Drive extends Module {
                 define("inches", 0D);
             }}) {
                 public void run (ActionData data){
-                	// at half distance, half power
-                	// so like
-                	// > 24 inches, 0.8 power
-                	// > 12 inches, 0.4 power
-                	// > 6 inches, 0.2 power
-                	// > 3 inches, 0.1 power
-                	// > 1 inches, 0.05 power
-                    
-                	double displacement = ultra.getDistance(1) - data.get("inches");
-                	double distance = Math.abs(displacement);
-                	
-                	double power = 0;
-                	if (distance > 24) {
-                	    power = 0.5;
-                	} else if (distance > 12) {
-                		power = 0.4;
-                	} else if (distance > 6) {
-                		power = 0.3;
-                	} else if (distance > 3) {
-                		power = 0.25;
-                	} else if (distance > 1) {
-                		power = 0.2;
-                	}
-                	
-                	power *= Math.signum(displacement);
-                	
-                	if(power != 0) {
-                	    drive.tankDrive(power, power);
-                	} else {
-                	    drive.stopMotor();
-                	}
+                    if(ultra.inRange()) {
+	                	double displacement = ultra.getDistance(1) - data.get("inches");
+	                	double distance = Math.abs(displacement);
+	                	
+	                	double power = 0;
+	                	if (distance > 24) {
+	                	    power = 0.5;
+	                	} else if (distance > 12) {
+	                		power = 0.4;
+	                	} else if (distance > 6) {
+	                		power = 0.3;
+	                	} else if (distance > 3) {
+	                		power = 0.25;
+	                	} else if (distance > 1) {
+	                		power = 0.2;
+	                	}
+	                	
+	                	power *= Math.signum(displacement);
+	                	
+	                	if(power != 0) {
+	                	    drive.tankDrive(power, power);
+	                	} else {
+	                	    drive.stopMotor();
+	                	}
+                    }
                 }
                 
+                public void end (ActionData data) {
+                	drive.stopMotor();
+                }
+            });
+            add("Ultra Align", new Action(new FieldMap() {{
+            }}) {
+                public void run (ActionData data){
+                    if(ultra.inRange()) {
+	                	double difference = ultra.getDifference(1);
+	                	
+	                	if( difference > 1 ) {
+	                		drive.tankDrive(-0.1, 0.1);
+	                	}
+	                	else if( difference < 1 ) {
+	                		drive.tankDrive(0.1, -0.1);
+	                	}
+	                	else {
+	                		drive.stopMotor();
+	                	}
+                    }
+                }
+                public void end (ActionData data) {
+                	drive.stopMotor();
+                }
+            });
+            add("Ultra Straight", new Action(new FieldMap() {{
+                define("inches", 0D);
+            }}) {
+                public void run (ActionData data){
+                    if(ultra.inRange()) {
+	                	double displacement = ultra.getDistance(1) - data.get("inches");
+	                	double distance = Math.abs(displacement);
+	                	double difference = ultra.getDifference(1);
+	                	
+	                	if( difference > 1 ) {
+	                		drive.tankDrive(-0.1, 0.1);
+	                	}
+	                	else if( difference < 1 ) {
+	                		drive.tankDrive(0.1, -0.1);
+	                	}
+	                	else {
+	                		double power = 0;
+	                		if (distance > 24) {
+	                			power = 0.5;
+	                		} else if (distance > 12) {
+	                			power = 0.4;
+	                		} else if (distance > 6) {
+	                			power = 0.3;
+	                		} else if (distance > 3) {
+	                			power = 0.25;
+	                		} else if (distance > 1) {
+	                			power = 0.2;
+	                		}
+	                	
+	                		power *= Math.signum(displacement);
+	                	
+	                		if(power != 0) {
+	                			drive.tankDrive(power, power);
+	                		} else {
+	                			drive.stopMotor();
+	                		}
+	                	}
+                    }
+                }
+                public void end (ActionData data) {
+                	drive.stopMotor();
+                }
+            });
+            add("Ultra Straight 2", new Action(new FieldMap() {{
+                define("inches", 0D);
+            }}) {
+                public void run (ActionData data){
+                    if(ultra.inRange()) {
+	                	double leftDisplacement = ultra.getLeftDistance(1) - data.get("inches");
+	                	double leftDistance = Math.abs(leftDisplacement);
+	                	double rightDisplacement = ultra.getRightDistance(1) - data.get("inches");
+	                	double rightDistance = Math.abs(rightDisplacement);
+	                	
+	                	double leftPower = 0;
+	                	if (leftDistance > 24) {
+	                		leftPower = 0.5;
+	               		} else if (leftDistance > 12) {
+	               			leftPower = 0.4;
+	               		} else if (leftDistance > 6) {
+	               			leftPower = 0.3;
+	               		} else if (leftDistance > 3) {
+	               			leftPower = 0.25;
+	               		} else if (leftDistance > 1) {
+	               			leftPower = 0.2;
+	               		}
+	                	leftPower *= Math.signum(leftDisplacement);
+	                	
+	                	double rightPower = 0;
+	                	if (rightDistance > 24) {
+	                		rightPower = 0.5;
+	               		} else if (rightDistance > 12) {
+	               			rightPower = 0.4;
+	               		} else if (rightDistance > 6) {
+	               			rightPower = 0.3;
+	               		} else if (rightDistance > 3) {
+	               			rightPower = 0.25;
+	               		} else if (rightDistance > 1) {
+	               			rightPower = 0.2;
+	               		}
+	                	rightPower *= Math.signum(rightDisplacement);
+	                	
+	                	if( leftPower != 0 && rightPower != 0 )
+	                	{
+	                		drive.tankDrive(leftPower, rightPower);
+	                	}
+	                	else
+	                	{
+	                		drive.stopMotor();
+	                	}
+                    }    
+                }
                 public void end (ActionData data) {
                 	drive.stopMotor();
                 }

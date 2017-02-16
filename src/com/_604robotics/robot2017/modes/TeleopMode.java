@@ -47,12 +47,16 @@ public class TeleopMode extends Coordinator {
     	/* Tank Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
+    				new TriggerNot(driver.buttons.RB),
+            		new TriggerNot(driver.buttons.RT),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Tank Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
     		
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
+    				new TriggerNot(driver.buttons.RB),
+            		new TriggerNot(driver.buttons.RT),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
@@ -61,10 +65,14 @@ public class TeleopMode extends Coordinator {
     	/* Dynamic Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
-            		modules.getModule("Dashboard").getTrigger("Drive On"),
+            		new TriggerNot(driver.buttons.RB),
+            		new TriggerNot(driver.buttons.RT),
+    				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
             		modules.getModule("DynamicToggle").getTrigger("Tank Drive"))));
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
+    				new TriggerNot(driver.buttons.RB),
+            		new TriggerNot(driver.buttons.RT),
             		modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
             		modules.getModule("DynamicToggle").getTrigger("Arcade Drive"))));
@@ -97,8 +105,18 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Climber */
     	{
-       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.RT));
-    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Right));            
+       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.LT));
+    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Left));            
+    	}
+    	/* Ultrasonic */
+    	{
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.Y));
+
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight"), driver.buttons.LB));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight"), "inches", 12));
+    		
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.LT));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", 12));
     	}
     }
 }
