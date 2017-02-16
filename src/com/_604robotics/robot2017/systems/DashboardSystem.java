@@ -20,6 +20,7 @@ public class DashboardSystem extends Coordinator {
                     modules.getModule("Drive").getData("Left Drive Rate")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Right Drive Rate",
                     modules.getModule("Drive").getData("Right Drive Rate")));
+
             this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Inches",
                 	modules.getModule("Drive").getData("Ultra Inches")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Angle",
