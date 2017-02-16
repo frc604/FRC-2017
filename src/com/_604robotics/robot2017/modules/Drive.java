@@ -216,7 +216,7 @@ public class Drive extends Module {
             			drive.tankDrive(-0.15, 0.15);
             		}
             		
-            		if (ultra.getAngle(1) < 7) {
+            		if (ultra.getAngle(1) < -7) {
             			drive.tankDrive(0.15, -0.15);
             		}
             	}
@@ -278,7 +278,7 @@ public class Drive extends Module {
 	                	if( difference > 1 ) {
 	                		drive.tankDrive(-0.1, 0.1);
 	                	}
-	                	else if( difference < 1 ) {
+	                	else if( difference < -1 ) {
 	                		drive.tankDrive(0.1, -0.1);
 	                	}
 	                	else {
@@ -302,7 +302,7 @@ public class Drive extends Module {
 	                	if( difference > 1 ) {
 	                		drive.tankDrive(-0.1, 0.1);
 	                	}
-	                	else if( difference < 1 ) {
+	                	else if( difference < -1 ) {
 	                		drive.tankDrive(0.1, -0.1);
 	                	}
 	                	else {
