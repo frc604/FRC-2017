@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Module {
@@ -67,6 +68,8 @@ public class Drive extends Module {
     //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
     private final UltrasonicPair ultra = new UltrasonicPair(new AnalogUltrasonic(Ports.ULTRASONIC_LEFT), new AnalogUltrasonic(Ports.ULTRASONIC_RIGHT), Calibration.ULTRA_SEPARATION);
     
+    private final Timer timer = new Timer();
+    
     /*
     private double pid_power_cap = 0.6;
     private double PIDUltraOut = 0D;
@@ -112,7 +115,7 @@ public class Drive extends Module {
 
         this.set(new TriggerMap() {{
             add("At Move Servo Target", () -> pidLeft.isEnabled() && pidLeft.onTarget());
-            add("Past Ultra Target", () -> ultra.getDistance() < 50.0);
+            add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET);
         }});
 
         this.set(new ElasticController() {{
@@ -133,6 +136,29 @@ public class Drive extends Module {
 
                 public void end (ActionData data) {
                     drive.stopMotor();
+                }
+            });
+            
+            add("Kinematic Drive", new Action(new FieldMap () {{
+                define("Time", 0D);
+                define("Power", 0D);
+            }}) {
+            	public void begin(ActionData data) {
+            		timer.reset();
+            		timer.start();
+            	}
+                public void run (ActionData data) {
+                	double time = timer.get();
+                	if( time < data.get("Time") )
+                	{
+                		drive.tankDrive(data.get("Power"), data.get("Power"));
+                	}
+                }
+
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                    timer.stop();
+                    timer.reset();
                 }
             });
             
@@ -235,13 +261,32 @@ public class Drive extends Module {
             
             add("Ultra Orient", new Action() {
             	public void run (ActionData data) {
-            		if (ultra.getAngle(1) > 7) {
-            			drive.tankDrive(-0.2, 0.2);
+            		if( ultra.inRange() )
+            			{
+            			double angle = ultra.getAngle(1);
+            			double power = 0;
+            			if (angle > 60) {
+            				power = 0.5;
+            			}
+            			else if (angle > 30) {
+            				power = 0.4;
+            			}
+            			else if (angle > 15) {
+            				power = 0.3;
+            			}
+            			else if (angle > 7) {
+            				power = 0.2;
+            			}
+            			power *= Math.signum(angle);
+            			if(power != 0) {
+	                	    drive.tankDrive(power, -power);
+	                	} else {
+	                	    drive.stopMotor();
+	                	}
             		}
-            		
-            		if (ultra.getAngle(1) < -7) {
-            			drive.tankDrive(0.2, -0.2);
-            		}
+            	}
+            	public void end (ActionData data) {
+            		drive.stopMotor();
             	}
             });
             
@@ -285,6 +330,10 @@ public class Drive extends Module {
 	                	} else {
 	                	    drive.stopMotor();
 	                	}
+                    }
+                    else
+                    {
+                    	drive.stopMotor();
                     }
                 }
                 

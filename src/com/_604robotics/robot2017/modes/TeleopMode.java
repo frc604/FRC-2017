@@ -120,13 +120,13 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Ultrasonic */
     	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.Y));
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Orient"), driver.buttons.Y));
 
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight"), driver.buttons.RB));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight"), "inches", 12));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight"), "inches", Calibration.ULTRA_TARGET));
     		
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.RT));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", 12));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
     	}
     }
 }

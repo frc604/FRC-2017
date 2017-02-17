@@ -79,7 +79,28 @@ public class AutonomousMode extends Coordinator {
                 		step("Moth PID", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Oscil")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Oscil"), "inches", 50.0));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Oscil"), "inches", 24.0));
+                    		}
+                    	}));
+                	}
+                }));
+                group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Straight 2"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Forward", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
+                    		}
+                    	}));
+                	}
+                }));
+                group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Fail Safe", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIME));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));
                     		}
                     	}));
                 	}
