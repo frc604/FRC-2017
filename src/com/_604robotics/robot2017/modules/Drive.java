@@ -313,13 +313,13 @@ public class Drive extends Module {
 	                	double power = 0;
 	                	if (distance > 24) {
 	                	    power = 0.5;
-	                	} else if (distance > 12) {
+	                	} else if (distance > 24) {
 	                		power = 0.4;
-	                	} else if (distance > 6) {
+	                	} else if (distance > 12) {
 	                		power = 0.3;
-	                	} else if (distance > 3) {
+	                	} else if (distance > 6) {
 	                		power = 0.25;
-	                	} else if (distance > 1) {
+	                	} else if (distance > 3) {
 	                		power = 0.2;
 	                	}
 	                	
@@ -381,13 +381,13 @@ public class Drive extends Module {
 	                		double power = 0;
 	                		if (distance > 24) {
 	                			power = 0.5;
-	                		} else if (distance > 12) {
+	                		} else if (distance > 24) {
 	                			power = 0.4;
-	                		} else if (distance > 6) {
+	                		} else if (distance > 12) {
 	                			power = 0.3;
-	                		} else if (distance > 3) {
+	                		} else if (distance > 6) {
 	                			power = 0.25;
-	                		} else if (distance > 1) {
+	                		} else if (distance > 3) {
 	                			power = 0.2;
 	                		}
 	                	
