@@ -31,6 +31,7 @@ public class Dashboard extends Module {
             add("Toggle Drive", driveMode.add("Toggle Drive"));
             add("Tank Drive", driveMode.add("Tank Drive"));
             add("Arcade Drive", driveMode.add("Arcade Drive"));
+            add("Test Drive", driveMode.add("Test Drive"));
         }});
 
         this.set(new DataMap() {{

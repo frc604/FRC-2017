@@ -23,9 +23,9 @@ public class Ports {
     /* Motors */
     public static final int DRIVE_FRONT_LEFT_MOTOR = 2;
     public static final int DRIVE_REAR_LEFT_MOTOR = 4;
-    public static final int DRIVE_FRONT_RIGHT_MOTOR = 5;
-    public static final int DRIVE_REAR_RIGHT_MOTOR = 7;
-    
+    public static final int DRIVE_FRONT_RIGHT_MOTOR = 7;
+    public static final int DRIVE_REAR_RIGHT_MOTOR = 5;
+   
     public static final int CLIMBER_MOTOR = 0;
     
     /* Encoders */

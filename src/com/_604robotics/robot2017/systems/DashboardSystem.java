@@ -25,6 +25,13 @@ public class DashboardSystem extends Coordinator {
                 	modules.getModule("Drive").getData("Ultra Inches")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Angle",
                 	modules.getModule("Drive").getData("Ultra Angle")));
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Difference",
+                	modules.getModule("Drive").getData("Ultra Difference")));
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Left",
+                	modules.getModule("Drive").getData("Ultra Left")));
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Right",
+                	modules.getModule("Drive").getData("Ultra Right")));
+            
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Past Ultra Target",
                 	modules.getModule("Drive").getTrigger("Past Ultra Target")));
 

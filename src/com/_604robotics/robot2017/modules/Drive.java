@@ -37,6 +37,9 @@ public class Drive extends Module {
             Ports.DRIVE_FRONT_RIGHT_MOTOR,
             Ports.DRIVE_REAR_RIGHT_MOTOR);
 	
+	//private final RobotDrive drive = new RobotDrive(1, 3, 6, 8);
+	//private final RobotDrive extraAf = new RobotDrive(2, 4, 5, 7);			
+	
     private final Encoder encoderLeft = new Encoder(
             Ports.DRIVE_ENCODER_LEFT_A,
             Ports.DRIVE_ENCODER_LEFT_B,
@@ -99,6 +102,10 @@ public class Drive extends Module {
 
             add("Ultra Inches", ultra::getDistance);
             add("Ultra Angle", ultra::getAngle);
+            add("Ultra Difference", ultra::getDifference);
+            
+            add("Ultra Left", ultra::getLeftDistance);
+            add("Ultra Right", ultra::getRightDistance);
             
             //add("Horizonal Gyro Angle", horizGyro::getAngle);
         }});
@@ -140,6 +147,22 @@ public class Drive extends Module {
 
                 public void end (ActionData data) {
                     drive.stopMotor();
+                }
+            });
+            
+            add("Test Drive", new Action(new FieldMap () {{
+                define("Move Power", 0D);
+                define("Rotate Power", 0D);
+            }}) {
+                public void run (ActionData data) {
+                    // double throttle = data.is("Throttled") ? 0.5 : 1;
+                	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
+                	//extraAf.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
+                }
+
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                    //extraAf.stopMotor();
                 }
             });
             
@@ -213,11 +236,11 @@ public class Drive extends Module {
             add("Ultra Orient", new Action() {
             	public void run (ActionData data) {
             		if (ultra.getAngle(1) > 7) {
-            			drive.tankDrive(-0.15, 0.15);
+            			drive.tankDrive(-0.2, 0.2);
             		}
             		
             		if (ultra.getAngle(1) < -7) {
-            			drive.tankDrive(0.15, -0.15);
+            			drive.tankDrive(0.2, -0.2);
             		}
             	}
             });
@@ -276,10 +299,10 @@ public class Drive extends Module {
 	                	double difference = ultra.getDifference(1);
 	                	
 	                	if( difference > 1 ) {
-	                		drive.tankDrive(-0.1, 0.1);
+	                		drive.tankDrive(-0.3, 0.3);
 	                	}
 	                	else if( difference < -1 ) {
-	                		drive.tankDrive(0.1, -0.1);
+	                		drive.tankDrive(0.3, -0.3);
 	                	}
 	                	else {
 	                		drive.stopMotor();
@@ -299,11 +322,11 @@ public class Drive extends Module {
 	                	double distance = Math.abs(displacement);
 	                	double difference = ultra.getDifference(1);
 	                	
-	                	if( difference > 1 ) {
-	                		drive.tankDrive(-0.1, 0.1);
+	                	if( difference > 3 ) {
+	                		drive.tankDrive(-0.4, 0.4);
 	                	}
-	                	else if( difference < -1 ) {
-	                		drive.tankDrive(0.1, -0.1);
+	                	else if( difference < -3 ) {
+	                		drive.tankDrive(0.4, -0.4);
 	                	}
 	                	else {
 	                		double power = 0;

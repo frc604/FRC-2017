@@ -38,10 +38,8 @@ public class TeleopMode extends Coordinator {
     @Override
     protected void apply (ModuleManager modules) {
     	/* Dashboard Janky stuff */
-    	this.fill(new DataWire(DashboardOutput.asDouble(), "Left/Move Power",
+        this.fill(new DataWire(DashboardOutput.asDouble(), "Left Power",
                 driver.leftStick.Y));
-        this.fill(new DataWire(DashboardOutput.asDouble(), "Right Power",
-                driver.rightStick.Y));
         this.fill(new DataWire(DashboardOutput.asDouble(), "Turn Power",
                 driver.rightStick.X));
     	/* Tank Drive */
@@ -62,6 +60,15 @@ public class TeleopMode extends Coordinator {
             		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
+    		
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Test Drive"), new TriggerAnd(
+    				new TriggerNot(driver.buttons.RB),
+    				new TriggerNot(driver.buttons.Y),
+            		new TriggerNot(driver.buttons.RT),
+    				modules.getModule("Dashboard").getTrigger("Drive On"),
+            		modules.getModule("Dashboard").getTrigger("Test Drive"))));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Test Drive"), "Move Power", driver.leftStick.Y));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Test Drive"), "Rotate Power", driver.rightStick.X));
     	}
     	/* Dynamic Drive */
     	{
