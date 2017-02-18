@@ -5,7 +5,7 @@ public final class Calibration {
     
     /* Teleop Xbox Controller Constants */
     public static final double TELEOP_DEADBAND = 0.3;
-    public static final double TELEOP_FACTOR = -1;
+    public static final double TELEOP_FACTOR_DEFAULT = -1;
     
     /* Drive Left Constants */
     public static final double DRIVE_LEFT_PID_P = 0.02;

@@ -15,21 +15,22 @@ import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
 
 public class TeleopMode extends Coordinator {
-    private final XboxController driver = new XboxController(Ports.CONTROLLER_DRIVER);
-    private final XboxController manipulator = new XboxController(Ports.CONTROLLER_MANIPULATOR);
+    public static final XboxController driver = new XboxController(Ports.CONTROLLER_DRIVER);
+    public static final XboxController manipulator = new XboxController(Ports.CONTROLLER_MANIPULATOR);
 
-    public TeleopMode () {        
+    public TeleopMode () {
+    	/* Default deadband set here; changed in other parts of the code */
         driver.leftStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
         driver.leftStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
 
-        driver.leftStick.X.setFactor(Calibration.TELEOP_FACTOR);
-        driver.leftStick.Y.setFactor(Calibration.TELEOP_FACTOR);
+        driver.leftStick.X.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
+        driver.leftStick.Y.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
 
         driver.rightStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
         driver.rightStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
 
-        driver.rightStick.X.setFactor(Calibration.TELEOP_FACTOR);
-        driver.rightStick.Y.setFactor(Calibration.TELEOP_FACTOR);
+        driver.rightStick.X.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
+        driver.rightStick.Y.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
 
         manipulator.leftStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
         manipulator.rightStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
@@ -113,6 +114,10 @@ public class TeleopMode extends Coordinator {
     	{
             this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
     	}
+    	/* Xbox Flip Axis */
+    	{
+    		this.bind(new Binding(modules.getModule("XboxFlip").getAction("Flip"), driver.buttons.RB));
+    	}
     	/* Climber */
     	{
        		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.LT));
@@ -122,8 +127,8 @@ public class TeleopMode extends Coordinator {
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Orient"), driver.buttons.Y));
 
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight"), driver.buttons.RB));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight"), "inches", Calibration.ULTRA_TARGET));
+//    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight"), driver.buttons.RB));
+//    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight"), "inches", Calibration.ULTRA_TARGET));
     		
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.RT));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
