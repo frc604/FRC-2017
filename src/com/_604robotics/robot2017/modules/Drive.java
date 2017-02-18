@@ -269,16 +269,16 @@ public class Drive extends Module {
             			{
             			double angle = ultra.getAngle(1);
             			double power = 0;
-            			if (angle > 60) {
+            			if (angle > 30) {
             				power = 0.5;
             			}
-            			else if (angle > 30) {
+            			else if (angle > 15) {
             				power = 0.4;
             			}
-            			else if (angle > 15) {
+            			else if (angle > 7) {
             				power = 0.3;
             			}
-            			else if (angle > 7) {
+            			else if (angle > 3.5) {
             				power = 0.2;
             			}
             			power *= Math.signum(angle);
