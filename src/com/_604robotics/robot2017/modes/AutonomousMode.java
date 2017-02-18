@@ -135,6 +135,7 @@ public class AutonomousMode extends Coordinator {
                 	}
                 }));
                 // UNTESTED
+                /*
                 group(new Group(modules.getModule("Dashboard").getTrigger("Orient"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Orient", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
@@ -143,7 +144,7 @@ public class AutonomousMode extends Coordinator {
                     		}
                     	}));
                 	}
-                }));
+                }));*/
 // >>>>>>>> EO Auton Obstacles Options <<<<<<<< //
             }
         }));

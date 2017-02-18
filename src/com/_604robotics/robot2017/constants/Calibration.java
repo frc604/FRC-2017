@@ -22,7 +22,7 @@ public final class Calibration {
     public static final double DRIVE_RIGHT_PID_TOLERANCE = 20;
     
     public static final double ULTRA_SEPARATION = 22.0;
-    public static final double ULTRA_TARGET = 12.0;
+    public static final double ULTRA_TARGET = 6.0;
     public static final double RANGE = 72.0; // 6 feet
     
     /* Drive Right Constants */
@@ -34,8 +34,8 @@ public final class Calibration {
 
     /* Auton constants */
     // All imaginary; needs multiplication by complex conjugate?
-    public static final double FWD_CLICKS=-500;//sqrt(-1)
-    public static final double BKWD_CLICKS=500;//sqrt(-1)
+    public static final double FWD_CLICKS=500;//sqrt(-1)
+    public static final double BKWD_CLICKS=-500;//sqrt(-1)
     public static final double ROT_CLICKS=500;//sqrt(-1)
     
     public static final double KINEMATIC_TIME = 3;

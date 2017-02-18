@@ -446,12 +446,14 @@ public class Drive extends Module {
                 	drive.stopMotor();
                 }
             });
+            
+            //changed power multiplier to distance from displacement
             add("Ultra Straight 2", new Action(new FieldMap() {{
                 define("inches", 0D);
             }}) {
                 public void run (ActionData data){
                     if(ultra.inRange()) {
-	                	double leftDisplacement = ultra.getLeftDistance(1) - data.get("inches");
+	                	double leftDisplacement = ultra.getLeftDistance(1)- data.get("inches");
 	                	double leftDistance = Math.abs(leftDisplacement);
 	                	double rightDisplacement = ultra.getRightDistance(1) - data.get("inches");
 	                	double rightDistance = Math.abs(rightDisplacement);
@@ -468,7 +470,7 @@ public class Drive extends Module {
 	               		} else if (leftDistance > 1) {
 	               			leftPower = 0.2;
 	               		}
-	                	leftPower *= Math.signum(leftDisplacement);
+	                	leftPower *= Math.signum(leftDistance);
 	                	
 	                	double rightPower = 0;
 	                	if (rightDistance > 24) {
@@ -482,7 +484,7 @@ public class Drive extends Module {
 	               		} else if (rightDistance > 1) {
 	               			rightPower = 0.2;
 	               		}
-	                	rightPower *= Math.signum(rightDisplacement);
+	                	rightPower *= Math.signum(rightDistance);
 	                	
 	                	if( leftPower != 0 && rightPower != 0 )
 	                	{
