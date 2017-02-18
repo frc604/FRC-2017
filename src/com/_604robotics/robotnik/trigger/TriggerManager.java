@@ -33,7 +33,6 @@ public class TriggerManager {
     public TriggerReference getTrigger (String name) {
         final TriggerReference ref = this.triggerTable.get(name);
         if (ref == null) {
-        	Logger.missing("TriggerReference", name);
         	throw new IllegalArgumentException("Trigger \"" + name + "\" does not exist.");
         }
         

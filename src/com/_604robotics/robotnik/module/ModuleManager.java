@@ -33,7 +33,6 @@ public class ModuleManager {
     public ModuleReference getModule (String name) {
         ModuleReference ref = this.moduleTable.get(name);
         if (ref == null) {
-        	Logger.missing("ModuleReference", name);
         	throw new IllegalArgumentException("Module \"" + name + "\" does not exist.");
         }
         

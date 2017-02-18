@@ -33,7 +33,6 @@ public class DataManager {
     public DataReference getData (String name) {
         final DataReference ref = this.dataTable.get(name);
         if (ref == null) {
-        	Logger.missing("DataReference", name);
         	throw new IllegalArgumentException("Data \"" + name + "\" does not exist.");
         }
         

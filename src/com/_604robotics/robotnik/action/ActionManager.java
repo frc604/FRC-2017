@@ -47,8 +47,7 @@ public class ActionManager {
     public ActionReference getAction (String name) {
         ActionReference ref = this.actionTable.get(name);
         if (ref == null) {
-        	Logger.missing("ActionReference", name);
-        	throw new IllegalArgumentException("Trigger \"" + name + "\" does not exist.");
+        	throw new IllegalArgumentException("Action \"" + name + "\" does not exist.");
         }
         
         return ref;
