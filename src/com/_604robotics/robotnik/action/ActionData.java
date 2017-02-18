@@ -5,6 +5,7 @@ import com._604robotics.robotnik.action.field.Field;
 import com._604robotics.robotnik.action.field.FieldMap;
 import com._604robotics.robotnik.data.DataReference;
 import com._604robotics.robotnik.exceptions.NonExistentDataError;
+import com._604robotics.robotnik.exceptions.NonExistentTriggerError;
 import com._604robotics.robotnik.logging.Logger;
 import com._604robotics.robotnik.memory.IndexedTable;
 import com._604robotics.robotnik.module.ModuleReference;
@@ -58,6 +59,10 @@ public class ActionData {
         final TriggerReference trigger = module.getTrigger(name);
         if (trigger == null) {
             Logger.missing("TriggerReference", name);
+            if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
+            	throw new NonExistentTriggerError("Attempted to access nonexistent trigger " + name);
+            }
+            
             return false;
         } else {
             return trigger.get();
@@ -96,9 +101,10 @@ public class ActionData {
         if (!this.table.knowsAbout(name)) {
         	Logger.missing("Field", name);
         	if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-        		throw new NonExistentDataError("Attempted to access nonexistent data " + name);
+        		throw new NonExistentDataError("Attempted to access nonexistent field " + name);
         	}
         }
+        
         return this.table.getNumber(name, 0D);
     }
 }

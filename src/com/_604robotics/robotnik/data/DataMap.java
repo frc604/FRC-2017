@@ -22,9 +22,9 @@ public class DataMap implements Iterable<Map.Entry<String, Data>> {
      */
     protected void add (String name, Data data) {
     	if (this.dataTable.containsKey(name)) {
-    		Logger.warn("Attempting to add data " + name + " when this already exists");
+    		Logger.warn("Attempting to add data " + name + " when it already exists.");
     		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-    			throw new OverwriteDataError();
+    			throw new OverwriteDataError("Attempted to add data " + name + " when it already exists.");
     		}
     	}
     	

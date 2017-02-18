@@ -51,6 +51,7 @@ public class ActionManager {
         	Logger.missing("ActionReference", name);
         	throw new NonExistentActionError("Attempted to access nonexistent trigger" + name);
         }
+        
         return ref;
     }
 
