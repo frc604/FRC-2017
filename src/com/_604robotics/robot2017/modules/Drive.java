@@ -168,6 +168,10 @@ public class Drive extends Module {
             }}) {
                 public void run (ActionData data) {
                     // double throttle = data.is("Throttled") ? 0.5 : 1;
+//                	System.out.print("Move");
+//                	System.out.println(data.get("Move Power"));
+//                	System.out.print("Rotate");
+//                	System.out.println(data.get("Rotate Power"));
                 	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
                 }
 
@@ -227,6 +231,8 @@ public class Drive extends Module {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
+//                    pidOutput.left.pidWrite(0);
+//                    pidOutput.right.pidWrite(0);
                     pidLeft.setSetpoint(data.get("ClickLeft"));
                     pidLeft.enable();
                     pidRight.setSetpoint(data.get("ClickRight"));
