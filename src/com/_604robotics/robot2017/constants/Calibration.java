@@ -22,7 +22,7 @@ public final class Calibration {
     public static final double DRIVE_RIGHT_PID_TOLERANCE = 20;
     
     public static final double ULTRA_SEPARATION = 22.0;
-    public static final double ULTRA_TARGET = 4.5;
+    public static final double ULTRA_TARGET = 5;
     public static final double RANGE = 72.0; // 6 feet
     
     /* Drive Right Constants */
@@ -41,7 +41,7 @@ public final class Calibration {
     public static final double KINEMATIC_TIMEM = 0.9;
     public static final double KINEMATIC_TIMELR = 2.2;
     public static final double WAIT = 2.5;
-    public static final double ROTATE_TIME = 0.28;
+    public static final double ROTATE_TIME = 0.42;
     public static final double ROTATE_POWER = 0.5;
     
     public static final double KINEMATIC_POWER = 0.5;

@@ -46,7 +46,7 @@ public class AutonomousMode extends Coordinator {
                     }
                 }));
                 */
-            	/*
+            	
             	group(new Group(modules.getModule("Dashboard").getTrigger("Servo"), new Coordinator() {
                     protected void apply (ModuleManager modules) {
                         step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
@@ -60,6 +60,7 @@ public class AutonomousMode extends Coordinator {
                         }));
                     }
                 }));
+            	/*
                 group(new Group(modules.getModule("Dashboard").getTrigger("Backward"), new Coordinator() {
                     protected void apply(ModuleManager modules) {
                     	step("Backward", new Step(new TriggerMeasure(new TriggerAnd(
@@ -116,7 +117,7 @@ public class AutonomousMode extends Coordinator {
                 // WORKS wait this calls tank drive though lemme look into that
                 group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
-                		step("Fail Safe", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint M1")), new Coordinator() {
+                		step("Fail Safe", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));

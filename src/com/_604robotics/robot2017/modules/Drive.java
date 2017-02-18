@@ -45,11 +45,11 @@ public class Drive extends Module {
     private final Encoder encoderLeft = new Encoder(
             Ports.DRIVE_ENCODER_LEFT_A,
             Ports.DRIVE_ENCODER_LEFT_B,
-            true, CounterBase.EncodingType.k4X);
+            false, CounterBase.EncodingType.k4X);
     private final Encoder encoderRight = new Encoder(
             Ports.DRIVE_ENCODER_RIGHT_A,
             Ports.DRIVE_ENCODER_RIGHT_B,
-            false, CounterBase.EncodingType.k4X);
+            true, CounterBase.EncodingType.k4X);
 
     /*
     private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
@@ -150,8 +150,14 @@ public class Drive extends Module {
 
         this.set(new ElasticController() {{
             addDefault("Off", new Action() {
+            	public void begin(ActionData data) {
+            		timer.start();
+            	}
                 public void run (ActionData data) {
                     drive.tankDrive(0, 0);
+                }
+                public void end(ActionData data) {
+                	timer.stop();
                 }
             });
             

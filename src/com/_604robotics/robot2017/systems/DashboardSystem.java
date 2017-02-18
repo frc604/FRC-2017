@@ -32,6 +32,9 @@ public class DashboardSystem extends Coordinator {
             this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Right",
                 	modules.getModule("Drive").getData("Ultra Right")));
             
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Timer Seconds",
+                	modules.getModule("Drive").getData("Timer Seconds")));
+            
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Past Ultra Target",
                 	modules.getModule("Drive").getTrigger("Past Ultra Target")));
 

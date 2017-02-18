@@ -17,7 +17,7 @@ public class Dashboard extends Module {
             add("Ultra Straight 2", autonMode.add("Ultra Straight 2"));
             add("Fail Safe", autonMode.add("Fail Safe"));
             add("Fail Safe 2", autonMode.add("Fail Safe 2"));
-            // add("Servo", autonMode.add("Servo"));
+            add("Servo", autonMode.add("Servo"));
             add("Kinematic Rotate", autonMode.add("Kinematic Rotate"));
             add("Mid", autonMode.add("Mid"));
 			

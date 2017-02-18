@@ -22,6 +22,7 @@ public class XboxFlip extends Module {
 			addDefault("Off", new Action());
 			add("Flip", new Action() {
 				public void begin(ActionData data) {
+					isFlipped=!isFlipped;
 					TeleopMode.driver.leftStick.X.flipFactor();
 					TeleopMode.driver.leftStick.Y.flipFactor();
 				}
