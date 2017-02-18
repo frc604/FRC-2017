@@ -79,7 +79,17 @@ public class AutonomousMode extends Coordinator {
                 		step("Moth PID", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Oscil")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Oscil"), "inches", 24.0));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Oscil"), "inches", Calibration.ULTRA_TARGET));
+                    		}
+                    	}));
+                	}
+                }));
+                group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Crude"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Moth PID", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Crude")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Crude"), "inches", Calibration.ULTRA_TARGET));
                     		}
                     	}));
                 	}

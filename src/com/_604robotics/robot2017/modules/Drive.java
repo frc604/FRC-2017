@@ -151,7 +151,7 @@ public class Drive extends Module {
                 	double time = timer.get();
                 	if( time < data.get("Time") )
                 	{
-                		drive.tankDrive(data.get("Power"), data.get("Power"));
+                		drive.tankDrive(data.get("Power"), data.get("Power"), false);
                 	}
                 }
 
@@ -283,7 +283,7 @@ public class Drive extends Module {
             			}
             			power *= Math.signum(angle);
             			if(power != 0) {
-	                	    drive.tankDrive(power, -power);
+	                	    drive.tankDrive(power, -power, false);
 	                	} else {
 	                	    drive.stopMotor();
 	                	}
@@ -315,7 +315,7 @@ public class Drive extends Module {
 	                	double distance = Math.abs(displacement);
 	                	
 	                	double power = 0;
-	                	if (distance > 24) {
+	                	if (distance > 48) {
 	                	    power = 0.5;
 	                	} else if (distance > 24) {
 	                		power = 0.4;
@@ -330,7 +330,7 @@ public class Drive extends Module {
 	                	power *= Math.signum(displacement);
 	                	
 	                	if(power != 0) {
-	                	    drive.tankDrive(power, power);
+	                	    drive.tankDrive(power, power, false);
 	                	} else {
 	                	    drive.stopMotor();
 	                	}
@@ -353,7 +353,7 @@ public class Drive extends Module {
 	                	double distance = ultra.getDistance();
 	                	if( distance > data.get("inches") )
 	                	{
-	                		drive.tankDrive(0.5, 0.5);
+	                		drive.tankDrive(0.5, 0.5, false);
 	                	}
                     }
                     else
@@ -374,10 +374,10 @@ public class Drive extends Module {
 	                	double difference = ultra.getDifference(1);
 	                	
 	                	if( difference > 1 ) {
-	                		drive.tankDrive(-0.3, 0.3);
+	                		drive.tankDrive(-0.3, 0.3, false);
 	                	}
 	                	else if( difference < -1 ) {
-	                		drive.tankDrive(0.3, -0.3);
+	                		drive.tankDrive(0.3, -0.3, false);
 	                	}
 	                	else {
 	                		drive.stopMotor();
@@ -398,10 +398,10 @@ public class Drive extends Module {
 	                	double difference = ultra.getDifference(1);
 	                	
 	                	if( difference > 3 ) {
-	                		drive.tankDrive(-0.4, 0.4);
+	                		drive.tankDrive(-0.4, 0.4, false);
 	                	}
 	                	else if( difference < -3 ) {
-	                		drive.tankDrive(0.4, -0.4);
+	                		drive.tankDrive(0.4, -0.4, false);
 	                	}
 	                	else {
 	                		double power = 0;
@@ -420,7 +420,7 @@ public class Drive extends Module {
 	                		power *= Math.signum(displacement);
 	                	
 	                		if(power != 0) {
-	                			drive.tankDrive(power, power);
+	                			drive.tankDrive(power, power, false);
 	                		} else {
 	                			drive.stopMotor();
 	                		}
@@ -471,7 +471,7 @@ public class Drive extends Module {
 	                	
 	                	if( leftPower != 0 && rightPower != 0 )
 	                	{
-	                		drive.tankDrive(leftPower, rightPower);
+	                		drive.tankDrive(leftPower, rightPower, false);
 	                	}
 	                	else
 	                	{
