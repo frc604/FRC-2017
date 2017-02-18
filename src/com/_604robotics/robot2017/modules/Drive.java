@@ -125,6 +125,8 @@ public class Drive extends Module {
             add("Ultra Left", ultra::getLeftDistance);
             add("Ultra Right", ultra::getRightDistance);
             
+            add("Timer Seconds", timer::get);
+            
             //add("Horizonal Gyro Angle", horizGyro::getAngle);
         }});
 
@@ -132,6 +134,18 @@ public class Drive extends Module {
             //add("At Move Servo Target", () -> pidLeft.isEnabled() && pidLeft.onTarget());
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET);
+            add("Timer Setpoint M1", () -> timer.get() > Calibration.KINEMATIC_TIMEM);
+            add("Timer Setpoint M2", () -> timer.get() > Calibration.KINEMATIC_TIMEM+Calibration.WAIT);
+            add("Timer Setpoint M3", () -> timer.get() > Calibration.KINEMATIC_TIMEM*2+Calibration.WAIT);
+            add("Timer Setpoint M4", () -> timer.get() > Calibration.KINEMATIC_TIMEM*2+Calibration.WAIT+Calibration.ROTATE_TIME);
+            add("Timer Setpoint M5", () -> timer.get() > Calibration.KINEMATIC_TIMEM*3+Calibration.WAIT+Calibration.ROTATE_TIME);
+            add("Timer Setpoint M6", () -> timer.get() > Calibration.KINEMATIC_TIMEM*3+Calibration.WAIT+Calibration.ROTATE_TIME*2);
+            add("Timer Setpoint M7", () -> timer.get() > Calibration.KINEMATIC_TIMEM*3+Calibration.WAIT+Calibration.ROTATE_TIME*2+Calibration.KINEMATIC_TIMELR);
+           
+            add("Timer Setpoint LR1", () -> timer.get() > Calibration.KINEMATIC_TIMELR);
+            add("Timer Setpoint LR2", () -> timer.get() > Calibration.KINEMATIC_TIMELR+Calibration.ROTATE_TIME);
+            add("Timer Setpoint Rotate", () -> timer.get() > Calibration.ROTATE_TIME);
+
         }});
 
         this.set(new ElasticController() {{
@@ -156,11 +170,9 @@ public class Drive extends Module {
             });
             
             add("Kinematic Drive", new Action(new FieldMap () {{
-                define("Time", 0D);
                 define("Power", 0D);
             }}) {
             	public void begin(ActionData data) {
-            		timer.reset();
             		timer.start();
             	}
                 public void run (ActionData data) {
@@ -174,16 +186,13 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     drive.stopMotor();
                     timer.stop();
-                    timer.reset();
                 }
             });
             
             add("Kinematic Rotate", new Action(new FieldMap () {{
-                define("Time", 0D);
                 define("Power", 0D);
             }}) {
             	public void begin(ActionData data) {
-            		timer.reset();
             		timer.start();
             	}
                 public void run (ActionData data) {
@@ -197,7 +206,6 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     drive.stopMotor();
                     timer.stop();
-                    timer.reset();
                 }
             });
             

@@ -38,10 +38,12 @@ public final class Calibration {
     public static final double BKWD_CLICKS=-865;//sqrt(-1)
     public static final double ROT_CLICKS=500;//sqrt(-1)
     
-    public static final double KINEMATIC_TIME = 0.9;
-    public static final double KINEMATIC_POWER = 0.5;
-    public static final double  KINEMATIC_TIME2 = 3.5;
-    public static final double KINEMATIC_POWER2 = 0.8;
-    public static final double ROTATE_TIME = 0.7;
+    public static final double KINEMATIC_TIMEM = 0.9;
+    public static final double KINEMATIC_TIMELR = 2.2;
+    public static final double WAIT = 2.5;
+    public static final double ROTATE_TIME = 0.28;
     public static final double ROTATE_POWER = 0.5;
+    
+    public static final double KINEMATIC_POWER = 0.5;
+    public static final double KINEMATIC_POWER2 = 1.0;
 }
