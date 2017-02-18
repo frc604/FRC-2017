@@ -46,6 +46,7 @@ public class AutonomousMode extends Coordinator {
                     }
                 }));
                 */
+            	/*
             	group(new Group(modules.getModule("Dashboard").getTrigger("Servo"), new Coordinator() {
                     protected void apply (ModuleManager modules) {
                         step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
@@ -89,6 +90,7 @@ public class AutonomousMode extends Coordinator {
                         }));
                     }
                 }));
+                */
                 // WORKS
                 group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Oscil"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
@@ -96,17 +98,6 @@ public class AutonomousMode extends Coordinator {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Oscil")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Oscil"), "inches", Calibration.ULTRA_TARGET));
-                    		}
-                    	}));
-                	}
-                }));
-                // DOESNT WORK (seems to be a general issue with calling tank drive in auton)
-                group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Crude"), new Coordinator() {
-                	protected void apply(ModuleManager modules) {
-                		step("Moth PID", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Crude")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Crude"), "inches", Calibration.ULTRA_TARGET));
                     		}
                     	}));
                 	}
@@ -130,6 +121,28 @@ public class AutonomousMode extends Coordinator {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIME));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));
+                    		}
+                    	}));
+                	}
+                }));
+                group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe 2"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Fail Safe 2", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIME2));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER2));
+                    		}
+                    	}));
+                	}
+                }));
+                group(new Group(modules.getModule("Dashboard").getTrigger("Kinematic Rotate"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Fail Safe", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), "Time", Calibration.ROTATE_TIME));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), "Power", Calibration.ROTATE_POWER));
                     		}
                     	}));
                 	}

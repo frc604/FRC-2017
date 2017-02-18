@@ -178,6 +178,29 @@ public class Drive extends Module {
                 }
             });
             
+            add("Kinematic Rotate", new Action(new FieldMap () {{
+                define("Time", 0D);
+                define("Power", 0D);
+            }}) {
+            	public void begin(ActionData data) {
+            		timer.reset();
+            		timer.start();
+            	}
+                public void run (ActionData data) {
+                	double time = timer.get();
+                	if( time < data.get("Time") )
+                	{
+                		drive.tankDrive(data.get("Power"), -data.get("Power"), false);
+                	}
+                }
+
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                    timer.stop();
+                    timer.reset();
+                }
+            });
+            
             add("Arcade Drive", new Action(new FieldMap () {{
                 define("Move Power", 0D);
                 define("Rotate Power", 0D);
@@ -332,13 +355,13 @@ public class Drive extends Module {
 	                	double power = 0;
 	                	if (distance > 48) {
 	                	    power = 0.5;
-	                	} else if (distance > 24) {
-	                		power = 0.4;
 	                	} else if (distance > 12) {
-	                		power = 0.3;
+	                		power = 0.4;
 	                	} else if (distance > 6) {
-	                		power = 0.25;
+	                		power = 0.3;
 	                	} else if (distance > 3) {
+	                		power = 0.25;
+	                	} else if (distance > 1) {
 	                		power = 0.2;
 	                	}
 	                	
@@ -422,13 +445,13 @@ public class Drive extends Module {
 	                		double power = 0;
 	                		if (distance > 24) {
 	                			power = 0.5;
-	                		} else if (distance > 24) {
-	                			power = 0.4;
 	                		} else if (distance > 12) {
-	                			power = 0.3;
+	                			power = 0.4;
 	                		} else if (distance > 6) {
-	                			power = 0.25;
+	                			power = 0.3;
 	                		} else if (distance > 3) {
+	                			power = 0.25;
+	                		} else if (distance > 1) {
 	                			power = 0.2;
 	                		}
 	                	
