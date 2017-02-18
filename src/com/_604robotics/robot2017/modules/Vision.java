@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj.CameraServer;
 public class Vision extends Module {
     public Vision () {
     	// Stream capture to dashboard.
-        CameraServer.getInstance().startAutomaticCapture();
+        CameraServer.getInstance().startAutomaticCapture("cam0",0);
     }
 }
