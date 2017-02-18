@@ -45,4 +45,11 @@ public class ControllerAxis implements DataAccess {
     public void setFactor (double factor) {
         this.factor = factor;
     }
+    
+    /**
+     * Inverts the multiplication factor of the axis.
+     */
+    public void flipFactor () {
+        this.factor = -this.factor;
+    }
 }
