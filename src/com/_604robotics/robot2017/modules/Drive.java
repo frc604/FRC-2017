@@ -227,8 +227,6 @@ public class Drive extends Module {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
-                    pidOutput.left.pidWrite(0);
-                    pidOutput.right.pidWrite(0);
                     pidLeft.setSetpoint(data.get("ClickLeft"));
                     pidLeft.enable();
                     pidRight.setSetpoint(data.get("ClickRight"));
@@ -341,6 +339,28 @@ public class Drive extends Module {
                 	drive.stopMotor();
                 }
             });
+            add("Ultra Crude", new Action(new FieldMap() {{
+                define("inches", 0D);
+            }}) {
+                public void run (ActionData data){
+                    if(ultra.inRange()) {
+	                	double distance = ultra.getDistance();
+	                	if( distance > data.get("inches") )
+	                	{
+	                		drive.tankDrive(0.5, 0.5);
+	                	}
+                    }
+                    else
+                    {
+                    	drive.stopMotor();
+                    }
+                }
+                
+                public void end (ActionData data) {
+                	drive.stopMotor();
+                }
+            });
+            
             add("Ultra Align", new Action(new FieldMap() {{
             }}) {
                 public void run (ActionData data){
