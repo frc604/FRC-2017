@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -32,6 +33,13 @@ public class Logger {
 							LOG_FILE.close();
 							LOG_FILE = null;
 						}
+					}
+				});
+				
+				Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+					@Override
+					public void uncaughtException (Thread thread, Throwable t) {
+						error("Uncaught exception in thread \"" + thread.getName() + "\".", t);
 					}
 				});
 				
@@ -72,11 +80,11 @@ public class Logger {
 	/**
 	 * Logs an error.
 	 * @param message Message to log.
-	 * @param e Exception to log.
+	 * @param t Throwable to log.
 	 */
-	public static void error (String message, Exception e) {
-		record(System.err, "[ERROR] " + message + ": (" + e.getClass().getName() + ") " + e.getMessage());
-		trace(e);
+	public static void error (String message, Throwable t) {
+		record(System.err, "[ERROR] " + message + ": (" + t.getClass().getName() + ") " + t.getMessage());
+		trace(t);
 	}
 
 	private static void record (PrintStream std, String message) {
@@ -88,10 +96,10 @@ public class Logger {
 		}
 	}
 
-	private static void trace (Exception e) {
-		e.printStackTrace();
+	private static void trace (Throwable t) {
+		t.printStackTrace();
 		if (LOG_FILE != null) {
-			LOG_FILE.println(e.toString());
+			LOG_FILE.println(t.toString());
 		}
 	}
 }
