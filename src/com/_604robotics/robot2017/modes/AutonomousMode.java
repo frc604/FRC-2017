@@ -29,7 +29,8 @@ public class AutonomousMode extends Coordinator {
         group(new Group(modules.getModule("Dashboard").getTrigger("Auton On"), new Coordinator() {
             protected void apply (ModuleManager modules) { 
 // >>>>>>>> Auton Obstacles Options <<<<<<<< //
-                group(new Group(modules.getModule("Dashboard").getTrigger("Forward"), new Coordinator() {
+                /*
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Forward"), new Coordinator() {
                     protected void apply (ModuleManager modules) {
                         step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
@@ -40,6 +41,20 @@ public class AutonomousMode extends Coordinator {
                                         "ClickLeft", Calibration.FWD_CLICKS));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "ClickRight", Calibration.FWD_CLICKS));
+                            }
+                        }));
+                    }
+                }));
+                */
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Servo"), new Coordinator() {
+                    protected void apply (ModuleManager modules) {
+                        step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.FWD_CLICKS));
                             }
                         }));
                     }

@@ -10,6 +10,7 @@ import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
 import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
+import com._604robotics.robotnik.prefabs.devices.ArcadeDrivePIDOutput;
 import com._604robotics.robotnik.prefabs.devices.TankDrivePIDOutput;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
@@ -50,6 +51,7 @@ public class Drive extends Module {
             Ports.DRIVE_ENCODER_RIGHT_B,
             false, CounterBase.EncodingType.k4X);
 
+    /*
     private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
     private final PIDController pidLeft = new PIDController(
             Calibration.DRIVE_LEFT_PID_P,
@@ -63,6 +65,14 @@ public class Drive extends Module {
             Calibration.DRIVE_RIGHT_PID_D,
             encoderRight,
             pidOutput.right);
+    */
+    private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
+    private final PIDController pidMove = new PIDController(
+    		Calibration.DRIVE_LEFT_PID_P,
+    		Calibration.DRIVE_LEFT_PID_I,
+    		Calibration.DRIVE_LEFT_PID_D,
+    		encoderLeft,
+    		pidOutput.move);
     
     //private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
@@ -85,14 +95,19 @@ public class Drive extends Module {
     public Drive () {
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
+        /*
         pidLeft.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
         pidRight.setOutputRange(-Calibration.DRIVE_RIGHT_PID_MAX, Calibration.DRIVE_RIGHT_PID_MAX);
         pidLeft.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
         pidRight.setAbsoluteTolerance(Calibration.DRIVE_RIGHT_PID_TOLERANCE);
+		*/
+        pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
+        pidMove.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
 
+        /*
         SmartDashboard.putData("Drive Move PID", pidLeft);
         SmartDashboard.putData("Drive Rotate PID", pidRight);
-
+         */
         this.set(new DataMap() {{
             add("Left Drive Clicks", encoderLeft::get);
             add("Right Drive Clicks", encoderRight::get);
@@ -100,8 +115,8 @@ public class Drive extends Module {
             add("Left Drive Rate", encoderLeft::getRate);
             add("Right Drive Rate", encoderRight::getRate);
 
-            add("Move PID Error", pidLeft::getAvgError);
-            add("Rotate PID Error", pidRight::getAvgError);
+            //add("Move PID Error", pidLeft::getAvgError);
+            //add("Rotate PID Error", pidRight::getAvgError);
 
             add("Ultra Inches", ultra::getDistance);
             add("Ultra Angle", ultra::getAngle);
@@ -114,7 +129,8 @@ public class Drive extends Module {
         }});
 
         this.set(new TriggerMap() {{
-            add("At Move Servo Target", () -> pidLeft.isEnabled() && pidLeft.onTarget());
+            //add("At Move Servo Target", () -> pidLeft.isEnabled() && pidLeft.onTarget());
+            add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET);
         }});
 
@@ -196,13 +212,12 @@ public class Drive extends Module {
                 }
             });
             
-            /* add("Servo Move", new Action(new FieldMap() {{
+            add("Servo Move", new Action(new FieldMap() {{
                 define("Clicks", 0D);
             }}) {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
-                    pidOutput.rotate.pidWrite(0);
                     pidMove.setSetpoint(data.get("Clicks"));
                     pidMove.enable();
                 }
@@ -222,8 +237,8 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     pidMove.reset();
                 }
-            }); */
-            
+            });
+            /*
             add("Servo Move", new Action(new FieldMap() {{
                 define("ClickLeft", 0D);
                 define("ClickRight",0D);
@@ -262,7 +277,7 @@ public class Drive extends Module {
                     pidRight.reset();
                 }
             });
-            
+            */
             add("Ultra Orient", new Action() {
             	public void run (ActionData data) {
             		if( ultra.inRange() )
