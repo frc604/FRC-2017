@@ -20,6 +20,7 @@ public class Dashboard extends Module {
             add("Ultra Straight 2", autonMode.add("Ultra Straight 2"));
             add("Ultra Crude", autonMode.add("Ultra Crude"));
             add("Fail Safe", autonMode.add("Fail Safe"));
+            add("Orient", autonMode.add("Orient"));
             
 			
             final DashboardTriggerChoice autonOn = new DashboardTriggerChoice("Auton Switch");

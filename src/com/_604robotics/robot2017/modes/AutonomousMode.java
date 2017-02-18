@@ -74,6 +74,7 @@ public class AutonomousMode extends Coordinator {
                         }));
                     }
                 }));
+                // WORKS
                 group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Oscil"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Moth PID", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
@@ -84,6 +85,7 @@ public class AutonomousMode extends Coordinator {
                     	}));
                 	}
                 }));
+                // DOESNT WORK (seems to be a general issue with calling tank drive in auton)
                 group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Crude"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Moth PID", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
@@ -94,6 +96,7 @@ public class AutonomousMode extends Coordinator {
                     	}));
                 	}
                 }));
+                // WORKS (only turns right)
                 group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Straight 2"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Forward", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
@@ -104,6 +107,7 @@ public class AutonomousMode extends Coordinator {
                     	}));
                 	}
                 }));
+                // WORKS wait this calls tank drive though lemme look into that
                 group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Fail Safe", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
@@ -111,6 +115,16 @@ public class AutonomousMode extends Coordinator {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIME));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));
+                    		}
+                    	}));
+                	}
+                }));
+                // UNTESTED
+                group(new Group(modules.getModule("Dashboard").getTrigger("Orient"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Orient", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Orient")));
                     		}
                     	}));
                 	}
