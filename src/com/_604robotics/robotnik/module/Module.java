@@ -39,7 +39,7 @@ public abstract class Module {
     	if (this.dataMap.size() > 0) {
     		Logger.warn("DataMap has already been set and will be overridden!");
     		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-    			throw new OverwriteDataError();
+    			throw new OverwriteDataError("Attempted to set DataMap when it has already been set.");
     		}
     	}
     	
@@ -54,7 +54,7 @@ public abstract class Module {
     	if (this.triggerMap.size() > 0) {
     		Logger.warn("TriggerMap has already been set and will be overridden!");
     		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-    			throw new OverwriteDataError();
+    			throw new OverwriteDataError("Attempted to set TriggerMap when it has already been set.");
     		}
     	}
     	
@@ -69,7 +69,7 @@ public abstract class Module {
     	if (!this.actionController.getClass().isInstance(new DummyController())) {
     		Logger.warn("ActionController has already been set and will be overridden!");
     		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-    			throw new OverwriteDataError();
+    			throw new OverwriteDataError("Attempted to set ActionController when it has already been set.");
     		}
     	}
     	
