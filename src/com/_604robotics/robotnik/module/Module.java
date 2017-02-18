@@ -1,16 +1,11 @@
 package com._604robotics.robotnik.module;
 
-import java.util.Iterator;
-import java.util.Map.Entry;
-
 import com._604robotics.robotnik.Settings;
 import com._604robotics.robotnik.action.ActionController;
 import com._604robotics.robotnik.action.controllers.DummyController;
-import com._604robotics.robotnik.data.Data;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.exceptions.OverwriteDataError;
 import com._604robotics.robotnik.logging.Logger;
-import com._604robotics.robotnik.trigger.Trigger;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 /**
@@ -66,7 +61,7 @@ public abstract class Module {
      * @param actionController The module's action controller.
      */
     protected void set (ActionController actionController) {
-    	if (!this.actionController.getClass().isInstance(new DummyController())) {
+    	if (!(this.actionController instanceof DummyController)) {
     		Logger.warn("ActionController has already been set and will be overridden!");
     		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
     			throw new OverwriteDataError("Attempted to set ActionController when it has already been set.");
