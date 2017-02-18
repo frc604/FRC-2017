@@ -40,8 +40,8 @@ public enum Safety {
         if (enabled()) {
             try {
                 todo.run();
-            } catch (Exception e) {
-                Logger.error("Caught exception " + desc, e);
+            } catch (Throwable t) {
+                Logger.error("Caught throwable " + desc, t);
             }
         } else {
             todo.run();
