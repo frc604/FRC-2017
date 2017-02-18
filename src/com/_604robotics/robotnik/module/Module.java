@@ -1,10 +1,8 @@
 package com._604robotics.robotnik.module;
 
-import com._604robotics.robotnik.Settings;
 import com._604robotics.robotnik.action.ActionController;
 import com._604robotics.robotnik.action.controllers.DummyController;
 import com._604robotics.robotnik.data.DataMap;
-import com._604robotics.robotnik.exceptions.OverwriteDataError;
 import com._604robotics.robotnik.logging.Logger;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
@@ -32,10 +30,7 @@ public abstract class Module {
      */
     protected void set (DataMap dataMap) {
     	if (this.dataMap.size() > 0) {
-    		Logger.warn("DataMap has already been set and will be overridden!");
-    		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-    			throw new OverwriteDataError("Attempted to set DataMap when it has already been set.");
-    		}
+    		Logger.warnTrace("Overwriting existing DataMap.");
     	}
     	
     	this.dataMap = dataMap;
@@ -47,10 +42,7 @@ public abstract class Module {
      */
     protected void set (TriggerMap triggerMap) {
     	if (this.triggerMap.size() > 0) {
-    		Logger.warn("TriggerMap has already been set and will be overridden!");
-    		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-    			throw new OverwriteDataError("Attempted to set TriggerMap when it has already been set.");
-    		}
+    		Logger.warnTrace("Overwriting existing TriggerMap.");
     	}
     	
         this.triggerMap = triggerMap;
@@ -62,10 +54,7 @@ public abstract class Module {
      */
     protected void set (ActionController actionController) {
     	if (!(this.actionController instanceof DummyController)) {
-    		Logger.warn("ActionController has already been set and will be overridden!");
-    		if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-    			throw new OverwriteDataError("Attempted to set ActionController when it has already been set.");
-    		}
+    		Logger.warnTrace("Overwriting existing ActionController.");
     	}
     	
         this.actionController = actionController;

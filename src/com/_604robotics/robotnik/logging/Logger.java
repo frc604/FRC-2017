@@ -53,12 +53,12 @@ public class Logger {
 	}
 	
 	/**
-	 * Logs a missing component.
+	 * Warns about a missing component and logs the current stack trace.
 	 * @param type Type of the component.
 	 * @param name Name of the component.
 	 */
 	public static void missing (String type, String name) {
-		warn("Missing " + type + " - " + name);
+		warnTrace("Missing " + type + " - " + name);
 	}
 
 	/**
@@ -75,6 +75,20 @@ public class Logger {
 	 */
 	public static void warn (String message) {
 		record(System.err, "[WARN] " + message);
+	}
+
+	/**
+	 * Logs a warning and the current stack trace.
+	 * @param message Message to log.
+	 */
+	public static void warnTrace (String message) {
+		warn(message);
+		
+		StackTraceElement stack[] = Thread.currentThread().getStackTrace();
+		for (int i = 1; i < stack.length; i++) {
+		    System.err.println("\tat " + stack[i]);
+		    LOG_FILE.println("\tat " + stack[i]);
+		}
 	}
 
 	/**
@@ -99,7 +113,7 @@ public class Logger {
 	private static void trace (Throwable t) {
 		t.printStackTrace();
 		if (LOG_FILE != null) {
-			LOG_FILE.println(t.toString());
+			LOG_FILE.println(t);
 		}
 	}
 }

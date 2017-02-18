@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com._604robotics.robotnik.Safety;
-import com._604robotics.robotnik.Settings;
-import com._604robotics.robotnik.exceptions.NonExistentTriggerError;
 import com._604robotics.robotnik.logging.Logger;
 import com._604robotics.robotnik.memory.IndexedTable;
 
@@ -36,9 +34,7 @@ public class TriggerManager {
         final TriggerReference ref = this.triggerTable.get(name);
         if (ref == null) {
         	Logger.missing("TriggerReference", name);
-        	if (Settings.DEBUG_THROW >= Settings.SET_DEBUG) {
-        		throw new NonExistentTriggerError("Attempted to access nonexistent trigger " + name);
-        	}
+        	throw new IllegalArgumentException("Trigger \"" + name + "\" does not exist.");
         }
         
         return ref;

@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com._604robotics.robotnik.exceptions.NonExistentModuleError;
-import com._604robotics.robotnik.logging.Logger;
-
 /**
  * A map containing modules.
  */
@@ -20,22 +17,6 @@ public class ModuleMap implements Iterable<Map.Entry<String, Module>> {
      */
     protected void add (String name, Module module) {
         this.moduleTable.put(name, module);
-    }
-
-    /**
-     * Gets a module.
-     * @param name Name of the module.
-     * @return The retrieved module.
-     * @throws NonExistentModuleError
-     */
-    protected Module getModule (String name) {
-        Module returnModule = this.moduleTable.get(name);
-        if (returnModule == null) {
-        	Logger.missing("Module", name);
-        	throw new NonExistentModuleError("Attempted to access nonexistent module " + name);
-        }
-        
-        return returnModule;
     }
 
     @Override

@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com._604robotics.robotnik.Safety;
-import com._604robotics.robotnik.exceptions.NonExistentActionError;
 import com._604robotics.robotnik.logging.Logger;
 import com._604robotics.robotnik.memory.IndexedTable;
 import com._604robotics.robotnik.module.ModuleReference;
@@ -49,7 +48,7 @@ public class ActionManager {
         ActionReference ref = this.actionTable.get(name);
         if (ref == null) {
         	Logger.missing("ActionReference", name);
-        	throw new NonExistentActionError("Attempted to access nonexistent trigger" + name);
+        	throw new IllegalArgumentException("Trigger \"" + name + "\" does not exist.");
         }
         
         return ref;
