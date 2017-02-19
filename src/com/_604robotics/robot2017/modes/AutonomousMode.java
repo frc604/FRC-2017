@@ -121,81 +121,133 @@ public class AutonomousMode extends Coordinator {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIMEM));
                     		}
                     	}));
                 	}
                 }));
                 group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe 2"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
-                		step("Fail Safe 2", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint LR1")), new Coordinator() {
+                		step("Fail Safe 2", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER2));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIMELR));
                     		}
                     	}));
                 	}
                 }));
+                /*
                 group(new Group(modules.getModule("Dashboard").getTrigger("Kinematic Rotate"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Turn", new Step(new TriggerMeasure(new TriggerNot(modules.getModule("Drive").getTrigger("Timer Setpoint Rotate"))), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), "Power", Calibration.ROTATE_POWER));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), "Time", Calibration.ROTATE_TIME));
                     		}
                     	}));
                 	}
                 }));
-                group(new Group(modules.getModule("Dashboard").getTrigger("Mid"), new Coordinator() {
+                */
+                group(new Group(modules.getModule("Dashboard").getTrigger("Mid Step"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
-                		step("Rough Forward", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint M1")), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));
-                    		}
-                    	}));
-                		step("Ultra Forward", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Past Ultra Target")), new Coordinator() {
+                		
+                		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.FWD_CLICKS));
+                            }
+                        }));
+                        
+                		/*
+                		step("Ultra S2", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Past Ultra Target")), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2")));
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
                     		}
                     	}));
-                		step("Wait", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint M2")), new Coordinator() {
+                		step("Wait", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint")), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
                     			this.bind(new Binding(modules.getModule("Drive").getAction("Off")));
                     		}
                     	}));
-                		step("Rough Backward", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint M3")), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", -Calibration.KINEMATIC_POWER));
-                    		}
-                    	}));
-                		step("Turn Right", new Step(new TriggerMeasure(new TriggerNot(modules.getModule("Drive").getTrigger("Timer Setpoint M4"))), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), "Power", Calibration.ROTATE_POWER));
-                    		}
-                    	}));
-                		step("Rough Forward", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint M5")), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));
-                    		}
-                    	}));
-                		step("Turn Left", new Step(new TriggerMeasure(new TriggerNot(modules.getModule("Drive").getTrigger("Timer Setpoint M6"))), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), "Power", Calibration.ROTATE_POWER));
-                    		}
-                    	}));
-                		step("Long Forward", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Timer Setpoint M7")), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER2));
-                    		}
-                    	}));
+                		step("Backward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.BKWD_CLICKS));
+                            }
+                        }));
+                        */
+                		/*
+                		step("Turn Right", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Tank Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Tank")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
+                                        "ClicksLeft", Calibration.ROT_CLICKS));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
+                                        "ClicksRight", -Calibration.ROT_CLICKS));
+                            }
+                        }));
+                		*/
+                		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.FWD_CLICKS));
+                            }
+                        }));
+                		/*
+                		step("Turn Left", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Tank Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Tank")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
+                                        "ClicksLeft", -Calibration.ROT_CLICKS));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
+                                        "ClicksRight", Calibration.ROT_CLICKS));
+                            }
+                        }));
+                		*/
+                		step("Long Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.FWD_CLICKS * 2));
+                            }
+                        }));
+                        
+                		
                 	}
                 }));
+                
+                group(new Group(modules.getModule("Dashboard").getTrigger("Mid Chain"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		/*
+                		 * Drive forward
+                		 * Ultra to target
+                		 * Drive backward
+                		 * Turn Right
+                		 * Drive forward
+                		 * Turn Left
+                		 * Drive forward a lot
+                		 */
+                	}
+                }));
+                
                 // BROKEN
                 /*
                 group(new Group(modules.getModule("Dashboard").getTrigger("Orient"), new Coordinator() {

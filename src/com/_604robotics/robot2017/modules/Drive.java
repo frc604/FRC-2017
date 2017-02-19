@@ -50,22 +50,7 @@ public class Drive extends Module {
             Ports.DRIVE_ENCODER_RIGHT_A,
             Ports.DRIVE_ENCODER_RIGHT_B,
             true, CounterBase.EncodingType.k4X);
-
-    /*
-    private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
-    private final PIDController pidLeft = new PIDController(
-            Calibration.DRIVE_LEFT_PID_P,
-            Calibration.DRIVE_LEFT_PID_I,
-            Calibration.DRIVE_LEFT_PID_D,
-            encoderLeft,
-            pidOutput.left);
-    private final PIDController pidRight = new PIDController(
-            Calibration.DRIVE_RIGHT_PID_P,
-            Calibration.DRIVE_RIGHT_PID_I,
-            Calibration.DRIVE_RIGHT_PID_D,
-            encoderRight,
-            pidOutput.right);
-    */
+    
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
     private final PIDController pidMove = new PIDController(
     		Calibration.DRIVE_LEFT_PID_P,
@@ -95,12 +80,14 @@ public class Drive extends Module {
     public Drive () {
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
+        
         /*
         pidLeft.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
         pidRight.setOutputRange(-Calibration.DRIVE_RIGHT_PID_MAX, Calibration.DRIVE_RIGHT_PID_MAX);
         pidLeft.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
         pidRight.setAbsoluteTolerance(Calibration.DRIVE_RIGHT_PID_TOLERANCE);
 		*/
+		
         pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
         pidMove.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
 
@@ -131,26 +118,16 @@ public class Drive extends Module {
         }});
 
         this.set(new TriggerMap() {{
-            //add("At Move Servo Target", () -> pidLeft.isEnabled() && pidLeft.onTarget());
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
-            add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET);
-            add("Timer Setpoint M1", () -> timer.get() > Calibration.KINEMATIC_TIMEM);
-            add("Timer Setpoint M2", () -> timer.get() > Calibration.KINEMATIC_TIMEM+Calibration.WAIT);
-            add("Timer Setpoint M3", () -> timer.get() > Calibration.KINEMATIC_TIMEM*2+Calibration.WAIT);
-            add("Timer Setpoint M4", () -> timer.get() > Calibration.KINEMATIC_TIMEM*2+Calibration.WAIT+Calibration.ROTATE_TIME);
-            add("Timer Setpoint M5", () -> timer.get() > Calibration.KINEMATIC_TIMEM*3+Calibration.WAIT+Calibration.ROTATE_TIME);
-            add("Timer Setpoint M6", () -> timer.get() > Calibration.KINEMATIC_TIMEM*3+Calibration.WAIT+Calibration.ROTATE_TIME*2);
-            add("Timer Setpoint M7", () -> timer.get() > Calibration.KINEMATIC_TIMEM*3+Calibration.WAIT+Calibration.ROTATE_TIME*2+Calibration.KINEMATIC_TIMELR);
-           
-            add("Timer Setpoint LR1", () -> timer.get() > Calibration.KINEMATIC_TIMELR);
-            add("Timer Setpoint LR2", () -> timer.get() > Calibration.KINEMATIC_TIMELR+Calibration.ROTATE_TIME);
-            add("Timer Setpoint Rotate", () -> timer.get() > Calibration.ROTATE_TIME);
-
+            add("Past Ultra Target", () -> (ultra.getDistance() < Calibration.ULTRA_TARGET) && (ultra.getAngle() < 3));
+            add("Aligned", () -> ultra.getAngle() < 3);
+            add("Timer Setpoint", () -> timer.get() < Calibration.WAIT);
         }});
 
         this.set(new ElasticController() {{
             addDefault("Off", new Action() {
             	public void begin(ActionData data) {
+            		timer.reset();
             		timer.start();
             	}
                 public void run (ActionData data) {
@@ -158,6 +135,7 @@ public class Drive extends Module {
                 }
                 public void end(ActionData data) {
                 	timer.stop();
+                	timer.reset();
                 }
             });
             
@@ -179,6 +157,7 @@ public class Drive extends Module {
                 define("Power", 0D);
             }}) {
             	public void begin(ActionData data) {
+            		timer.reset();
             		timer.start();
             	}
                 public void run (ActionData data) {
@@ -192,13 +171,16 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     drive.stopMotor();
                     timer.stop();
+                    timer.reset();
                 }
             });
             
             add("Kinematic Rotate", new Action(new FieldMap () {{
                 define("Power", 0D);
+                define("Time", 0D);
             }}) {
             	public void begin(ActionData data) {
+            		timer.reset();
             		timer.start();
             	}
                 public void run (ActionData data) {
@@ -212,6 +194,7 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     drive.stopMotor();
                     timer.stop();
+                    timer.reset();
                 }
             });
             
@@ -276,15 +259,13 @@ public class Drive extends Module {
                 }
             });
             /*
-            add("Servo Move", new Action(new FieldMap() {{
+            add("Servo Tank", new Action(new FieldMap() {{
                 define("ClickLeft", 0D);
                 define("ClickRight",0D);
             }}) {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
-//                    pidOutput.left.pidWrite(0);
-//                    pidOutput.right.pidWrite(0);
                     pidLeft.setSetpoint(data.get("ClickLeft"));
                     pidLeft.enable();
                     pidRight.setSetpoint(data.get("ClickRight"));
@@ -321,16 +302,16 @@ public class Drive extends Module {
             			{
             			double angle = ultra.getAngle(1);
             			double power = 0;
-            			if (angle > 30) {
+            			if (angle > 15) {
             				power = 0.5;
             			}
-            			else if (angle > 15) {
+            			else if (angle > 7) {
             				power = 0.4;
             			}
-            			else if (angle > 7) {
+            			else if (angle > 3.5) {
             				power = 0.3;
             			}
-            			else if (angle > 3.5) {
+            			else if (angle > 1) {
             				power = 0.2;
             			}
             			power *= Math.signum(angle);
@@ -496,29 +477,29 @@ public class Drive extends Module {
 	                	double rightDistance = Math.abs(rightDisplacement);
 	                	
 	                	double leftPower = 0;
-	                	if (leftDistance > 24) {
+	                	if (leftDistance > 12) {
 	                		leftPower = 0.5;
-	               		} else if (leftDistance > 12) {
-	               			leftPower = 0.4;
 	               		} else if (leftDistance > 6) {
-	               			leftPower = 0.3;
+	               			leftPower = 0.4;
 	               		} else if (leftDistance > 3) {
-	               			leftPower = 0.25;
+	               			leftPower = 0.3;
 	               		} else if (leftDistance > 1) {
+	               			leftPower = 0.25;
+	               		} else if (leftDistance > 0.5) {
 	               			leftPower = 0.2;
 	               		}
 	                	leftPower *= Math.signum(leftDistance);
 	                	
 	                	double rightPower = 0;
-	                	if (rightDistance > 24) {
+	                	if (rightDistance > 12) {
 	                		rightPower = 0.5;
-	               		} else if (rightDistance > 12) {
-	               			rightPower = 0.4;
 	               		} else if (rightDistance > 6) {
-	               			rightPower = 0.3;
+	               			rightPower = 0.4;
 	               		} else if (rightDistance > 3) {
-	               			rightPower = 0.25;
+	               			rightPower = 0.3;
 	               		} else if (rightDistance > 1) {
+	               			rightPower = 0.25;
+	               		} else if (rightDistance > 0.5) {
 	               			rightPower = 0.2;
 	               		}
 	                	rightPower *= Math.signum(rightDistance);
