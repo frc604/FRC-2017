@@ -15,10 +15,10 @@ public class Ports {
     public static final int BUMP_SENSOR = 4;
     
     /* Analog */
-    public static final int ULTRASONIC_LEFT = 0;
-    public static final int ULTRASONIC_RIGHT = 1;
+    public static final int ULTRASONIC_LEFT = 1;
+    public static final int ULTRASONIC_RIGHT = 2;
     
-    public static final int HORIZGYRO = 2;
+    public static final int HORIZGYRO = 0;
     
     /* Motors */
     public static final int DRIVE_FRONT_LEFT_MOTOR = 2;

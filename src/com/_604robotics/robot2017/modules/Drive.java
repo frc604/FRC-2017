@@ -50,7 +50,25 @@ public class Drive extends Module {
             Ports.DRIVE_ENCODER_RIGHT_A,
             Ports.DRIVE_ENCODER_RIGHT_B,
             true, CounterBase.EncodingType.k4X);
+
+    /*
+    private final TankDrivePIDOutput pidOutput = new TankDrivePIDOutput(drive);
+    private final PIDController pidLeft = new PIDController(
+            Calibration.DRIVE_LEFT_PID_P,
+            Calibration.DRIVE_LEFT_PID_I,
+            Calibration.DRIVE_LEFT_PID_D,
+            encoderLeft,
+            pidOutput.left);
+    private final PIDController pidRight = new PIDController(
+            Calibration.DRIVE_RIGHT_PID_P,
+            Calibration.DRIVE_RIGHT_PID_I,
+            Calibration.DRIVE_RIGHT_PID_D,
+            encoderRight,
+            pidOutput.right);
+    */
     
+	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
+
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
     private final PIDController pidMove = new PIDController(
     		Calibration.DRIVE_LEFT_PID_P,
@@ -58,6 +76,12 @@ public class Drive extends Module {
     		Calibration.DRIVE_LEFT_PID_D,
     		encoderLeft,
     		pidOutput.move);
+    private final PIDController pidRotate = new PIDController(
+            Calibration.DRIVE_ROTATE_PID_P,
+            Calibration.DRIVE_ROTATE_PID_I,
+            Calibration.DRIVE_ROTATE_PID_D,
+            horizGyro,
+            pidOutput.rotate);
     
     //private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
@@ -78,6 +102,8 @@ public class Drive extends Module {
     */
 
     public Drive () {
+        horizGyro.calibrate();	
+
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
         
@@ -114,7 +140,7 @@ public class Drive extends Module {
             
             add("Timer Seconds", timer::get);
             
-            //add("Horizonal Gyro Angle", horizGyro::getAngle);
+            add("Horizonal Gyro Angle", horizGyro::getAngle);
         }});
 
         this.set(new TriggerMap() {{
@@ -122,6 +148,7 @@ public class Drive extends Module {
             add("Past Ultra Target", () -> (ultra.getDistance() < Calibration.ULTRA_TARGET) && (ultra.getAngle() < 3));
             add("Aligned", () -> ultra.getAngle() < 3);
             add("Timer Setpoint", () -> timer.get() < Calibration.WAIT);
+            add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
         }});
 
         this.set(new ElasticController() {{
@@ -241,7 +268,6 @@ public class Drive extends Module {
                     pidMove.setSetpoint(data.get("Clicks"));
                     pidMove.enable();
                 }
-
                 public void run (ActionData data){
                     if (pidMove.getSetpoint() != data.get("Clicks")) {
                         pidMove.reset();
@@ -251,93 +277,33 @@ public class Drive extends Module {
                         pidMove.setSetpoint(data.get("Clicks"));
                         pidMove.enable();
                     }
-
                 }
-
                 public void end (ActionData data) {
                     pidMove.reset();
                 }
             });
-            /*
-            add("Servo Tank", new Action(new FieldMap() {{
-                define("ClickLeft", 0D);
-                define("ClickRight",0D);
+            add("Servo Rotate", new Action(new FieldMap() {{
+                define("Angle", 0D);
             }}) {
                 public void begin (ActionData data) {
-                    encoderLeft.reset();
-                    encoderRight.reset();
-                    pidLeft.setSetpoint(data.get("ClickLeft"));
-                    pidLeft.enable();
-                    pidRight.setSetpoint(data.get("ClickRight"));
-                    pidRight.enable();
+                    horizGyro.reset();
+                    pidOutput.move.pidWrite(0);
+                    pidRotate.setSetpoint(data.get("Angle"));
+                    pidRotate.enable();
                 }
-
                 public void run (ActionData data){
-                    if (encoderLeft.get() != data.get("ClickLeft")) {
-                        pidLeft.reset();
-                        encoderLeft.reset();
-                        
-                        pidLeft.setSetpoint(data.get("ClickLeft"));
-                        pidLeft.enable();
-                    }
-                    
-                    if (encoderRight.get() != data.get("ClickRight")) {
-                        pidRight.reset();
-                        encoderRight.reset();
-                        
-                        pidRight.setSetpoint(data.get("ClickRight"));
-                        pidRight.enable();
-                    }
-                }
+                    if (pidRotate.getSetpoint() != data.get("Angle")) {
+                        pidRotate.reset();
+                        horizGyro.reset();
 
+                        pidRotate.setSetpoint(data.get("Angle"));
+                        pidRotate.enable();
+                    }
+                }
                 public void end (ActionData data) {
-                    pidLeft.reset();
-                    pidRight.reset();
+                    pidRotate.reset();
                 }
             });
-            */
-            add("Ultra Orient", new Action() {
-            	public void run (ActionData data) {
-            		if( ultra.inRange() )
-            			{
-            			double angle = ultra.getAngle(1);
-            			double power = 0;
-            			if (angle > 15) {
-            				power = 0.5;
-            			}
-            			else if (angle > 7) {
-            				power = 0.4;
-            			}
-            			else if (angle > 3.5) {
-            				power = 0.3;
-            			}
-            			else if (angle > 1) {
-            				power = 0.2;
-            			}
-            			power *= Math.signum(angle);
-            			if(power != 0) {
-	                	    drive.tankDrive(power, -power, false);
-	                	} else {
-	                	    drive.stopMotor();
-	                	}
-            		}
-            	}
-            	public void end (ActionData data) {
-            		drive.stopMotor();
-            	}
-            });
-            
-            /* add("Ultra Match", new Action() {
-            	public void run (ActionData data){
-            		if (ultra.getAngle(1) > horizGyro.getAngle() + 7) {
-            			drive.tankDrive(-0.15, 0.15);
-            		}
-            		
-            		if (ultra.getAngle(1) < horizGyro.getAngle() - 7) {
-            			drive.tankDrive(0.15, -0.15);
-            		}
-            	}
-            }); */
             
             add("Ultra Oscil", new Action(new FieldMap() {{
                 define("inches", 0D);
@@ -378,27 +344,6 @@ public class Drive extends Module {
                 	drive.stopMotor();
                 }
             });
-            add("Ultra Crude", new Action(new FieldMap() {{
-                define("inches", 0D);
-            }}) {
-                public void run (ActionData data){
-                    if(ultra.inRange()) {
-	                	double distance = ultra.getDistance();
-	                	if( distance > data.get("inches") )
-	                	{
-	                		drive.tankDrive(0.5, 0.5, false);
-	                	}
-                    }
-                    else
-                    {
-                    	drive.stopMotor();
-                    }
-                }
-                
-                public void end (ActionData data) {
-                	drive.stopMotor();
-                }
-            });
             
             add("Ultra Align", new Action(new FieldMap() {{
             }}) {
@@ -414,49 +359,6 @@ public class Drive extends Module {
 	                	}
 	                	else {
 	                		drive.stopMotor();
-	                	}
-                    }
-                }
-                public void end (ActionData data) {
-                	drive.stopMotor();
-                }
-            });
-            add("Ultra Straight", new Action(new FieldMap() {{
-                define("inches", 0D);
-            }}) {
-                public void run (ActionData data){
-                    if(ultra.inRange()) {
-	                	double displacement = ultra.getDistance(1) - data.get("inches");
-	                	double distance = Math.abs(displacement);
-	                	double difference = ultra.getDifference(1);
-	                	
-	                	if( difference > 3 ) {
-	                		drive.tankDrive(-0.4, 0.4, false);
-	                	}
-	                	else if( difference < -3 ) {
-	                		drive.tankDrive(0.4, -0.4, false);
-	                	}
-	                	else {
-	                		double power = 0;
-	                		if (distance > 24) {
-	                			power = 0.5;
-	                		} else if (distance > 12) {
-	                			power = 0.4;
-	                		} else if (distance > 6) {
-	                			power = 0.3;
-	                		} else if (distance > 3) {
-	                			power = 0.25;
-	                		} else if (distance > 1) {
-	                			power = 0.2;
-	                		}
-	                	
-	                		power *= Math.signum(displacement);
-	                	
-	                		if(power != 0) {
-	                			drive.tankDrive(power, power, false);
-	                		} else {
-	                			drive.stopMotor();
-	                		}
 	                	}
                     }
                 }
