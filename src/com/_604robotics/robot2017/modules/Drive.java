@@ -140,7 +140,7 @@ public class Drive extends Module {
             
             add("Timer Seconds", timer::get);
             
-            add("Horizonal Gyro Angle", horizGyro::getAngle);
+            add("Horizontal Gyro Angle", horizGyro::getAngle);
         }});
 
         this.set(new TriggerMap() {{
