@@ -103,7 +103,7 @@ public class AutonomousMode extends Coordinator {
                     	}));
                 	}
                 }));
-                // WORKS (only turns right)
+                // WORKS
                 group(new Group(modules.getModule("Dashboard").getTrigger("Ultra Straight 2"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Forward", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
@@ -114,7 +114,7 @@ public class AutonomousMode extends Coordinator {
                     	}));
                 	}
                 }));
-                // WORKS wait this calls tank drive though lemme look into that
+                // WORKS
                 group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Fail Safe", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
@@ -185,19 +185,17 @@ public class AutonomousMode extends Coordinator {
                             }
                         }));
                         */
-                		/*
+                		
                 		step("Turn Right", new Step(new TriggerMeasure(new TriggerAnd(
-                                modules.getModule("Drive").getTrigger("At Move Tank Target")
+                                modules.getModule("Drive").getTrigger("At Rotate Servo Target")
                         )), new Coordinator() {
                             protected void apply (ModuleManager modules) {
-                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Tank")));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
-                                        "ClicksLeft", Calibration.ROT_CLICKS));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
-                                        "ClicksRight", -Calibration.ROT_CLICKS));
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Rotate")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Rotate"), 
+                                        "Angle", 90));
                             }
                         }));
-                		*/
+                		
                 		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
                         )), new Coordinator() {
@@ -207,19 +205,15 @@ public class AutonomousMode extends Coordinator {
                                         "Clicks", Calibration.FWD_CLICKS));
                             }
                         }));
-                		/*
                 		step("Turn Left", new Step(new TriggerMeasure(new TriggerAnd(
-                                modules.getModule("Drive").getTrigger("At Move Tank Target")
+                                modules.getModule("Drive").getTrigger("At Rotate Servo Target")
                         )), new Coordinator() {
                             protected void apply (ModuleManager modules) {
-                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Tank")));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
-                                        "ClicksLeft", -Calibration.ROT_CLICKS));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Tank"), 
-                                        "ClicksRight", Calibration.ROT_CLICKS));
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Rotate")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Rotate"), 
+                                        "Angle", -90));
                             }
                         }));
-                		*/
                 		step("Long Forward", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
                         )), new Coordinator() {
