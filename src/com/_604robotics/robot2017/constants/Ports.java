@@ -5,7 +5,6 @@ public class Ports {
 
     /* Controllers */
     public static final int CONTROLLER_DRIVER = 0;
-    public static final int CONTROLLER_MANIPULATOR = 1;
     
     /* Digital */
     public static final int COMPRESSOR = 0;

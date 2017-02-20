@@ -6,26 +6,20 @@ import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
 import com._604robotics.robotnik.action.field.FieldMap;
-import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
-import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 import com._604robotics.robotnik.prefabs.devices.ArcadeDrivePIDOutput;
-import com._604robotics.robotnik.prefabs.devices.TankDrivePIDOutput;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
-import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Module {
     // 19.7 clicks per inch
@@ -41,10 +35,7 @@ public class Drive extends Module {
             Ports.DRIVE_REAR_LEFT_MOTOR,
             Ports.DRIVE_FRONT_RIGHT_MOTOR,
             Ports.DRIVE_REAR_RIGHT_MOTOR);
-	
-	//private final RobotDrive drive = new RobotDrive(1, 3, 6, 8);
-	//private final RobotDrive extraAf = new RobotDrive(2, 4, 5, 7);			
-	
+
     private final Encoder encoderLeft = new Encoder(
             Ports.DRIVE_ENCODER_LEFT_A,
             Ports.DRIVE_ENCODER_LEFT_B,
@@ -125,10 +116,6 @@ public class Drive extends Module {
         pidRotate.setOutputRange(-Calibration.DRIVE_ROTATE_PID_MAX, Calibration.DRIVE_ROTATE_PID_MAX);
         pidRotate.setAbsoluteTolerance(Calibration.DRIVE_ROTATE_PID_TOLERANCE);
 
-        /*
-        SmartDashboard.putData("Drive Move PID", pidLeft);
-        SmartDashboard.putData("Drive Rotate PID", pidRight);
-         */
         this.set(new DataMap() {{
             add("Left Drive Clicks", encoderLeft::get);
             add("Right Drive Clicks", encoderRight::get);
@@ -136,8 +123,11 @@ public class Drive extends Module {
             add("Left Drive Rate", encoderLeft::getRate);
             add("Right Drive Rate", encoderRight::getRate);
 
-            //add("Move PID Error", pidLeft::getAvgError);
-            //add("Rotate PID Error", pidRight::getAvgError);
+            //add("Left PID Error", pidLeft::getAvgError);
+            //add("Right PID Error", pidRight::getAvgError);
+            
+            add("Move PID Error", pidMove::getAvgError);
+            add("Rotate PID Error", pidRotate::getAvgError);
 
             add("Ultra Inches", ultra::getDistance);
             add("Ultra Angle", ultra::getAngle);
@@ -153,7 +143,7 @@ public class Drive extends Module {
 
         this.set(new TriggerMap() {{
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
-            add("Past Ultra Target", () -> (ultra.getDistance() < Calibration.ULTRA_TARGET) && (ultra.getAngle() < 3));
+            add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
             add("Aligned", () -> ultra.getAngle() < 3);
             add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
@@ -167,14 +157,16 @@ public class Drive extends Module {
 
         this.set(new ElasticController() {{
             addDefault("Off", new Action() {
-            	public void begin(ActionData data) {
+            	public void begin (ActionData data) {
             		timer.reset();
             		timer.start();
             	}
+            	
                 public void run (ActionData data) {
                     drive.tankDrive(0, 0);
                 }
-                public void end(ActionData data) {
+                
+                public void end (ActionData data) {
                 	timer.stop();
                 	timer.reset();
                 }
@@ -185,7 +177,6 @@ public class Drive extends Module {
                 define("Right Power", 0D);
             }}) {
                 public void run (ActionData data) {
-                    // double throttle = data.is("Throttled") ? 0.5 : 1;
                 	drive.tankDrive(data.get("Left Power"), data.get("Right Power"));
                 }
 
@@ -197,20 +188,20 @@ public class Drive extends Module {
             add("Kinematic Drive", new Action(new FieldMap () {{
                 define("Power", 0D);
             }}) {
-            	public void begin(ActionData data) {
+            	public void begin (ActionData data) {
             		timer.reset();
             		timer.start();
             	}
+            	
                 public void run (ActionData data) {
-                	double time = timer.get();
-                	if( time < data.get("Time") )
-                	{
+                	if (timer.get() < data.get("Time")) {
                 		drive.tankDrive(data.get("Power"), data.get("Power"), false);
                 	}
                 }
 
                 public void end (ActionData data) {
                     drive.stopMotor();
+                    
                     timer.stop();
                     timer.reset();
                 }
@@ -220,20 +211,20 @@ public class Drive extends Module {
                 define("Power", 0D);
                 define("Time", 0D);
             }}) {
-            	public void begin(ActionData data) {
+            	public void begin (ActionData data) {
             		timer.reset();
             		timer.start();
             	}
+            	
                 public void run (ActionData data) {
-                	double time = timer.get();
-                	if( time < data.get("Time") )
-                	{
+                	if (timer.get() < data.get("Time")) {
                 		drive.tankDrive(data.get("Power"), -data.get("Power"), false);
                 	}
                 }
 
                 public void end (ActionData data) {
                     drive.stopMotor();
+                    
                     timer.stop();
                     timer.reset();
                 }
@@ -244,11 +235,6 @@ public class Drive extends Module {
                 define("Rotate Power", 0D);
             }}) {
                 public void run (ActionData data) {
-                    // double throttle = data.is("Throttled") ? 0.5 : 1;
-//                	System.out.print("Move");
-//                	System.out.println(data.get("Move Power"));
-//                	System.out.print("Rotate");
-//                	System.out.println(data.get("Rotate Power"));
                 	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
                 }
 
@@ -256,22 +242,7 @@ public class Drive extends Module {
                     drive.stopMotor();
                 }
             });
-            
-            add("Test Drive", new Action(new FieldMap () {{
-                define("Move Power", 0D);
-                define("Rotate Power", 0D);
-            }}) {
-                public void run (ActionData data) {
-                    // double throttle = data.is("Throttled") ? 0.5 : 1;
-                	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
-                	//extraAf.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
-                }
 
-                public void end (ActionData data) {
-                    drive.stopMotor();
-                    //extraAf.stopMotor();
-                }
-            });
             /*
             add("Straight Drive", new Action(new FieldMap () {{
                 define("Move Power", 0D);
@@ -290,18 +261,22 @@ public class Drive extends Module {
                 }
             });
             */
+            
             add("Servo Move", new Action(new FieldMap() {{
                 define("Clicks", 0D);
             }}) {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
+                    
                     pidMove.setSetpoint(data.get("Clicks"));
                     pidMove.enable();
                 }
+                
                 public void run (ActionData data){
                     if (pidMove.getSetpoint() != data.get("Clicks")) {
                         pidMove.reset();
+                        
                         encoderLeft.reset();
                         encoderRight.reset();
                         
@@ -309,59 +284,72 @@ public class Drive extends Module {
                         pidMove.enable();
                     }
                 }
+                
                 public void end (ActionData data) {
                     pidMove.reset();
                 }
             });
+            
             add("Servo Rotate", new Action(new FieldMap() {{
                 define("Angle", 0D);
             }}) {
                 public void begin (ActionData data) {
                     horizGyro.reset();
+                    
                     pidOutput.move.pidWrite(0);
+                    
                     pidRotate.setSetpoint(data.get("Angle"));
                     pidRotate.enable();
                 }
+                
                 public void run (ActionData data){
                     if (pidRotate.getSetpoint() != data.get("Angle")) {
                         pidRotate.reset();
+                        
                         horizGyro.reset();
 
                         pidRotate.setSetpoint(data.get("Angle"));
                         pidRotate.enable();
                     }
                 }
+                
                 public void end (ActionData data) {
                     pidRotate.reset();
                 }
             });
+            
             add("Calibrate", new Action(new FieldMap() {{
             }}) {
-            	public void begin(ActionData data) {
+            	public void begin (ActionData data) {
             		horizGyro.calibrate();
+            		
             		timer.reset();
             		timer.start();
             	}
-            	public void end(ActionData data) {
+            	
+            	public void end (ActionData data) {
             		timer.stop();
             		timer.reset();
             	}
             });
+            
             add("Manual Rotate Right", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
-            	public void run(ActionData data) {
+            	public void run (ActionData data) {
             		drive.arcadeDrive(0, -data.get("Power"));
             	}
             });
+            
             add("Manual Rotate Left", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
             	// begin: calibrate gyro
-            	public void run(ActionData data) {
+            	public void run (ActionData data) {
             		drive.arcadeDrive(0, data.get("Power"));
             	}
             });
+            
             add("Ultra Oscil", new Action(new FieldMap() {{
                 define("inches", 0D);
             }}) {
@@ -385,14 +373,12 @@ public class Drive extends Module {
 	                	
 	                	power *= Math.signum(displacement);
 	                	
-	                	if(power != 0) {
+	                	if (power != 0) {
 	                	    drive.tankDrive(power, power, false);
 	                	} else {
 	                	    drive.stopMotor();
 	                	}
-                    }
-                    else
-                    {
+                    } else {
                     	drive.stopMotor();
                     }
                 }
@@ -408,17 +394,16 @@ public class Drive extends Module {
                     if(ultra.inRange()) {
 	                	double difference = ultra.getDifference(1);
 	                	
-	                	if( difference > 1 ) {
+	                	if (difference > 1) {
 	                		drive.tankDrive(-0.3, 0.3, false);
-	                	}
-	                	else if( difference < -1 ) {
+	                	} else if (difference < -1) {
 	                		drive.tankDrive(0.3, -0.3, false);
-	                	}
-	                	else {
+	                	} else {
 	                		drive.stopMotor();
 	                	}
                     }
                 }
+                
                 public void end (ActionData data) {
                 	drive.stopMotor();
                 }
@@ -432,8 +417,6 @@ public class Drive extends Module {
                     if(ultra.inRange()) {
 	                	double leftDisplacement = ultra.getLeftDistance(1)- data.get("inches");
 	                	double leftDistance = Math.abs(leftDisplacement);
-	                	double rightDisplacement = ultra.getRightDistance(1) - data.get("inches");
-	                	double rightDistance = Math.abs(rightDisplacement);
 	                	
 	                	double leftPower = 0;
 	                	if (leftDistance > 12) {
@@ -447,7 +430,11 @@ public class Drive extends Module {
 	               		} else if (leftDistance > 0.5) {
 	               			leftPower = 0.2;
 	               		}
+	                	
 	                	leftPower *= Math.signum(leftDistance);
+	                	
+	                	double rightDisplacement = ultra.getRightDistance(1) - data.get("inches");
+	                	double rightDistance = Math.abs(rightDisplacement);
 	                	
 	                	double rightPower = 0;
 	                	if (rightDistance > 12) {
@@ -461,18 +448,17 @@ public class Drive extends Module {
 	               		} else if (rightDistance > 0.5) {
 	               			rightPower = 0.2;
 	               		}
+	                	
 	                	rightPower *= Math.signum(rightDistance);
 	                	
-	                	if( leftPower != 0 && rightPower != 0 )
-	                	{
+	                	if(leftPower != 0 && rightPower != 0) {
 	                		drive.tankDrive(leftPower, rightPower, false);
-	                	}
-	                	else
-	                	{
+	                	} else {
 	                		drive.stopMotor();
 	                	}
                     }    
                 }
+                
                 public void end (ActionData data) {
                 	drive.stopMotor();
                 }
