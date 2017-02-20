@@ -39,6 +39,10 @@ public class DashboardSystem extends Coordinator {
             
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Past Ultra Target",
                 	modules.getModule("Drive").getTrigger("Past Ultra Target")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "At Rotate Manual Target A",
+                	modules.getModule("Drive").getTrigger("At Rotate Manual Target A")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "At Rotate Manual Target B",
+                	modules.getModule("Drive").getTrigger("At Rotate Manual Target B")));
 
             /*
             this.fill(new DataWire(DashboardOutput.asDouble(), "Left Power",
