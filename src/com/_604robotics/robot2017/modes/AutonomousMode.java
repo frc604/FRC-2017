@@ -60,6 +60,19 @@ public class AutonomousMode extends Coordinator {
                         }));
                     }
                 }));
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Servo Rotate"), new Coordinator() {
+                    protected void apply (ModuleManager modules) {
+                        step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Rotate Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Rotate")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Rotate"), 
+                                        "Angle", Calibration.ROTATE_ANGLE));
+                            }
+                        }));
+                    }
+                }));
             	/*
                 group(new Group(modules.getModule("Dashboard").getTrigger("Backward"), new Coordinator() {
                     protected void apply(ModuleManager modules) {
@@ -263,6 +276,8 @@ public class AutonomousMode extends Coordinator {
                     	}));
                 	}
                 }));
+                
+                
                 
                 // BROKEN
                 /*

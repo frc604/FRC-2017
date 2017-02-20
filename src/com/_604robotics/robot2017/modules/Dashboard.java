@@ -21,6 +21,7 @@ public class Dashboard extends Module {
             add("Mid Step", autonMode.add("Mid Step"));
             add("Manual Rotate Right", autonMode.add("Manual Rotate Right"));
             add("Manual Rotate Left", autonMode.add("Manual Rotate Left"));
+            add("Servo Rotate", autonMode.add("Servo Rotate"));
             
             final DashboardTriggerChoice autonOn = new DashboardTriggerChoice("Auton Switch");
             add("Auton On", autonOn.addDefault("Auton On"));

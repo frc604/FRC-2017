@@ -56,4 +56,6 @@ public final class Calibration {
     public static final double ROTATE_TARGET_A = 90;
     public static final double ROTATE_TARGET_B = -90;
     public static final double ROTATE_TOLERANCE = 1.5;
+    
+    public static final double ROTATE_ANGLE = 90;
 }
