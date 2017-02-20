@@ -6,16 +6,13 @@ import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
 import com._604robotics.robotnik.action.field.FieldMap;
 import com._604robotics.robotnik.module.Module;
-import com._604robotics.robotnik.trigger.TriggerMap;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Victor;
 
 public class Climber extends Module {
     private final Victor motor = new Victor(Ports.CLIMBER_MOTOR);
 
-    public Climber (){
-    	
+    public Climber () {
         this.set(new ElasticController() {{
         	addDefault("Idle", new Action() {
         		public void run (ActionData data) {
