@@ -415,7 +415,7 @@ public class Drive extends Module {
             }}) {
                 public void run (ActionData data){
                     if(ultra.inRange()) {
-	                	double leftDisplacement = ultra.getLeftDistance(1)- data.get("inches");
+	                	double leftDisplacement = ultra.getLeftDistance(1) - data.get("inches");
 	                	double leftDistance = Math.abs(leftDisplacement);
 	                	
 	                	double leftPower = 0;
