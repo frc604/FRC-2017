@@ -37,4 +37,7 @@ public class Ports {
     /* Solenoids */
     public static final int SHIFTER_SOLENOID_FORWARD = 0;
     public static final int SHIFTER_SOLENOID_REVERSE = 1;
+    
+    /* Relay */
+    public static final int SPIKELIGHT = 0;
 }
