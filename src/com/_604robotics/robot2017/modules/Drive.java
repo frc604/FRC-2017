@@ -152,10 +152,14 @@ public class Drive extends Module {
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
             add("Past Ultra Target", () -> (ultra.getDistance() < Calibration.ULTRA_TARGET) && (ultra.getAngle() < 3));
             add("Aligned", () -> ultra.getAngle() < 3);
-            add("Timer Setpoint", () -> timer.get() < Calibration.WAIT);
+            add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
-            add("At Rotate Manual Target A", () -> Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
-            add("At Rotate Manual Target B", () -> Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
+            add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
+            add("East", () -> Calibration.ROTATE_TARGET_A - Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
+            add("West", () -> -Calibration.ROTATE_TARGET_A- Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
+            add("South", () -> Calibration.ROTATE_TARGET_A * 2 -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A * 2 + Calibration.ROTATE_TOLERANCE);
+            add("South Neg", () -> Calibration.ROTATE_TARGET_A * -2 -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_A * 2 + Calibration.ROTATE_TOLERANCE);
+
         }});
 
         this.set(new ElasticController() {{
@@ -328,19 +332,31 @@ public class Drive extends Module {
                     pidRotate.reset();
                 }
             });
-            
+            add("Calibrate", new Action(new FieldMap() {{
+            }}) {
+            	public void begin(ActionData data) {
+            		horizGyro.calibrate();
+            		timer.reset();
+            		timer.start();
+            	}
+            	public void end(ActionData data) {
+            		timer.stop();
+            		timer.reset();
+            	}
+            });
             add("Manual Rotate Right", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
             	public void run(ActionData data) {
-            		drive.arcadeDrive(0, data.get("Power"));
+            		drive.arcadeDrive(0, -data.get("Power"));
             	}
             });
             add("Manual Rotate Left", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
+            	// begin: calibrate gyro
             	public void run(ActionData data) {
-            		drive.arcadeDrive(0, -data.get("Power"));
+            		drive.arcadeDrive(0, data.get("Power"));
             	}
             });
             add("Ultra Oscil", new Action(new FieldMap() {{
