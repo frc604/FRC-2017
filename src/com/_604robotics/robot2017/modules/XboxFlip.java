@@ -25,6 +25,10 @@ public class XboxFlip extends Module {
 					isFlipped=!isFlipped;
 					TeleopMode.driver.leftStick.X.flipFactor();
 					TeleopMode.driver.leftStick.Y.flipFactor();
+					/* Forgot this earlier; comment out if behaving weirdly
+					 * Meant as intended behavior, not sure if it should be
+					 */
+					TeleopMode.driver.rightStick.Y.flipFactor();
 				}
 			});
 		}});
