@@ -13,14 +13,14 @@ public class Dashboard extends Module {
             add("Drive Off", driveOn.add("Drive Off"));
             
             final DashboardTriggerChoice autonMode = new DashboardTriggerChoice("Auton Mode");
-            add("Ultra Oscil", autonMode.add("Ultra Oscil"));
-            add("Ultra Straight 2", autonMode.add("Ultra Straight 2"));
             add("Fail Safe", autonMode.add("Fail Safe"));
             add("Fail Safe 2", autonMode.add("Fail Safe 2"));
-            add("Servo", autonMode.add("Servo"));
+            add("Left Step", autonMode.add("Left Step"));
             add("Mid Step", autonMode.add("Mid Step"));
+            add("Right Step", autonMode.add("Right Step"));
             add("Manual Rotate Right", autonMode.add("Manual Rotate Right"));
             add("Manual Rotate Left", autonMode.add("Manual Rotate Left"));
+            add("Servo", autonMode.add("Servo"));
             add("Servo Rotate", autonMode.add("Servo Rotate"));
             
             final DashboardTriggerChoice autonOn = new DashboardTriggerChoice("Auton Switch");

@@ -35,6 +35,7 @@ public final class Calibration {
     /* Auton constants */
     public static final double FWD_CLICKS=810;
     public static final double LONG_FWD_CLICKS=2800;
+    public static final double FWD_CLICKS_ALT=1205;
     public static final double BKWD_CLICKS=-550;
     public static final double ROT_CLICKS=500;
     
@@ -55,7 +56,7 @@ public final class Calibration {
     public static final double KINEMATIC_POWER2 = 1.0;
     
     public static final double ROTATE_TARGET_A = 90;
-    public static final double ROTATE_TARGET_B = 60;
+    public static final double ROTATE_TARGET_B = 45;
     public static final double ROTATE_TOLERANCE = 30;
     
     public static final double ROTATE_ANGLE = 90;
