@@ -47,7 +47,7 @@ public class TeleopMode extends Coordinator {
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
-            		new TriggerNot(driver.buttons.RT),
+            		new TriggerNot(driver.buttons.B),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Tank Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
@@ -56,7 +56,7 @@ public class TeleopMode extends Coordinator {
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
     				new TriggerNot(driver.buttons.Y),
-            		new TriggerNot(driver.buttons.RT),
+            		new TriggerNot(driver.buttons.B),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
@@ -65,7 +65,7 @@ public class TeleopMode extends Coordinator {
     		this.bind(new Binding(modules.getModule("Drive").getAction("Test Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
     				new TriggerNot(driver.buttons.Y),
-            		new TriggerNot(driver.buttons.RT),
+            		new TriggerNot(driver.buttons.B),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Test Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Test Drive"), "Move Power", driver.leftStick.Y));
@@ -76,14 +76,14 @@ public class TeleopMode extends Coordinator {
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
             		new TriggerNot(driver.buttons.RB),
             		new TriggerNot(driver.buttons.Y),
-            		new TriggerNot(driver.buttons.RT),
+            		new TriggerNot(driver.buttons.B),
     				modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
             		modules.getModule("DynamicToggle").getTrigger("Tank Drive"))));
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
     				new TriggerNot(driver.buttons.Y),
-            		new TriggerNot(driver.buttons.RT),
+            		new TriggerNot(driver.buttons.B),
             		modules.getModule("Dashboard").getTrigger("Drive On"),
             		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
             		modules.getModule("DynamicToggle").getTrigger("Arcade Drive"))));
@@ -129,8 +129,13 @@ public class TeleopMode extends Coordinator {
 //    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight"), driver.buttons.RB));
 //    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight"), "inches", Calibration.ULTRA_TARGET));
     		
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.RT));
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.B));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
+    	}
+    	
+    	/*SpikeLight*/
+    	{
+            this.bind(new Binding(modules.getModule("SpikeLight").getAction("On"), new TriggerToggle(driver.buttons.RT, false).on));
     	}
     }
 }
