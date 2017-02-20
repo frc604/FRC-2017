@@ -20,12 +20,13 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Module {
-    // 19.6 to 18.6 inches per 100 ticks
+    // 19.7 clicks per inch
     // -490/490 is 360 degrees with both wheels driving, 115 is 90 degrees
 
     // Locking a side: put it 18 in the opposite direction
@@ -66,6 +67,8 @@ public class Drive extends Module {
             encoderRight,
             pidOutput.right);
     */
+    // delete later
+    private final Relay light = new Relay(Ports.SPIKELIGHT);
     
 	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
 
@@ -304,10 +307,12 @@ public class Drive extends Module {
                         
                         pidMove.setSetpoint(data.get("Clicks"));
                         pidMove.enable();
+                        light.set(Relay.Value.kOn);
                     }
                 }
                 public void end (ActionData data) {
                     pidMove.reset();
+                    light.set(Relay.Value.kOff);
                 }
             });
             add("Servo Rotate", new Action(new FieldMap() {{
