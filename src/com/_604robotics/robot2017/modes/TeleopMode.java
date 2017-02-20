@@ -19,7 +19,7 @@ public class TeleopMode extends Coordinator {
     public static final XboxController manipulator = new XboxController(Ports.CONTROLLER_MANIPULATOR);
 
     public TeleopMode () {
-    	/* Default deadband set here; changed in other parts of the code */
+    	/* Default factor set here; changed in other parts of the code */
         driver.leftStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
         driver.leftStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
 
