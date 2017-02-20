@@ -185,7 +185,7 @@ public class AutonomousMode extends Coordinator {
                             }
                         }));
                         */
-                		
+                		/*
                 		step("Turn Right", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Rotate Servo Target")
                         )), new Coordinator() {
@@ -195,7 +195,13 @@ public class AutonomousMode extends Coordinator {
                                         "Angle", 90));
                             }
                         }));
-                		
+                		*/
+                		step("Turn Right", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("At Rotate Manaul Target A")), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Manual Rotate Right")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Right"), "Power", Calibration.ROTATE_POWER));
+                    		}
+                    	}));
                 		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
                         )), new Coordinator() {
@@ -205,6 +211,7 @@ public class AutonomousMode extends Coordinator {
                                         "Clicks", Calibration.FWD_CLICKS));
                             }
                         }));
+                		/*
                 		step("Turn Left", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Rotate Servo Target")
                         )), new Coordinator() {
@@ -214,6 +221,13 @@ public class AutonomousMode extends Coordinator {
                                         "Angle", -90));
                             }
                         }));
+                        */
+                		step("Turn Left", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("At Rotate Manaul Target B")), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Manual Rotate Left")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Left"), "Power", Calibration.ROTATE_POWER));
+                    		}
+                    	}));
                 		step("Long Forward", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
                         )), new Coordinator() {
@@ -228,17 +242,25 @@ public class AutonomousMode extends Coordinator {
                 	}
                 }));
                 
-                group(new Group(modules.getModule("Dashboard").getTrigger("Mid Chain"), new Coordinator() {
+                group(new Group(modules.getModule("Dashboard").getTrigger("Manual Rotate Right"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
-                		/*
-                		 * Drive forward
-                		 * Ultra to target
-                		 * Drive backward
-                		 * Turn Right
-                		 * Drive forward
-                		 * Turn Left
-                		 * Drive forward a lot
-                		 */
+                		step("Turn Right", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("At Rotate Manaul Target A")), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Manual Rotate Right")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Right"), "Power", Calibration.ROTATE_POWER));
+                    		}
+                    	}));
+                	}
+                }));
+                
+                group(new Group(modules.getModule("Dashboard").getTrigger("Manual Rotate Left"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Turn Left", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("At Rotate Manaul Target B")), new Coordinator() {
+                    		protected void apply (ModuleManager modules) {
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Manual Rotate Left")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Left"), "Power", Calibration.ROTATE_POWER));
+                    		}
+                    	}));
                 	}
                 }));
                 

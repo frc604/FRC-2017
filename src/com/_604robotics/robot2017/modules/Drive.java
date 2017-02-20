@@ -140,7 +140,7 @@ public class Drive extends Module {
             
             add("Timer Seconds", timer::get);
             
-            add("Horizonal Gyro Angle", horizGyro::getAngle);
+            add("Horizontal Gyro Angle", horizGyro::getAngle);
         }});
 
         this.set(new TriggerMap() {{
@@ -149,6 +149,8 @@ public class Drive extends Module {
             add("Aligned", () -> ultra.getAngle() < 3);
             add("Timer Setpoint", () -> timer.get() < Calibration.WAIT);
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
+            add("At Rotate Manual Target A", () -> Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
+            add("At Rotate Manual Target B", () -> Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
         }});
 
         this.set(new ElasticController() {{
@@ -304,7 +306,20 @@ public class Drive extends Module {
                     pidRotate.reset();
                 }
             });
-            
+            add("Manual Rotate Right", new Action(new FieldMap () {{
+            	define("Power", 0D);
+            }}) {
+            	public void run(ActionData data) {
+            		drive.arcadeDrive(0, data.get("Power"));
+            	}
+            });
+            add("Manual Rotate Left", new Action(new FieldMap () {{
+            	define("Power", 0D);
+            }}) {
+            	public void run(ActionData data) {
+            		drive.arcadeDrive(0, -data.get("Power"));
+            	}
+            });
             add("Ultra Oscil", new Action(new FieldMap() {{
                 define("inches", 0D);
             }}) {
