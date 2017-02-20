@@ -236,13 +236,21 @@ public class Drive extends Module {
                 define("Move Power", 0D);
                 define("Rotate Power", 0D);
             }}) {
+            	public void begin(ActionData data)
+            	{
+            		horizGyro.calibrate();
+            	}
                 public void run (ActionData data) {
-                    // double throttle = data.is("Throttled") ? 0.5 : 1;
-//                	System.out.print("Move");
-//                	System.out.println(data.get("Move Power"));
-//                	System.out.print("Rotate");
-//                	System.out.println(data.get("Rotate Power"));
-                	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
+                	if( data.get("Rotate Power") == 0D )
+                	{
+                    	double angle = horizGyro.getAngle();
+                    	double newPower = angle / 90;
+                		drive.arcadeDrive(data.get("Move Power"), -newPower);
+                	}
+                	else
+                	{
+                		drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
+                	}
                 }
 
                 public void end (ActionData data) {
@@ -265,24 +273,7 @@ public class Drive extends Module {
                     //extraAf.stopMotor();
                 }
             });
-            /*
-            add("Straight Drive", new Action(new FieldMap () {{
-                define("Move Power", 0D);
-            }}) {
-                public void run (ActionData data) {
-                    // double throttle = data.is("Throttled") ? 0.5 : 1;
-//                	System.out.print("Move");
-//                	System.out.println(data.get("Move Power"));
-//                	System.out.print("Rotate");
-//                	System.out.println(data.get("Rotate Power"));
-                	drive.arcadeDrive(data.get("Move Power"), -horizGyro.getAngle());
-                }
-
-                public void end (ActionData data) {
-                    drive.stopMotor();
-                }
-            });
-            */
+            
             add("Servo Move", new Action(new FieldMap() {{
                 define("Clicks", 0D);
             }}) {
