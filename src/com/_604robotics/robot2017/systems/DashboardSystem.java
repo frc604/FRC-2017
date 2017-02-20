@@ -45,9 +45,6 @@ public class DashboardSystem extends Coordinator {
             this.fill(new DataWire(DashboardOutput.asDouble(), "Right Power",
                     modules.getModule("Drive").getData("Right Power")));
             */
-            
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop",
-            		modules.getModule("Climber").getTrigger("Boop")));
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Xbox Flipped",
             		modules.getModule("XboxFlip").getTrigger("Xbox Flipped")));
             
