@@ -43,7 +43,7 @@ public final class Calibration {
     public static final double KINEMATIC_TIMELR = 2.2;
     public static final double WAIT = 2;
     public static final double ROTATE_TIME = 0.42;
-    public static final double ROTATE_POWER = 0.5;
+    public static final double ROTATE_POWER = 0.7;
     
     public static final double DRIVE_ROTATE_PID_P = 0.02;
     public static final double DRIVE_ROTATE_PID_I = 0;
@@ -56,7 +56,7 @@ public final class Calibration {
     
     public static final double ROTATE_TARGET_A = 90;
     public static final double ROTATE_TARGET_B = 60;
-    public static final double ROTATE_TOLERANCE = 6;
+    public static final double ROTATE_TOLERANCE = 30;
     
     public static final double ROTATE_ANGLE = 90;
 }
