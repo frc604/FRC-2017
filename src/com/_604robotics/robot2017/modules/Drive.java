@@ -6,9 +6,11 @@ import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
 import com._604robotics.robotnik.action.field.FieldMap;
+import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
+import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 import com._604robotics.robotnik.prefabs.devices.ArcadeDrivePIDOutput;
 import com._604robotics.robotnik.prefabs.devices.TankDrivePIDOutput;
@@ -67,8 +69,6 @@ public class Drive extends Module {
             encoderRight,
             pidOutput.right);
     */
-    // delete later
-    private final Relay light = new Relay(Ports.SPIKELIGHT);
     
 	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
 
@@ -307,12 +307,10 @@ public class Drive extends Module {
                         
                         pidMove.setSetpoint(data.get("Clicks"));
                         pidMove.enable();
-                        light.set(Relay.Value.kOn);
                     }
                 }
                 public void end (ActionData data) {
                     pidMove.reset();
-                    light.set(Relay.Value.kOff);
                 }
             });
             add("Servo Rotate", new Action(new FieldMap() {{
