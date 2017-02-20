@@ -47,6 +47,21 @@ public class ControllerAxis implements DataAccess {
     }
     
     /**
+     * Gets the deadband of the axis.
+     * @return The current deadband
+     */
+    public double getDeadband() {
+    	return this.deadband;
+    }
+    /**
+     * Gets the multiplication factor of the axis.
+     * @return The current factor
+     */
+    public double getFactor() {
+    	return this.factor;
+    }
+    
+    /**
      * Inverts the multiplication factor of the axis.
      */
     public void flipFactor () {
