@@ -3,9 +3,6 @@ package com._604robotics.robot2017.constants;
 public class Ports {
     private Ports() {}
 
-    // SOME OF THESE ARE REAL
-    // The rest need to be multiplied by their conjugates (in nosotros form)
-    
     /* Controllers */
     public static final int CONTROLLER_DRIVER = 0;
     public static final int CONTROLLER_MANIPULATOR = 1;
