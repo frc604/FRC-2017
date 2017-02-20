@@ -33,14 +33,15 @@ public final class Calibration {
     public static final double DRIVE_ULTRA_PID_TOLERANCE = 20;
 
     /* Auton constants */
-    // All imaginary; needs multiplication by complex conjugate?
-    public static final double FWD_CLICKS=810;//sqrt(-1)
-    public static final double BKWD_CLICKS=-810;//sqrt(-1)
-    public static final double ROT_CLICKS=500;//sqrt(-1)
+    public static final double FWD_CLICKS=810;
+    public static final double LONG_FWD_CLICKS=2800;
+    public static final double BKWD_CLICKS=-550;
+    public static final double ROT_CLICKS=500;
+    
     
     public static final double KINEMATIC_TIMEM = 0.9;
     public static final double KINEMATIC_TIMELR = 2.2;
-    public static final double WAIT = 2.5;
+    public static final double WAIT = 2;
     public static final double ROTATE_TIME = 0.42;
     public static final double ROTATE_POWER = 0.5;
     
