@@ -7,6 +7,7 @@ import com._604robotics.robot2017.modules.Climber;
 import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
+import com._604robotics.robot2017.modules.SpikeLight;
 import com._604robotics.robot2017.modules.Vision;
 import com._604robotics.robot2017.modules.XboxFlip;
 import com._604robotics.robot2017.systems.DashboardSystem;
@@ -33,6 +34,7 @@ public class Robot2017 extends Robot {
             add("Regulator", new Regulator(Ports.COMPRESSOR));
             add("Vision", new Vision());
             add("XboxFlip", new XboxFlip());
+            add("SpikeLight", new SpikeLight());
         }});
 
         this.set(new CoordinatorList() {{
