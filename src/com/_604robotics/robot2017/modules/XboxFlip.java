@@ -28,6 +28,7 @@ public class XboxFlip extends Module {
 					/* Forgot this earlier; comment out if behaving weirdly
 					 * Meant as intended behavior, not sure if it should be
 					 */
+					TeleopMode.driver.rightStick.X.flipFactor();
 					TeleopMode.driver.rightStick.Y.flipFactor();
 				}
 			});
