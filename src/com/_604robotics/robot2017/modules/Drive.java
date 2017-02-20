@@ -332,6 +332,10 @@ public class Drive extends Module {
             add("Manual Rotate Right", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
+            	public void begin(ActionData data) {
+            		horizGyro.calibrate();
+            	}
+            	// begin: calibrate gyro
             	public void run(ActionData data) {
             		drive.arcadeDrive(0, -data.get("Power"));
             	}
@@ -339,6 +343,10 @@ public class Drive extends Module {
             add("Manual Rotate Left", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
+            	public void begin(ActionData data) {
+            		horizGyro.calibrate();
+            	}
+            	// begin: calibrate gyro
             	public void run(ActionData data) {
             		drive.arcadeDrive(0, data.get("Power"));
             	}
