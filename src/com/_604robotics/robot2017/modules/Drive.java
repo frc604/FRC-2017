@@ -107,6 +107,8 @@ public class Drive extends Module {
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
         
+        horizGyro.setPIDSourceType(PIDSourceType.kDisplacement);
+        
         /*
         pidLeft.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
         pidRight.setOutputRange(-Calibration.DRIVE_RIGHT_PID_MAX, Calibration.DRIVE_RIGHT_PID_MAX);
@@ -116,6 +118,9 @@ public class Drive extends Module {
 		
         pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
         pidMove.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
+        
+        pidRotate.setOutputRange(-Calibration.DRIVE_ROTATE_PID_MAX, Calibration.DRIVE_ROTATE_PID_MAX);
+        pidRotate.setAbsoluteTolerance(Calibration.DRIVE_ROTATE_PID_TOLERANCE);
 
         /*
         SmartDashboard.putData("Drive Move PID", pidLeft);
@@ -260,7 +265,24 @@ public class Drive extends Module {
                     //extraAf.stopMotor();
                 }
             });
-            
+            /*
+            add("Straight Drive", new Action(new FieldMap () {{
+                define("Move Power", 0D);
+            }}) {
+                public void run (ActionData data) {
+                    // double throttle = data.is("Throttled") ? 0.5 : 1;
+//                	System.out.print("Move");
+//                	System.out.println(data.get("Move Power"));
+//                	System.out.print("Rotate");
+//                	System.out.println(data.get("Rotate Power"));
+                	drive.arcadeDrive(data.get("Move Power"), -horizGyro.getAngle());
+                }
+
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                }
+            });
+            */
             add("Servo Move", new Action(new FieldMap() {{
                 define("Clicks", 0D);
             }}) {
@@ -306,6 +328,7 @@ public class Drive extends Module {
                     pidRotate.reset();
                 }
             });
+            
             add("Manual Rotate Right", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
