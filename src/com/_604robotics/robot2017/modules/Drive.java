@@ -348,7 +348,7 @@ public class Drive extends Module {
             	define("Power", 0D);
             }}) {
             	public void run(ActionData data) {
-            		drive.arcadeDrive(0, data.get("Power"));
+            		drive.arcadeDrive(0, -data.get("Power"));
             	}
             });
             add("Manual Rotate Left", new Action(new FieldMap () {{
@@ -356,7 +356,7 @@ public class Drive extends Module {
             }}) {
             	// begin: calibrate gyro
             	public void run(ActionData data) {
-            		drive.arcadeDrive(0, -data.get("Power"));
+            		drive.arcadeDrive(0, data.get("Power"));
             	}
             });
             add("Ultra Oscil", new Action(new FieldMap() {{
