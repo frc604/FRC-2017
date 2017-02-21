@@ -431,7 +431,7 @@ public class Drive extends Module {
 	               			leftPower = 0.2;
 	               		}
 	                	
-	                	leftPower *= Math.signum(leftDistance);
+	                	leftPower *= Math.signum(leftDisplacement);
 	                	
 	                	double rightDisplacement = ultra.getRightDistance(1) - data.get("inches");
 	                	double rightDistance = Math.abs(rightDisplacement);
@@ -449,7 +449,7 @@ public class Drive extends Module {
 	               			rightPower = 0.2;
 	               		}
 	                	
-	                	rightPower *= Math.signum(rightDistance);
+	                	rightPower *= Math.signum(rightDisplacement);
 	                	
 	                	if(leftPower != 0 && rightPower != 0) {
 	                		drive.tankDrive(leftPower, rightPower, false);
