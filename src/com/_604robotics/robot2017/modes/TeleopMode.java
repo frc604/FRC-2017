@@ -137,5 +137,10 @@ public class TeleopMode extends Coordinator {
     	{
             this.bind(new Binding(modules.getModule("SpikeLight").getAction("On"), new TriggerToggle(driver.buttons.RT, false).on));
     	}
+    	
+    	/*Calibrate*/
+    	{
+       		this.bind(new Binding(modules.getModule("Drive").getAction("Calibrate"), driver.buttons.X));           
+    	}
     }
 }

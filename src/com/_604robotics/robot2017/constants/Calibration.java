@@ -30,12 +30,12 @@ public final class Calibration {
     public static final double DRIVE_ULTRA_PID_I = 0;
     public static final double DRIVE_ULTRA_PID_D = 0.0005;
     public static final double DRIVE_ULTRA_PID_MAX = 1.0;
-    public static final double DRIVE_ULTRA_PID_TOLERANCE = 20;
+    public static final double DRIVE_ULTRA_PID_TOLERANCE = 10;
 
     /* Auton constants */
     public static final double FWD_CLICKS=810;
     public static final double LONG_FWD_CLICKS=2800;
-    public static final double FWD_CLICKS_ALT=1205;
+    public static final double FWD_CLICKS_ALT=1250;
     public static final double BKWD_CLICKS=-550;
     public static final double ROT_CLICKS=500;
     
@@ -48,7 +48,7 @@ public final class Calibration {
     
     public static final double DRIVE_ROTATE_PID_P = 0.02;
     public static final double DRIVE_ROTATE_PID_I = 0;
-    public static final double DRIVE_ROTATE_PID_D = 0.005;
+    public static final double DRIVE_ROTATE_PID_D = 0.007;
     public static final double DRIVE_ROTATE_PID_MAX = 1.0;
     public static final double DRIVE_ROTATE_PID_TOLERANCE = 20;
     

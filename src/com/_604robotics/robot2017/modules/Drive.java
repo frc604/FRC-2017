@@ -154,7 +154,7 @@ public class Drive extends Module {
         this.set(new TriggerMap() {{
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
             add("Past Ultra Target", () -> (ultra.getDistance() < Calibration.ULTRA_TARGET) && (ultra.getAngle() < 3));
-            add("Aligned", () -> Math.abs(ultra.getDifference()) <= 1);
+            add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
@@ -340,6 +340,8 @@ public class Drive extends Module {
             add("Calibrate", new Action(new FieldMap() {{
             }}) {
             	public void begin(ActionData data) {
+            		encoderLeft.reset();
+            		encoderRight.reset();
             		horizGyro.calibrate();
             		timer.reset();
             		timer.start();
