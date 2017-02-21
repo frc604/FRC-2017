@@ -318,8 +318,7 @@ public class Drive extends Module {
                 }
             });
             
-            add("Calibrate", new Action(new FieldMap() {{
-            }}) {
+            add("Calibrate", new Action() {
             	public void begin (ActionData data) {
             		horizGyro.calibrate();
             		
@@ -388,8 +387,7 @@ public class Drive extends Module {
                 }
             });
             
-            add("Ultra Align", new Action(new FieldMap() {{
-            }}) {
+            add("Ultra Align", new Action() {
                 public void run (ActionData data){
                     if(ultra.inRange()) {
 	                	double difference = ultra.getDifference(1);
