@@ -22,6 +22,11 @@ public class Dashboard extends Module {
             add("Servo", autonMode.add("Servo"));
             add("Servo Rotate", autonMode.add("Servo Rotate"));
             
+            final DashboardTriggerChoice midModifier = new DashboardTriggerChoice("Mid Modifier");
+            add("Stay", midModifier.addDefault("Stay"));
+            add("Left After", midModifier.add("Left After"));
+            add("Right After", midModifier.add("Right After"));
+            
             final DashboardTriggerChoice autonOn = new DashboardTriggerChoice("Auton Switch");
             add("Auton On", autonOn.addDefault("Auton On"));
             add("Auton Off", autonOn.add("Auton Off"));
