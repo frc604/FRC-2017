@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 public class AnalogUltrasonic extends AnalogInput implements Ultrasonic {
     private static final int DEFAULT_SAMPLES = 64;
     private static final double INCHES_PER_VOLT = 42.56;
+    private static final double OPERATING_RANGE = 72.0;
     
     /**
      * Creates an analog ultrasonic sensor.
@@ -71,5 +72,10 @@ public class AnalogUltrasonic extends AnalogInput implements Ultrasonic {
     @Override
     public double getDistance (int samples) {
         return this.getVoltage(samples) * INCHES_PER_VOLT;
+    }
+    
+    @Override
+    public boolean inRange () {
+        return this.getDistance(1) < OPERATING_RANGE;
     }
 }

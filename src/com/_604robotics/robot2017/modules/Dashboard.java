@@ -1,6 +1,5 @@
 package com._604robotics.robot2017.modules;
 
-import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.trigger.TriggerMap;
 import com._604robotics.robotnik.trigger.sources.DashboardTriggerChoice;
