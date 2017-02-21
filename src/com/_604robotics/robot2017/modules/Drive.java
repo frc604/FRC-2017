@@ -409,7 +409,6 @@ public class Drive extends Module {
                 }
             });
             
-            //changed power multiplier to distance from displacement
             add("Ultra Straight 2", new Action(new FieldMap() {{
                 define("inches", 0D);
             }}) {
