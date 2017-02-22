@@ -17,10 +17,6 @@ public class Dashboard extends Module {
             add("Left Step", autonMode.add("Left Step"));
             add("Mid Step", autonMode.add("Mid Step"));
             add("Right Step", autonMode.add("Right Step"));
-            add("Manual Rotate Right", autonMode.add("Manual Rotate Right"));
-            add("Manual Rotate Left", autonMode.add("Manual Rotate Left"));
-            add("Servo", autonMode.add("Servo"));
-            add("Servo Rotate", autonMode.add("Servo Rotate"));
             
             final DashboardTriggerChoice midModifier = new DashboardTriggerChoice("Mid Modifier");
             add("Stay", midModifier.addDefault("Stay"));

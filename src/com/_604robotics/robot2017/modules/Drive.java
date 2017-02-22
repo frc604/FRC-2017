@@ -394,9 +394,9 @@ public class Drive extends Module {
                 public void run (ActionData data){
                     if(ultra.inRange()) {
 	                	double difference = ultra.getDifference(1);
-	                	if (difference > 1) {
+	                	if (difference < -1) {
 	                		drive.tankDrive(-0.15, 0.15, false);
-	                	} else if (difference < -1) {
+	                	} else if (difference > 1) {
 	                		drive.tankDrive(0.15, -0.15, false);
 	                	} else {
 	                		drive.stopMotor();

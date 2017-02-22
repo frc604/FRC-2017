@@ -93,6 +93,8 @@ public class TeleopMode extends Coordinator {
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.B));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.A));
+
     	}
     	/* Xbox Flip Axis */
     	{
