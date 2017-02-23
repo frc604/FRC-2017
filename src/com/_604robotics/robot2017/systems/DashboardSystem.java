@@ -31,23 +31,15 @@ public class DashboardSystem extends Coordinator {
                 	modules.getModule("Drive").getData("Ultra Left")));
             this.fill(new DataWire(DashboardOutput.asDouble(), "Ultra Right",
                 	modules.getModule("Drive").getData("Ultra Right")));
-            
-            this.fill(new DataWire(DashboardOutput.asDouble(), "Timer Seconds",
-                	modules.getModule("Drive").getData("Timer Seconds")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Past Ultra Target",
+                	modules.getModule("Drive").getTrigger("Past Ultra Target")));
+
             this.fill(new DataWire(DashboardOutput.asDouble(), "Horizontal Gyro Angle",
                 	modules.getModule("Drive").getData("Horizontal Gyro Angle")));
             
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Past Ultra Target",
-                	modules.getModule("Drive").getTrigger("Past Ultra Target")));
-            /*
-            this.fill(new DataWire(DashboardOutput.asDouble(), "Left Power",
-                    modules.getModule("Drive").getData("Left Power")));
-            this.fill(new DataWire(DashboardOutput.asDouble(), "Right Power",
-                    modules.getModule("Drive").getData("Right Power")));
-            */
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Timer Seconds",
+                	modules.getModule("Drive").getData("Timer Seconds")));
             
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop",
-            		modules.getModule("Climber").getTrigger("Boop")));
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Xbox Flipped",
             		modules.getModule("XboxFlip").getTrigger("Xbox Flipped")));
             

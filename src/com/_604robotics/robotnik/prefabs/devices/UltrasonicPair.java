@@ -1,11 +1,9 @@
 package com._604robotics.robotnik.prefabs.devices;
 
-import com._604robotics.robot2017.constants.Calibration;
-
 /**
  * A pair of ultrasonic sensors.
  */
-public class UltrasonicPair {
+public class UltrasonicPair implements Ultrasonic {    
     private Ultrasonic left;
     private Ultrasonic right;
     private double separation;
@@ -44,8 +42,8 @@ public class UltrasonicPair {
      * @return The angle of the sensors relative to a wall.
      */
     public double getAngle () {
-    	double radians = Math.atan(getDifference()/separation);
-		double angle = radians * 180 / Math.PI;
+        double radians = Math.atan(getDifference()/separation);
+        double angle = radians * 180 / Math.PI;
         if (getDifference() < 0) {
             return angle * -1;
         } else {
@@ -95,69 +93,57 @@ public class UltrasonicPair {
             return "straight";
         }
     }
-
+    
     /**
-     * Gets the distance read by the sensors using 64 samples.
-     * @return The distance read by the sensors.
+     * Gets the distance read by the left sensor using 64 samples.
+     * @return The distance read by the left sensor.
      */
+    public double getLeftDistance () {
+        return this.left.getDistance();
+    }
+    
+    /**
+     * Gets the distance read by the left sensor.
+     * @param samples Number of samples to take.
+     * @return The distance read by the left sensor.
+     */
+    public double getLeftDistance (int samples) {
+        return this.left.getDistance(samples);
+    }
+    
+    /**
+     * Gets the distance read by the right sensor using 64 samples.
+     * @return The distance read by the right sensor.
+     */
+    public double getRightDistance () {
+        return this.right.getDistance();
+    }
+    
+    /**
+     * Gets the distance read by the right sensor.
+     * @param samples Number of samples to take.
+     * @return The distance read by the right sensor.
+     */
+    public double getRightDistance (int samples) {
+        return this.right.getDistance(samples);
+    }
+    
+    @Override
     public double getDistance () {
         double leftDistance = this.left.getDistance();
         double rightDistance = this.right.getDistance();
         return Math.min(leftDistance, rightDistance);
     }
 
-    /**
-     * Gets the distance read by the sensors.
-     * @param samples Number of samples to take.
-     * @return The distance read by the sensors.
-     */
+    @Override
     public double getDistance (int samples) {
         double leftDistance = this.left.getDistance(samples);
         double rightDistance = this.right.getDistance(samples);
         return Math.min(leftDistance, rightDistance);
     }
-    /**
-     * Gets the distance read by the left sensor using 64 samples.
-     * @return The distance read by the left sensor.
-     */
-    public double getLeftDistance()
-	{
-		return left.getDistance();
-	}
-    /**
-     * Gets the distance read by the right sensor using 64 samples.
-     * @return The distance read by the right sensor.
-     */
-	public double getRightDistance()
-	{
-		return right.getDistance();
-	}
-	/**
-     * Gets the distance read by the left sensor.
-     * @param samples Number of samples to take.
-     * @return The distance read by the left sensor.
-     */
-	public double getLeftDistance(int sample)
-	{
-		return left.getDistance(sample);
-	}
-	/**
-     * Gets the distance read by the right sensor.
-     * @param samples Number of samples to take.
-     * @return The distance read by the right sensor.
-     */
-	public double getRightDistance(int sample)
-	{
-		return right.getDistance(sample);
-	}
-	/**
-	 * Determines if the sensors are within their operating range.
-	 * This range can be determined in the Calibration.java file.
-	 * @return Whether or not the sensors are within their operating range.
-	 */
-	public boolean inRange()
-	{
-		return Math.max(getLeftDistance(1), getRightDistance(1)) < Calibration.RANGE;
-	}
     
+    @Override
+    public boolean inRange () {
+        return this.left.inRange() && this.right.inRange();
+    }
 }
