@@ -5,23 +5,17 @@ public class Ports {
 
     /* Controllers */
     public static final int CONTROLLER_DRIVER = 0;
-    
-    /* Digital */
-    public static final int COMPRESSOR = 0;
-    
+        
     /* Analog */
-    public static final int ULTRASONIC_LEFT = 1;
-    public static final int ULTRASONIC_RIGHT = 2;
     
     public static final int HORIZGYRO = 0;
     
     /* Motors */
     public static final int DRIVE_FRONT_LEFT_MOTOR = 2;
-    public static final int DRIVE_REAR_LEFT_MOTOR = 4;
-    public static final int DRIVE_FRONT_RIGHT_MOTOR = 7;
-    public static final int DRIVE_REAR_RIGHT_MOTOR = 5;
+    public static final int DRIVE_REAR_LEFT_MOTOR = 3;
+    public static final int DRIVE_FRONT_RIGHT_MOTOR = 0;
+    public static final int DRIVE_REAR_RIGHT_MOTOR = 1;
    
-    public static final int CLIMBER_MOTOR = 0;
     
     /* Encoders */
     public static final int DRIVE_ENCODER_RIGHT_A = 2;
@@ -29,10 +23,4 @@ public class Ports {
     public static final int DRIVE_ENCODER_LEFT_A = 1;
     public static final int DRIVE_ENCODER_LEFT_B = 0;
     
-    /* Solenoids */
-    public static final int SHIFTER_SOLENOID_FORWARD = 0;
-    public static final int SHIFTER_SOLENOID_REVERSE = 1;
-    
-    /* Relay */
-    public static final int SPIKELIGHT = 0;
 }

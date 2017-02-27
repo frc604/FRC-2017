@@ -89,29 +89,9 @@ public class TeleopMode extends Coordinator {
 					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
 					driveMode.on)));
     	}
-    	/* Ultrasonic */
-    	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.B));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.A));
-
-    	}
     	/* Xbox Flip Axis */
     	{
     		this.bind(new Binding(modules.getModule("XboxFlip").getAction("Flip"), driver.buttons.RB));
-    	}
-    	/* Shifter */
-    	{
-            this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
-    	}
-    	/* Climber */
-    	{
-       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.LT));
-    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Left));            
-    	}
-    	/* SpikeLight */
-    	{
-            this.bind(new Binding(modules.getModule("SpikeLight").getAction("On"), new TriggerToggle(driver.buttons.RT, false).on));
     	}
     	
     	/*Calibrate*/
