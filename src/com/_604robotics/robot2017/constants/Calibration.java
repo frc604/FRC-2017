@@ -7,20 +7,13 @@ public final class Calibration {
     public static final double TELEOP_DEADBAND = 0.3;
     public static final double TELEOP_FACTOR_DEFAULT = -1;
     
-    /* Drive Left Constants */
-    public static final double DRIVE_LEFT_PID_P = 0.04;
-    public static final double DRIVE_LEFT_PID_I = 0;
-    public static final double DRIVE_LEFT_PID_D = 0.04;
-    public static final double DRIVE_LEFT_PID_MAX = 0.7;
-    public static final double DRIVE_LEFT_PID_TOLERANCE = 20;
+    /* Drive Move Constants */
+    public static final double DRIVE_MOVE_PID_P = 0.04;
+    public static final double DRIVE_MOVE_PID_I = 0;
+    public static final double DRIVE_MOVE_PID_D = 0.04;
+    public static final double DRIVE_MOVE_PID_MAX = 0.7;
+    public static final double DRIVE_MOVE_PID_TOLERANCE = 20;
 
-    /* Drive Right Constants */
-    public static final double DRIVE_RIGHT_PID_P = 0.04;
-    public static final double DRIVE_RIGHT_PID_I = 0;
-    public static final double DRIVE_RIGHT_PID_D = 0.04;
-    public static final double DRIVE_RIGHT_PID_MAX = 0.7;
-    public static final double DRIVE_RIGHT_PID_TOLERANCE = 20;
-    
     public static final double ULTRA_SEPARATION = 22.0;
     public static final double ULTRA_TARGET = 5;
     
@@ -41,7 +34,7 @@ public final class Calibration {
     
     public static final double KINEMATIC_TIMEM = 0.9;
     public static final double KINEMATIC_TIMELR = 2.2;
-    public static final double WAIT = 2;
+    public static final double TIMER_WAIT = 2;
     public static final double ROTATE_TIME = 0.42;
     public static final double ROTATE_POWER = 0.7;
     

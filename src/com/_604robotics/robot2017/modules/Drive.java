@@ -65,9 +65,9 @@ public class Drive extends Module {
 
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
     private final PIDController pidMove = new PIDController(
-    		Calibration.DRIVE_LEFT_PID_P,
-    		Calibration.DRIVE_LEFT_PID_I,
-    		Calibration.DRIVE_LEFT_PID_D,
+    		Calibration.DRIVE_MOVE_PID_P,
+    		Calibration.DRIVE_MOVE_PID_I,
+    		Calibration.DRIVE_MOVE_PID_D,
     		encoderLeft,
     		pidOutput.move);
     private final PIDController pidRotate = new PIDController(
@@ -110,8 +110,8 @@ public class Drive extends Module {
         pidRight.setAbsoluteTolerance(Calibration.DRIVE_RIGHT_PID_TOLERANCE);
 		*/
 		
-        pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
-        pidMove.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
+        pidMove.setOutputRange(-Calibration.DRIVE_MOVE_PID_MAX, Calibration.DRIVE_MOVE_PID_MAX);
+        pidMove.setAbsoluteTolerance(Calibration.DRIVE_MOVE_PID_TOLERANCE);
         
         pidRotate.setOutputRange(-Calibration.DRIVE_ROTATE_PID_MAX, Calibration.DRIVE_ROTATE_PID_MAX);
         pidRotate.setAbsoluteTolerance(Calibration.DRIVE_ROTATE_PID_TOLERANCE);
@@ -145,7 +145,7 @@ public class Drive extends Module {
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
-            add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
+            add("Timer Setpoint", () -> timer.get() > Calibration.TIMER_WAIT);
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
             add("East", () -> Calibration.ROTATE_TARGET_A - Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
