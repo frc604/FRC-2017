@@ -1,12 +1,12 @@
 package com._604robotics.robotnik.data.sources;
 
-import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.Data;
 import com._604robotics.robotnik.trigger.TriggerAccess;
 
 /**
  * Data supplied by a trigger.
  */
-public class DataTriggerAdaptor implements DataAccess {
+public class DataTriggerAdaptor implements Data {
     private final TriggerAccess trigger;
     
     /**

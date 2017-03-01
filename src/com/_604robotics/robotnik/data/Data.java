@@ -5,8 +5,8 @@ package com._604robotics.robotnik.data;
  */
 public interface Data {
     /**
-     * Retrieves the contained data.
-     * @return The retrieved data.
+     * Gets the current data value.
+     * @return The current data value.
      */
-    public double run ();
+    public double get ();
 }

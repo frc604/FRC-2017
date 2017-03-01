@@ -1,6 +1,6 @@
 package com._604robotics.robotnik.coordinator.connectors;
 
-import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.Data;
 import com._604robotics.robotnik.data.DataRecipient;
 import com._604robotics.robotnik.data.sources.ConstData;
 import com._604robotics.robotnik.data.sources.DataTriggerAdaptor;
@@ -12,7 +12,7 @@ import com._604robotics.robotnik.trigger.TriggerAccess;
 public class DataWire {
     private final DataRecipient recipient;
     private final String fieldName;
-    private final DataAccess data;
+    private final Data data;
     private final TriggerAccess activator;
 
     /**
@@ -21,7 +21,7 @@ public class DataWire {
      * @param fieldName Name of the data field.
      * @param data Data to wire.
      */
-    public DataWire (DataRecipient recipient, String fieldName, DataAccess data) {
+    public DataWire (DataRecipient recipient, String fieldName, Data data) {
         this(recipient, fieldName, data, null);
     }
 
@@ -32,7 +32,7 @@ public class DataWire {
      * @param data Data to wire.
      * @param activator Trigger activating the data wire.
      */
-    public DataWire (DataRecipient recipient, String fieldName, DataAccess data, TriggerAccess activator) {
+    public DataWire (DataRecipient recipient, String fieldName, Data data, TriggerAccess activator) {
         this.recipient = recipient;
         
         this.fieldName = fieldName;
@@ -135,7 +135,7 @@ public class DataWire {
      * Gets the source of the data.
      * @return The wire's data source.
      */
-    public DataAccess getData () {
+    public Data getData () {
         return this.data;
     }
 
