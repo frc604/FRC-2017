@@ -1,11 +1,11 @@
 package com._604robotics.robotnik.prefabs.trigger;
 
-import com._604robotics.robotnik.trigger.TriggerAccess;
+import com._604robotics.robotnik.trigger.Trigger;
 
 /**
  * A manual trigger.
  */
-public class TriggerManual implements TriggerAccess {
+public class TriggerManual implements Trigger {
     private boolean triggered;
 
     /**

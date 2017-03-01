@@ -1,12 +1,12 @@
 package com._604robotics.robotnik.prefabs.controller;
 
-import com._604robotics.robotnik.trigger.TriggerAccess;
+import com._604robotics.robotnik.trigger.Trigger;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * A button representing whether an axis has been pushed in a direction.
  */
-public class ControllerAxisButton implements TriggerAccess {
+public class ControllerAxisButton implements Trigger {
     private final Joystick joystick;
     private final int axis;
     private final int direction;

@@ -4,7 +4,7 @@ import com._604robotics.robotnik.data.Data;
 import com._604robotics.robotnik.data.DataRecipient;
 import com._604robotics.robotnik.data.sources.ConstData;
 import com._604robotics.robotnik.data.sources.DataTriggerAdaptor;
-import com._604robotics.robotnik.trigger.TriggerAccess;
+import com._604robotics.robotnik.trigger.Trigger;
 
 /**
  * Wires data from a data access to a data recipient.
@@ -13,7 +13,7 @@ public class DataWire {
     private final DataRecipient recipient;
     private final String fieldName;
     private final Data data;
-    private final TriggerAccess activator;
+    private final Trigger activator;
 
     /**
      * Creates a data wire.
@@ -32,7 +32,7 @@ public class DataWire {
      * @param data Data to wire.
      * @param activator Trigger activating the data wire.
      */
-    public DataWire (DataRecipient recipient, String fieldName, Data data, TriggerAccess activator) {
+    public DataWire (DataRecipient recipient, String fieldName, Data data, Trigger activator) {
         this.recipient = recipient;
         
         this.fieldName = fieldName;
@@ -46,7 +46,7 @@ public class DataWire {
      * @param fieldName Name of the data field.
      * @param trigger Trigger to wire.
      */
-    public DataWire (DataRecipient recipient, String fieldName, TriggerAccess trigger) {
+    public DataWire (DataRecipient recipient, String fieldName, Trigger trigger) {
         this(recipient, fieldName, new DataTriggerAdaptor(trigger), null);
     }
 
@@ -57,7 +57,7 @@ public class DataWire {
      * @param trigger Trigger to wire.
      * @param activator Trigger activating the data wire.
      */
-    public DataWire (DataRecipient recipient, String fieldName, TriggerAccess trigger, TriggerAccess activator) {
+    public DataWire (DataRecipient recipient, String fieldName, Trigger trigger, Trigger activator) {
         this.recipient = recipient;
         
         this.fieldName = fieldName;
@@ -82,7 +82,7 @@ public class DataWire {
      * @param value Constant to wire.
      * @param activator Trigger activating the data wire.
      */
-    public DataWire (DataRecipient recipient, String fieldName, double value, TriggerAccess activator) {
+    public DataWire (DataRecipient recipient, String fieldName, double value, Trigger activator) {
         this.recipient = recipient;
         
         this.fieldName = fieldName;
@@ -107,7 +107,7 @@ public class DataWire {
      * @param value Constant to wire.
      * @param activator Trigger activating the data wire.
      */
-    public DataWire (DataRecipient recipient, String fieldName, boolean value, TriggerAccess activator) {
+    public DataWire (DataRecipient recipient, String fieldName, boolean value, Trigger activator) {
         this.recipient = recipient;
         
         this.fieldName = fieldName;

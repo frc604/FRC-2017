@@ -23,7 +23,7 @@ public class DashboardTrigger implements Trigger {
     }
 
     @Override
-    public boolean run () {
+    public boolean get () {
         return SmartDashboard.getBoolean(this.key, this.defaultValue);
     }
 }
