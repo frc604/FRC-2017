@@ -409,6 +409,40 @@ public class Drive extends Module {
                 }
             });
             
+            add("Ultra Drive", new Action(new FieldMap() {{
+            	define("Move power", 0D);
+            	define("Rotate power", 0D);
+            }}) {
+            	public void run(ActionData data){
+            		double adjust = 0;
+            		boolean right = false;
+            		if( ultra.inRange() ) {
+            			double difference = ultra.getDifference();
+            			if( difference < 0 ) {
+            				right = true;
+            			}
+            			if( Math.abs(difference)> 1 / Math.E  )
+            			{
+            				adjust = Math.log(Math.abs(difference)*Math.E) * 0.1;
+                			adjust /= 2;
+                			if( adjust > 0.5 ) {
+                				adjust = 0.5;
+                			}
+                			else if( adjust < -0.5 ) {
+                				adjust = -0.5;
+                			}
+            			}
+            		}
+            		if( right ) {
+            			adjust *=-1;
+            		}
+            		drive.tankDrive(data.get("Move Power"), data.get("Rotate Power")+adjust);
+            	}
+            	public void end(ActionData data){
+            		drive.stopMotor();
+            	}
+            });
+            
             add("Ultra Straight 2", new Action(new FieldMap() {{
                 define("inches", 0D);
             }}) {

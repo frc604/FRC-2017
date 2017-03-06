@@ -11,14 +11,14 @@ public final class Calibration {
     public static final double DRIVE_LEFT_PID_P = 0.04;
     public static final double DRIVE_LEFT_PID_I = 0;
     public static final double DRIVE_LEFT_PID_D = 0.04;
-    public static final double DRIVE_LEFT_PID_MAX = 0.7;
+    public static final double DRIVE_LEFT_PID_MAX = 0.84; // automatically squared to 0.7
     public static final double DRIVE_LEFT_PID_TOLERANCE = 20;
 
     /* Drive Right Constants */
     public static final double DRIVE_RIGHT_PID_P = 0.04;
     public static final double DRIVE_RIGHT_PID_I = 0;
     public static final double DRIVE_RIGHT_PID_D = 0.04;
-    public static final double DRIVE_RIGHT_PID_MAX = 0.7;
+    public static final double DRIVE_RIGHT_PID_MAX = 0.84; // automatically squared to 0.7
     public static final double DRIVE_RIGHT_PID_TOLERANCE = 20;
     
     public static final double ULTRA_SEPARATION = 22.0;
@@ -51,7 +51,7 @@ public final class Calibration {
     public static final double DRIVE_ROTATE_PID_MAX = 1.0;
     public static final double DRIVE_ROTATE_PID_TOLERANCE = 20;
     
-    public static final double KINEMATIC_POWER = 0.5;
+    public static final double KINEMATIC_POWER = 0.7;
     public static final double KINEMATIC_POWER2 = 1.0;
     
     public static final double ROTATE_TARGET_A = 90;
