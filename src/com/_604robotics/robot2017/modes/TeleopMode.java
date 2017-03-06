@@ -91,8 +91,6 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Ultrasonic */
     	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.B));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.A));
 
     	}
@@ -102,8 +100,8 @@ public class TeleopMode extends Coordinator {
     				new TriggerNot(driver.buttons.RB),
     				new TriggerNot(driver.buttons.Y),
             		new TriggerNot(driver.buttons.B),
-    				modules.getModule("Dashboard").getTrigger("Drive On"),
-            		modules.getModule("Dashboard").getTrigger("Ultra Drive"))));
+            		driver.buttons.B,
+    				modules.getModule("Dashboard").getTrigger("Drive On"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Drive"), "Move Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Drive"), "Rotate Power", driver.rightStick.X));
     	}
