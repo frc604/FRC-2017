@@ -1,12 +1,12 @@
 package com._604robotics.robotnik.trigger;
 
 /**
- * A general-purpose trigger.
+ * Provides access to a trigger.
  */
 public interface Trigger {
     /**
-     * Retrieves the current value of the trigger.
-     * @return The trigger's current value.
+     * Gets the current trigger value.
+     * @return The current trigger value.
      */
-    public boolean run ();
+    public boolean get ();
 }

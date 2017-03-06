@@ -1,18 +1,18 @@
 package com._604robotics.robotnik.prefabs.trigger;
 
-import com._604robotics.robotnik.trigger.TriggerAccess;
+import com._604robotics.robotnik.trigger.Trigger;
 
 /**
  * A trigger based on whether any of multiple triggers are active.
  */
-public class TriggerOr implements TriggerAccess {
-    private final TriggerAccess[] triggers;
+public class TriggerOr implements Trigger {
+    private final Trigger[] triggers;
 
     /**
      * Creates a trigger or.
      * @param triggers Triggers to use.
      */
-    public TriggerOr (TriggerAccess... triggers) {
+    public TriggerOr (Trigger... triggers) {
         this.triggers = triggers;
     }
     

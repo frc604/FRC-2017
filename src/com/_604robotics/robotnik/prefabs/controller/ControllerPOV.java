@@ -1,12 +1,12 @@
 package com._604robotics.robotnik.prefabs.controller;
 
-import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.Data;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * A POV-hat on a controller.
  */
-public class ControllerPOV implements DataAccess {
+public class ControllerPOV implements Data {
     private final Joystick joystick;
     private final int port;
 

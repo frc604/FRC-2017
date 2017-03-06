@@ -15,14 +15,14 @@ public class DataMap implements Iterable<Map.Entry<String, Data>> {
     /**
      * Adds data to the map.
      * @param name Name of the data.
-     * @param data Data to add.
+     * @param dataAcess Data to add.
      */
-    protected void add (String name, Data data) {
+    protected void add (String name, Data dataAcess) {
     	if (this.dataTable.containsKey(name)) {
     		Logger.warnTrace("Overwriting data \"" + name + "\".");
     	}
     	
-        this.dataTable.put(name, data);
+        this.dataTable.put(name, dataAcess);
     }
 
     /**

@@ -35,7 +35,7 @@ public class NetworkTrigger implements Trigger {
     }
 
     @Override
-    public boolean run () {
+    public boolean get () {
         return this.table.getBoolean(this.key, this.defaultValue);
     }
 }

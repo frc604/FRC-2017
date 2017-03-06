@@ -6,17 +6,17 @@ import com._604robotics.robotnik.memory.IndexedTable.Slice;
 /**
  * A reference to data.
  */
-public class DataReference implements DataAccess {
-    private final Data data;
+public class DataReference implements Data {
+    private final Data dataAcess;
     private final Slice value;
     
     /**
      * Creates a data reference.
-     * @param data Data to refer to.
+     * @param dataAcess Data to refer to.
      * @param value Slice to store the data value in.
      */
-    public DataReference (Data data, Slice value) {
-        this.data = data;
+    public DataReference (Data dataAcess, Slice value) {
+        this.dataAcess = dataAcess;
         this.value = value;
     }
     
@@ -30,6 +30,6 @@ public class DataReference implements DataAccess {
      * @param safety Safety mode to operate with.
      */
     public void update (Safety safety) {
-        safety.wrap("updating data value", () -> value.putNumber(data.run()));
+        safety.wrap("updating data value", () -> value.putNumber(dataAcess.get()));
     }
 }

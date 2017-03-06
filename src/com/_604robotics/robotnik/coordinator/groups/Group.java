@@ -2,13 +2,13 @@ package com._604robotics.robotnik.coordinator.groups;
 
 import com._604robotics.robotnik.coordinator.Coordinator;
 import com._604robotics.robotnik.module.ModuleManager;
-import com._604robotics.robotnik.trigger.TriggerAccess;
+import com._604robotics.robotnik.trigger.Trigger;
 
 /**
  * A group of steps to execute.
  */
 public class Group {
-    private final TriggerAccess trigger;
+    private final Trigger trigger;
     private final Coordinator coordinator;
 
     /**
@@ -16,7 +16,7 @@ public class Group {
      * @param trigger Trigger activating the group.
      * @param coordinator Coordinator driving the group.
      */
-    public Group (TriggerAccess trigger, Coordinator coordinator) {
+    public Group (Trigger trigger, Coordinator coordinator) {
         this.trigger = trigger;
         this.coordinator = coordinator;
     }

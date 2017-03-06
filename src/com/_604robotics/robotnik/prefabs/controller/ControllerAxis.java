@@ -1,12 +1,12 @@
 package com._604robotics.robotnik.prefabs.controller;
 
-import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.Data;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * An axis on a controller.
  */
-public class ControllerAxis implements DataAccess {
+public class ControllerAxis implements Data {
     private final Joystick joystick;
     private final int axis;
 
