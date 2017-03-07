@@ -16,8 +16,18 @@ public class FuzzyMatcher {
 	}
 
 	private LinkedHashMap<CacheEntry,Integer> MatchLRUCache;
+	private int cacheSize;
+	
+	public FuzzyMatcher (int cacheSize) {
+		this.cacheSize=2*cacheSize;
+	}
+	
+	public int getCacheSize() {
+		return cacheSize/2;
+	}
 
-	public int FuzzyMatcher(String str1, String str2) {
+	public int match(String str1, String str2) {
+		int distance=0;
 		CacheEntry norm = new CacheEntry(str1,str2);
 		CacheEntry rev = new CacheEntry(str2,str1);
 		/* See if in cache */
@@ -30,8 +40,15 @@ public class FuzzyMatcher {
 				MatchLRUCache.remove(norm);
 				MatchLRUCache.remove(rev);
 			}
-		} else /* Add to cache */ {
-			
+		} else /* Add to cache and return value */ {
+			if (str1.length()==0) {
+				distance=str2.length();
+				/* Add to cache and return */
+			}
+			if (str2.length()==0) {
+				distance=str2.length();
+				/* Add to cache and return */
+			}
 		}
 		return 0;
 	}
