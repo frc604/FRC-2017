@@ -6,7 +6,7 @@ import com._604robotics.robotnik.memory.IndexedTable;
 import com._604robotics.robotnik.memory.IndexedTable.Slice;
 import com._604robotics.robotnik.module.ModuleReference;
 import com._604robotics.robotnik.prefabs.trigger.TriggerManual;
-import com._604robotics.robotnik.trigger.TriggerAccess;
+import com._604robotics.robotnik.trigger.Trigger;
 import com._604robotics.robotnik.trigger.TriggerRecipient;
 
 /**
@@ -86,7 +86,7 @@ public class ActionReference implements DataRecipient, TriggerRecipient {
      * Gets a trigger fired when the reference's action is active.
      * @return The action's trigger.
      */
-    public TriggerAccess active () {
-        return (TriggerAccess) this.activeTrigger;
+    public Trigger active () {
+        return (Trigger) this.activeTrigger;
     }
 }

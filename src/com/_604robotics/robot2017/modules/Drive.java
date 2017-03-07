@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Drive extends Module {
+	/* Copied from 2015; could be different */
     // 19.7 clicks per inch
     // -490/490 is 360 degrees with both wheels driving, 115 is 90 degrees
 

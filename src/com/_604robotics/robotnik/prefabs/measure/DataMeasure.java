@@ -1,7 +1,7 @@
 package com._604robotics.robotnik.prefabs.measure;
 
 import com._604robotics.robotnik.coordinator.steps.Measure;
-import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.Data;
 
 /**
  * Measures data, reporting completion based on its value.
@@ -22,7 +22,7 @@ public class DataMeasure extends Measure {
      */
     public static final int UPPER_BOUND = 2;
 
-    private final DataAccess data;
+    private final Data data;
     private final int mode;
     private final double target;
     private double initialValue;
@@ -33,7 +33,7 @@ public class DataMeasure extends Measure {
      * @param mode Mode of the data measure.
      * @param target Target value to measure for.
      */
-    public DataMeasure (DataAccess data, int mode, double target) {
+    public DataMeasure (Data data, int mode, double target) {
         this.data = data;
         this.mode = mode;
         this.target = target;

@@ -21,11 +21,11 @@ public final class Calibration {
     public static final double DRIVE_ROTATE_PID_MAX = 1.0;
     public static final double DRIVE_ROTATE_PID_TOLERANCE = 20;
     
-
+    /* Ultrasonic Constants */
     public static final double ULTRA_SEPARATION = 22.0;
     public static final double ULTRA_TARGET = 5;
     
-    /* Drive Right Constants */
+    /* Drive Ultra Constants */
     public static final double DRIVE_ULTRA_PID_P = 0.02;
     public static final double DRIVE_ULTRA_PID_I = 0;
     public static final double DRIVE_ULTRA_PID_D = 0.0005;

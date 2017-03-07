@@ -34,7 +34,7 @@ public class NetworkData implements Data {
     }
 
     @Override
-    public double run () {
+    public double get () {
         return this.table.getNumber(this.key, this.defaultValue);
     }
 }
