@@ -1,10 +1,12 @@
 package com._604robotics.robotnik.module;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com._604robotics.robotnik.Safety;
 import com._604robotics.robotnik.memory.IndexedTable;
+import com._604robotics.robotnik.utils.FuzzyMatcher;
 
 /**
  * Manages modules.
@@ -32,6 +34,18 @@ public class ModuleManager {
     public ModuleReference getModule (String name) {
         ModuleReference ref = this.moduleTable.get(name);
         if (ref == null) {
+        	System.err.println("Module \"" + name + "\" does not exist.");
+        	ArrayList<String> matching = new ArrayList<String>();
+        	for (String module: this.moduleTable.keySet()) {
+        		if (FuzzyMatcher.match(module, name)<(0.3*name.length())) {
+        			matching.add(module);
+        		}
+        	}
+        	System.err.println("Did you mean:");
+        	for (String modmatch:matching) {
+        		System.err.print("    ");
+        		System.err.println(modmatch);
+        	}
         	throw new IllegalArgumentException("Module \"" + name + "\" does not exist.");
         }
         
