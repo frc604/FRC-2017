@@ -31,7 +31,7 @@ public class TeleopMode extends Coordinator {
 
     @Override
     protected void apply (ModuleManager modules) {
-    	/* Tank Drive */
+    	/* Default Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
@@ -91,10 +91,19 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Ultrasonic */
     	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Straight 2"), driver.buttons.B));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Straight 2"), "inches", Calibration.ULTRA_TARGET));
     		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.A));
 
+    	}
+    	/* Ultra Drive */
+    	{
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Drive"), new TriggerAnd(
+    				new TriggerNot(driver.buttons.RB),
+    				new TriggerNot(driver.buttons.Y),
+            		new TriggerNot(driver.buttons.B),
+            		driver.buttons.B,
+    				modules.getModule("Dashboard").getTrigger("Drive On"))));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Drive"), "Move Power", driver.leftStick.Y));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Drive"), "Rotate Power", driver.rightStick.X));
     	}
     	/* Xbox Flip Axis */
     	{
