@@ -32,36 +32,14 @@ public class FuzzyMatcher {
 				cacheArray[i][j]=Math.min(Math.min(del1, del2), subs);
 			}
 		}
-//		System.out.print("    ");
-//		for (char ch : str2.toCharArray()) {
-//			System.out.print(ch);
-//			System.out.print(" ");
-//		}
-//		System.out.println();
-//		int index=0;
-//		for (int[] row : cacheArray) {
-//			if (index>=1) {
-//				System.out.print(str1.charAt(index-1));
-//				System.out.print(" ");
-//			} else {
-//				System.out.print("  ");
-//			}
-//			index++;
-//			for (int num : row) {
-//				System.out.print(num);
-//				System.out.print(" ");
-//			}
-//			System.out.println();
-//		}
 		return cacheArray[str1len][str2len];
 	}
-	public static boolean matchThreshold(String str1, String str2, int threshold) {
+	public static boolean matchSimilar(String str1, String str2, int threshold) {
 		int result=match(str1,str2);
 		return (result<=threshold);
 	}
-//	public static void main(String[] args) {
-//		int print=match("sunday","saturday");
-//		System.out.print("The distance is ");
-//		System.out.println(print);
-//	}
+	public static boolean matchDifferent(String str1, String str2, int threshold) {
+		int result=match(str1,str2);
+		return (result>=threshold);
+	}
 }
