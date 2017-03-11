@@ -5,6 +5,7 @@ import com._604robotics.robot2017.modes.TeleopMode;
 import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
+import com._604robotics.robot2017.modules.Vision;
 import com._604robotics.robot2017.modules.XboxFlip;
 import com._604robotics.robot2017.systems.DashboardSystem;
 import com._604robotics.robotnik.Robot;
@@ -24,6 +25,7 @@ public class Robot2017 extends Robot {
             add("Drive", new Drive());
             add("DynamicToggle", new DynamicToggle());
             add("XboxFlip", new XboxFlip());
+            add("Vision", new Vision());
         }});
 
         this.set(new CoordinatorList() {{
