@@ -1,5 +1,6 @@
 package com._604robotics.robot2017.modules;
 
+import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
@@ -13,8 +14,8 @@ public class Broom extends Module {
     private final DoubleSolenoid solenoid;
     private boolean isExtended = false;
 
-    public Broom(int forwardSolenoid, int reverseSolenoid) {
-        this.solenoid = new DoubleSolenoid(forwardSolenoid, reverseSolenoid);
+    public Broom() {
+        this.solenoid = new DoubleSolenoid(Ports.BROOM_SOLENOID_FORWARD,Ports.BROOM_SOLENOID_REVERSE);
         
         this.set(new TriggerMap() {{
         	add("Extended", () -> isExtended);

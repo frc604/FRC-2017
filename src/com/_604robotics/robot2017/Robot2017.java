@@ -27,7 +27,7 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
-        	add("Broom", new Broom(Ports.BROOM_SOLENOID_FORWARD,Ports.BROOM_SOLENOID_REVERSE));
+        	add("Broom", new Broom());
             add("Climber", new Climber());
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());
