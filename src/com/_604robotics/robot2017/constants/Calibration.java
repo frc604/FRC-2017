@@ -8,10 +8,10 @@ public final class Calibration {
     public static final double TELEOP_FACTOR_DEFAULT = -1;
     
     /* Drive Left Constants */
-    public static final double DRIVE_LEFT_PID_P = 0.04;
+    public static final double DRIVE_LEFT_PID_P = 0.02;
     public static final double DRIVE_LEFT_PID_I = 0;
-    public static final double DRIVE_LEFT_PID_D = 0.04;
-    public static final double DRIVE_LEFT_PID_MAX = 0.84; // automatically squared to 0.7
+    public static final double DRIVE_LEFT_PID_D = 0.02;
+    public static final double DRIVE_LEFT_PID_MAX = Math.sqrt(0.2); // automatically squared to 0.7
     public static final double DRIVE_LEFT_PID_TOLERANCE = 20;
 
     /* Drive Right Constants */
@@ -59,6 +59,7 @@ public final class Calibration {
     
     public static final double ROTATE_TARGET_A = 90;
     public static final double ROTATE_TARGET_B = 40;
+    public static final double ROTATE_RIGHT_TARGET = 60;
     public static final double ROTATE_TOLERANCE = 3;
     
     public static final double ROTATE_ANGLE = 90;

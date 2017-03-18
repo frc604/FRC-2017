@@ -14,6 +14,7 @@ public class Dashboard extends Module {
             final DashboardTriggerChoice autonMode = new DashboardTriggerChoice("Auton Mode");
             add("Fail Safe", autonMode.add("Fail Safe"));
             add("Fail Safe 2", autonMode.add("Fail Safe 2"));
+            add("Testing 1", autonMode.add("Testing 1"));
             add("Left Step", autonMode.add("Left Step"));
             add("Mid Step", autonMode.add("Mid Step"));
             add("Right Step", autonMode.add("Right Step"));

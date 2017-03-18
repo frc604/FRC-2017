@@ -165,6 +165,9 @@ public class Drive extends Module {
             add("NorthWest", () -> -Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
             add("NorthEast", () -> Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
 
+            add("Left Target", () -> -Calibration.ROTATE_RIGHT_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_RIGHT_TARGET + Calibration.ROTATE_TOLERANCE);
+            add("Right Target", () -> Calibration.ROTATE_RIGHT_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_RIGHT_TARGET + Calibration.ROTATE_TOLERANCE);
+
         }});
 
         this.set(new ElasticController() {{
@@ -280,12 +283,12 @@ public class Drive extends Module {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
-                    horizGyro.reset();
+                    //horizGyro.reset();
                     
                     pidMove.setSetpoint(data.get("Clicks"));
                     pidMove.enable();
-                    pidRotate.setSetpoint(0);
-                    pidRotate.enable();
+                    //pidRotate.setSetpoint(0);
+                    //pidRotate.enable();
                 }
                 
                 public void run (ActionData data){
@@ -298,6 +301,7 @@ public class Drive extends Module {
                         pidMove.setSetpoint(data.get("Clicks"));
                         pidMove.enable();
                     }
+                    /*
                     if (pidRotate.getSetpoint() != 0) {
                         pidRotate.reset();
                         
@@ -306,11 +310,12 @@ public class Drive extends Module {
                         pidRotate.setSetpoint(0);
                         pidRotate.enable();
                     }
+                    */
                 }
                 
                 public void end (ActionData data) {
                     pidMove.reset();
-                    pidRotate.reset();
+                    //pidRotate.reset();
                 }
             });
             
