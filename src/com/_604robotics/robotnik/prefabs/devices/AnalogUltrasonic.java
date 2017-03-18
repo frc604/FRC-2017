@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 public class AnalogUltrasonic extends AnalogInput implements Ultrasonic {
     private static final int DEFAULT_SAMPLES = 64;
     private static final double INCHES_PER_VOLT = 42.56;
-    private static final double OPERATING_RANGE = 72.0;
+    private static final double OPERATING_RANGE = 150.0;
     
     /**
      * Creates an analog ultrasonic sensor.

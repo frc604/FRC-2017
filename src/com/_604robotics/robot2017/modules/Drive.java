@@ -29,6 +29,7 @@ public class Drive extends Module {
     // 430 is 180 degrees with one side locked
 
     // When decreasing angle it needs a little bit less than you'd think
+	private boolean calibrated = false;
 	    
 	private final RobotDrive drive = new RobotDrive(
             Ports.DRIVE_FRONT_LEFT_MOTOR,
@@ -96,7 +97,14 @@ public class Drive extends Module {
     */
 
     public Drive () {
-        horizGyro.calibrate();	
+    	{
+    		System.out.print("Calibrating Gyro...");
+    	}
+        horizGyro.calibrate();
+        {
+        	System.out.println("Done");
+        	calibrated = true;
+        }
 
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -142,7 +150,9 @@ public class Drive extends Module {
         }});
 
         this.set(new TriggerMap() {{
+        	add("Gyro Calibrated", () -> calibrated);
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
+            add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
             add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
@@ -270,9 +280,12 @@ public class Drive extends Module {
                 public void begin (ActionData data) {
                     encoderLeft.reset();
                     encoderRight.reset();
+                    horizGyro.reset();
                     
                     pidMove.setSetpoint(data.get("Clicks"));
                     pidMove.enable();
+                    pidRotate.setSetpoint(0);
+                    pidRotate.enable();
                 }
                 
                 public void run (ActionData data){
@@ -285,10 +298,19 @@ public class Drive extends Module {
                         pidMove.setSetpoint(data.get("Clicks"));
                         pidMove.enable();
                     }
+                    if (pidRotate.getSetpoint() != 0) {
+                        pidRotate.reset();
+                        
+                        horizGyro.reset();
+                        
+                        pidRotate.setSetpoint(0);
+                        pidRotate.enable();
+                    }
                 }
                 
                 public void end (ActionData data) {
                     pidMove.reset();
+                    pidRotate.reset();
                 }
             });
             
@@ -297,8 +319,6 @@ public class Drive extends Module {
             }}) {
                 public void begin (ActionData data) {
                     horizGyro.reset();
-                    
-                    pidOutput.move.pidWrite(0);
                     
                     pidRotate.setSetpoint(data.get("Angle"));
                     pidRotate.enable();
@@ -323,15 +343,7 @@ public class Drive extends Module {
             	public void begin (ActionData data) {
             		encoderLeft.reset();
             		encoderRight.reset();
-            		horizGyro.calibrate();
-            		
-            		timer.reset();
-            		timer.start();
-            	}
-            	
-            	public void end (ActionData data) {
-            		timer.stop();
-            		timer.reset();
+            		horizGyro.reset();
             	}
             });
             
@@ -401,6 +413,49 @@ public class Drive extends Module {
 	                	} else {
 	                		drive.stopMotor();
 	                	}
+                    } else {
+                    	drive.tankDrive(-0.15, 0.15, false);
+                    }
+                }
+                
+                public void end (ActionData data) {
+                	drive.stopMotor();
+                }
+            });
+            
+            add("Ultra Align Right", new Action() {
+                public void run (ActionData data){
+                    if(ultra.inRange()) {
+	                	double difference = ultra.getDifference(1);
+	                	if (difference < -1) {
+	                		drive.tankDrive(-0.15, 0.15, false);
+	                	} else if (difference > 1) {
+	                		drive.tankDrive(0.15, -0.15, false);
+	                	} else {
+	                		drive.stopMotor();
+	                	}
+                    } else {
+                    	drive.tankDrive(-0.15, 0.15, false);
+                    }
+                }
+                
+                public void end (ActionData data) {
+                	drive.stopMotor();
+                }
+            });
+            add("Ultra Align Left", new Action() {
+                public void run (ActionData data){
+                    if(ultra.inRange()) {
+	                	double difference = ultra.getDifference(1);
+	                	if (difference < -1) {
+	                		drive.tankDrive(-0.15, 0.15, false);
+	                	} else if (difference > 1) {
+	                		drive.tankDrive(0.15, -0.15, false);
+	                	} else {
+	                		drive.stopMotor();
+	                	}
+                    } else {
+                    	drive.tankDrive(0.15, -0.15, false);
                     }
                 }
                 
@@ -418,7 +473,7 @@ public class Drive extends Module {
             		boolean right = false;
             		if( ultra.inRange() ) {
             			double difference = ultra.getDifference();
-            			if( difference < 0 ) {
+            			if( difference < 0 || !ultra.inRange() ) {
             				right = true;
             			}
             			if( Math.abs(difference)> 1 / Math.E  )
