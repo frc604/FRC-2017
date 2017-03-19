@@ -80,6 +80,14 @@ public class Drive extends Module {
             horizGyro,
             pidOutput.rotate);
     
+    private final ArcadeDrivePIDOutput pidOutput2 = new ArcadeDrivePIDOutput(drive);
+    private final PIDController pidMove2 = new PIDController(
+    		Calibration.DRIVE_LEFT_PID_P,
+    		Calibration.DRIVE_LEFT_PID_I,
+    		Calibration.DRIVE_LEFT_PID_D,
+    		encoderLeft,
+    		pidOutput2.move);
+    
     //private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
     private final UltrasonicPair ultra = new UltrasonicPair(new AnalogUltrasonic(Ports.ULTRASONIC_LEFT), new AnalogUltrasonic(Ports.ULTRASONIC_RIGHT), Calibration.ULTRA_SEPARATION);
@@ -156,6 +164,7 @@ public class Drive extends Module {
         	add("Reset", () -> reset);
 
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
+            add("At Move Servo Target 2", () -> pidMove2.isEnabled() && pidMove2.onTarget());            
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
@@ -324,6 +333,53 @@ public class Drive extends Module {
                     pidMove.reset();
                     /* Should be normal default; pidMove does not have getter for output range */
                     pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
+                    //pidRotate.reset();
+                }
+            });
+            
+            add("Servo Move 2", new Action(new FieldMap() {{
+                define("Clicks", 0D);
+                define("Limit", Calibration.DRIVE_LEFT_PID_MAX);
+            }}) {
+                public void begin (ActionData data) {
+                	/* Get current value */
+                	pidMove2.setOutputRange(-data.get("Limit"), data.get("Limit"));
+                    encoderLeft.reset();
+                    encoderRight.reset();
+                    //horizGyro.reset();
+                    
+                    pidMove2.setSetpoint(data.get("Clicks"));
+                    pidMove2.enable();
+                    //pidRotate.setSetpoint(0);
+                    //pidRotate.enable();
+                }
+                
+                public void run (ActionData data){
+                    if (pidMove2.getSetpoint() != data.get("Clicks")) {
+                        pidMove2.reset();
+                        
+                        encoderLeft.reset();
+                        encoderRight.reset();
+                        
+                        pidMove2.setSetpoint(data.get("Clicks"));
+                        pidMove2.enable();
+                    }
+                    /*
+                    if (pidRotate.getSetpoint() != 0) {
+                        pidRotate.reset();
+                        
+                        horizGyro.reset();
+                        
+                        pidRotate.setSetpoint(0);
+                        pidRotate.enable();
+                    }
+                    */
+                }
+                
+                public void end (ActionData data) {
+                    pidMove2.reset();
+                    /* Should be normal default; pidMove does not have getter for output range */
+                    pidMove2.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
                     //pidRotate.reset();
                 }
             });
