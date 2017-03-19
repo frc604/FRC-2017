@@ -14,7 +14,7 @@ public final class Calibration {
     public static final double DRIVE_LEFT_PID_MAX = Math.sqrt(0.2); // automatically squared to 0.7
     public static final double DRIVE_LEFT_PID_TOLERANCE = 20;
 
-    /* Drive Right Constants */
+    /* Drive Right Constants - unused */
     public static final double DRIVE_RIGHT_PID_P = 0.04;
     public static final double DRIVE_RIGHT_PID_I = 0;
     public static final double DRIVE_RIGHT_PID_D = 0.04;
@@ -48,10 +48,10 @@ public final class Calibration {
     public static final double ROTATE_TIME = 0.42;
     public static final double ROTATE_POWER = 0.5;
     
-    public static final double DRIVE_ROTATE_PID_P = 0.02;
+    public static final double DRIVE_ROTATE_PID_P = 0.04;
     public static final double DRIVE_ROTATE_PID_I = 0;
-    public static final double DRIVE_ROTATE_PID_D = 0.007;
-    public static final double DRIVE_ROTATE_PID_MAX = 1.0;
+    public static final double DRIVE_ROTATE_PID_D = 0.04;
+    public static final double DRIVE_ROTATE_PID_MAX = Math.sqrt(0.7);
     public static final double DRIVE_ROTATE_PID_TOLERANCE = 1;
     
     public static final double KINEMATIC_POWER = 0.7;
@@ -59,7 +59,10 @@ public final class Calibration {
     
     public static final double ROTATE_TARGET_A = 90;
     public static final double ROTATE_TARGET_B = 40;
-    public static final double ROTATE_RIGHT_TARGET = 60;
+    /* All for "Testing 1" */
+    public static final double ROTATE_TURN_INIT_FOWARD = 760;//640 clicks + 5 inches
+    public static final double ROTATE_TURN_FINAL_FOWARD = 2800;
+    public static final double ROTATE_TURN_TARGET = 56;
     public static final double ROTATE_TOLERANCE = 3;
     
     public static final double ROTATE_ANGLE = 90;

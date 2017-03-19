@@ -113,7 +113,6 @@ public class TeleopMode extends Coordinator {
             this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
     	}
     	/* Gear Broom */
-    	/* Plug in proper action! */
     	{
     		final TriggerToggle broomToggle = new TriggerToggle(driver.buttons.X, false);
     		
