@@ -339,53 +339,6 @@ public class Drive extends Module {
                 }
             });
             
-            add("Servo Move 2", new Action(new FieldMap() {{
-                define("Clicks", 0D);
-                define("Limit", Calibration.DRIVE_MOVE_PID_MAX);
-            }}) {
-                public void begin (ActionData data) {
-                	/* Get current value */
-                	pidMove2.setOutputRange(-data.get("Limit"), data.get("Limit"));
-                    encoderLeft.reset();
-                    encoderRight.reset();
-                    //horizGyro.reset();
-                    
-                    pidMove2.setSetpoint(data.get("Clicks"));
-                    pidMove2.enable();
-                    //pidRotate.setSetpoint(0);
-                    //pidRotate.enable();
-                }
-                
-                public void run (ActionData data){
-                    if (pidMove2.getSetpoint() != data.get("Clicks")) {
-                        pidMove2.reset();
-                        
-                        encoderLeft.reset();
-                        encoderRight.reset();
-                        
-                        pidMove2.setSetpoint(data.get("Clicks"));
-                        pidMove2.enable();
-                    }
-                    /*
-                    if (pidRotate.getSetpoint() != 0) {
-                        pidRotate.reset();
-                        
-                        horizGyro.reset();
-                        
-                        pidRotate.setSetpoint(0);
-                        pidRotate.enable();
-                    }
-                    */
-                }
-                
-                public void end (ActionData data) {
-                    pidMove2.reset();
-                    /* Should be normal default; pidMove does not have getter for output range */
-                    pidMove2.setOutputRange(-Calibration.DRIVE_MOVE_PID_MAX, Calibration.DRIVE_MOVE_PID_MAX);
-                    //pidRotate.reset();
-                }
-            });
-            
             add("Servo Rotate", new Action(new FieldMap() {{
                 define("Angle", 0D);
             }}) {
