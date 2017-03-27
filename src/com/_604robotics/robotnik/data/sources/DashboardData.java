@@ -1,7 +1,6 @@
 package com._604robotics.robotnik.data.sources;
 
 import com._604robotics.robotnik.data.Data;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -24,7 +23,7 @@ public class DashboardData implements Data {
     }
 
     @Override
-    public double run () {
+    public double get () {
         return SmartDashboard.getNumber(this.key, this.defaultValue);
     }
 }

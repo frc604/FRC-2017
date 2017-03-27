@@ -32,7 +32,7 @@ public class DashboardDataChoice implements Data {
     }
 
     @Override
-    public double run () {
+    public double get () {
         return ((Double) this.chooser.getSelected()).doubleValue();
     }
 }

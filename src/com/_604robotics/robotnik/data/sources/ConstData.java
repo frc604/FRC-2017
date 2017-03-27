@@ -1,11 +1,11 @@
 package com._604robotics.robotnik.data.sources;
 
-import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.Data;
 
 /**
  * Data with a constant value.
  */
-public class ConstData implements DataAccess {
+public class ConstData implements Data {
     private final double value;
 
     /**

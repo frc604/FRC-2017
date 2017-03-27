@@ -7,11 +7,11 @@ import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 /**
  * A reference to a trigger.
  */
-public class TriggerReference implements TriggerAccess {
+public class TriggerReference implements Trigger {
     private final Trigger trigger;
     private final Slice value;
 
-    private TriggerAccess inverse = null;
+    private Trigger inverse = null;
 
     /**
      * Creates a trigger reference.
@@ -27,7 +27,7 @@ public class TriggerReference implements TriggerAccess {
      * Gets the inverse of the trigger.
      * @return The inverse of the trigger.
      */
-    public TriggerAccess not () {
+    public Trigger not () {
         if (inverse == null) {
             inverse = new TriggerNot(this);
         }
@@ -45,6 +45,6 @@ public class TriggerReference implements TriggerAccess {
      * @param safety Safety mode to operate with.
      */
     public void update (Safety safety) {
-        safety.wrap("updating trigger value", () -> value.putBoolean(trigger.run()));
+        safety.wrap("updating trigger value", () -> value.putBoolean(trigger.get()));
     }
 }

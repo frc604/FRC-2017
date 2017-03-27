@@ -1,11 +1,13 @@
 package com._604robotics.robotnik.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import com._604robotics.robotnik.Safety;
 import com._604robotics.robotnik.memory.IndexedTable;
 import com._604robotics.robotnik.module.ModuleReference;
+import com._604robotics.robotnik.utils.FuzzyMatcher;
 
 /**
  * Manages multiple actions.
@@ -46,6 +48,18 @@ public class ActionManager {
     public ActionReference getAction (String name) {
         ActionReference ref = this.actionTable.get(name);
         if (ref == null) {
+        	System.err.println("Action \"" + name + "\" does not exist.");
+        	ArrayList<String> matching = new ArrayList<String>();
+        	for (String action: this.actionTable.keySet()) {
+        		if (FuzzyMatcher.match(action, name)<(0.3*name.length())) {
+        			matching.add(action);
+        		}
+        	}
+        	System.err.println("Did you mean:");
+        	for (String actmatch:matching) {
+        		System.err.print("    ");
+        		System.err.println(actmatch);
+        	}
         	throw new IllegalArgumentException("Action \"" + name + "\" does not exist.");
         }
         

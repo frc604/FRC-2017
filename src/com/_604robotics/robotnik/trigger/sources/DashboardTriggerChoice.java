@@ -12,7 +12,7 @@ public class DashboardTriggerChoice {
     private final SendableChooser<DashboardTriggerOption> chooser = new SendableChooser<DashboardTriggerOption>();
     private class DashboardTriggerOption implements Trigger {
         @Override
-        public boolean run () {
+        public boolean get () {
             return chooser.getSelected() == this;
         }
     }

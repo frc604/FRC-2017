@@ -1,12 +1,12 @@
 package com._604robotics.robotnik.prefabs.controller;
 
-import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.Data;
 import edu.wpi.first.wpilibj.Joystick;
 
 /**
  * An axis on a controller.
  */
-public class ControllerAxis implements DataAccess {
+public class ControllerAxis implements Data {
     private final Joystick joystick;
     private final int axis;
 
@@ -44,6 +44,21 @@ public class ControllerAxis implements DataAccess {
      */
     public void setFactor (double factor) {
         this.factor = factor;
+    }
+    
+    /**
+     * Gets the deadband of the axis.
+     * @return The current deadband
+     */
+    public double getDeadband() {
+    	return this.deadband;
+    }
+    /**
+     * Gets the multiplication factor of the axis.
+     * @return The current factor
+     */
+    public double getFactor() {
+    	return this.factor;
     }
     
     /**

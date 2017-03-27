@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
 
 public class Drive extends Module {
+	/* Copied from 2015; could be different */
     // 19.7 clicks per inch
     // -490/490 is 360 degrees with both wheels driving, 115 is 90 degrees
 
@@ -68,9 +69,9 @@ public class Drive extends Module {
 
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
     private final PIDController pidMove = new PIDController(
-    		Calibration.DRIVE_LEFT_PID_P,
-    		Calibration.DRIVE_LEFT_PID_I,
-    		Calibration.DRIVE_LEFT_PID_D,
+    		Calibration.DRIVE_MOVE_PID_P,
+    		Calibration.DRIVE_MOVE_PID_I,
+    		Calibration.DRIVE_MOVE_PID_D,
     		encoderLeft,
     		pidOutput.move);
     private final PIDController pidRotate = new PIDController(
@@ -82,9 +83,9 @@ public class Drive extends Module {
     
     private final ArcadeDrivePIDOutput pidOutput2 = new ArcadeDrivePIDOutput(drive);
     private final PIDController pidMove2 = new PIDController(
-    		Calibration.DRIVE_LEFT_PID_P,
-    		Calibration.DRIVE_LEFT_PID_I,
-    		Calibration.DRIVE_LEFT_PID_D,
+    		Calibration.DRIVE_MOVE_PID_P,
+    		Calibration.DRIVE_MOVE_PID_I,
+    		Calibration.DRIVE_MOVE_PID_D,
     		encoderLeft,
     		pidOutput2.move);
     
@@ -128,8 +129,8 @@ public class Drive extends Module {
         pidRight.setAbsoluteTolerance(Calibration.DRIVE_RIGHT_PID_TOLERANCE);
 		*/
 		
-        pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
-        pidMove.setAbsoluteTolerance(Calibration.DRIVE_LEFT_PID_TOLERANCE);
+        pidMove.setOutputRange(-Calibration.DRIVE_MOVE_PID_MAX, Calibration.DRIVE_MOVE_PID_MAX);
+        pidMove.setAbsoluteTolerance(Calibration.DRIVE_MOVE_PID_TOLERANCE);
         
         pidRotate.setOutputRange(-Calibration.DRIVE_ROTATE_PID_MAX, Calibration.DRIVE_ROTATE_PID_MAX);
         pidRotate.setAbsoluteTolerance(Calibration.DRIVE_ROTATE_PID_TOLERANCE);
@@ -168,7 +169,7 @@ public class Drive extends Module {
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
-            add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
+            add("Timer Setpoint", () -> timer.get() > Calibration.TIMER_WAIT);
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
             add("East", () -> Calibration.ROTATE_TARGET_A - Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
@@ -292,7 +293,7 @@ public class Drive extends Module {
             
             add("Servo Move", new Action(new FieldMap() {{
                 define("Clicks", 0D);
-                define("Limit", Calibration.DRIVE_LEFT_PID_MAX);
+                define("Limit", Calibration.DRIVE_MOVE_PID_MAX);
             }}) {
                 public void begin (ActionData data) {
                 	/* Get current value */
@@ -333,54 +334,7 @@ public class Drive extends Module {
                     pidMove.reset();
                     pidMove.disable();
                     /* Should be normal default; pidMove does not have getter for output range */
-                    pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
-                    //pidRotate.reset();
-                }
-            });
-            
-            add("Servo Move 2", new Action(new FieldMap() {{
-                define("Clicks", 0D);
-                define("Limit", Calibration.DRIVE_LEFT_PID_MAX);
-            }}) {
-                public void begin (ActionData data) {
-                	/* Get current value */
-                	pidMove2.setOutputRange(-data.get("Limit"), data.get("Limit"));
-                    encoderLeft.reset();
-                    encoderRight.reset();
-                    //horizGyro.reset();
-                    
-                    pidMove2.setSetpoint(data.get("Clicks"));
-                    pidMove2.enable();
-                    //pidRotate.setSetpoint(0);
-                    //pidRotate.enable();
-                }
-                
-                public void run (ActionData data){
-                    if (pidMove2.getSetpoint() != data.get("Clicks")) {
-                        pidMove2.reset();
-                        
-                        encoderLeft.reset();
-                        encoderRight.reset();
-                        
-                        pidMove2.setSetpoint(data.get("Clicks"));
-                        pidMove2.enable();
-                    }
-                    /*
-                    if (pidRotate.getSetpoint() != 0) {
-                        pidRotate.reset();
-                        
-                        horizGyro.reset();
-                        
-                        pidRotate.setSetpoint(0);
-                        pidRotate.enable();
-                    }
-                    */
-                }
-                
-                public void end (ActionData data) {
-                    pidMove2.reset();
-                    /* Should be normal default; pidMove does not have getter for output range */
-                    pidMove2.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
+                    pidMove.setOutputRange(-Calibration.DRIVE_MOVE_PID_MAX, Calibration.DRIVE_MOVE_PID_MAX);
                     //pidRotate.reset();
                 }
             });
