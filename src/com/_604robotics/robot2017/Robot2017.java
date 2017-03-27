@@ -3,6 +3,7 @@ package com._604robotics.robot2017;
 import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robot2017.modes.AutonomousMode;
 import com._604robotics.robot2017.modes.TeleopMode;
+import com._604robotics.robot2017.modules.Broom;
 import com._604robotics.robot2017.modules.Climber;
 import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
@@ -26,6 +27,7 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
+        	add("Broom", new Broom());
             add("Climber", new Climber());
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());

@@ -33,6 +33,9 @@ public final class Calibration {
     public static final double DRIVE_ULTRA_PID_TOLERANCE = 10;
 
     /* Auton constants */
+    public static final double FWD_CLICKS_SMOL = 400;
+    public static final double FWD_CLICKS_X = 400;
+
     public static final double FWD_CLICKS=810;
     public static final double LONG_FWD_CLICKS=2800;
     public static final double FWD_CLICKS_ALT=1250;
@@ -44,14 +47,18 @@ public final class Calibration {
     public static final double KINEMATIC_TIMELR = 2.2;
     public static final double TIMER_WAIT = 2;
     public static final double ROTATE_TIME = 0.42;
-    public static final double ROTATE_POWER = 0.7;
+    public static final double ROTATE_POWER = 0.5;
     
     public static final double KINEMATIC_POWER = 0.7;
     public static final double KINEMATIC_POWER2 = 1.0;
     
     public static final double ROTATE_TARGET_A = 90;
-    public static final double ROTATE_TARGET_B = 45;
-    public static final double ROTATE_TOLERANCE = 30;
+    public static final double ROTATE_TARGET_B = 40;
+    /* All for "Testing 1" */
+    public static final double ROTATE_TURN_INIT_FOWARD = 1460;//640 clicks + 5 inches
+    public static final double ROTATE_TURN_FINAL_FOWARD = 2800;
+    public static final double ROTATE_TURN_TARGET = 51; //42.5
+    public static final double ROTATE_TOLERANCE = 3;
     
     public static final double ROTATE_ANGLE = 90;
 }
