@@ -11,7 +11,7 @@ public final class Calibration {
     public static final double DRIVE_LEFT_PID_P = 0.02;
     public static final double DRIVE_LEFT_PID_I = 0;
     public static final double DRIVE_LEFT_PID_D = 0.02;
-    public static final double DRIVE_LEFT_PID_MAX = Math.sqrt(0.2); // automatically squared to 0.7
+    public static final double DRIVE_LEFT_PID_MAX = Math.sqrt(0.5); // automatically squared to 0.7
     public static final double DRIVE_LEFT_PID_TOLERANCE = 20;
 
     /* Drive Right Constants - unused */
@@ -60,9 +60,9 @@ public final class Calibration {
     public static final double ROTATE_TARGET_A = 90;
     public static final double ROTATE_TARGET_B = 40;
     /* All for "Testing 1" */
-    public static final double ROTATE_TURN_INIT_FOWARD = 760;//640 clicks + 5 inches
+    public static final double ROTATE_TURN_INIT_FOWARD = 1460;//640 clicks + 5 inches
     public static final double ROTATE_TURN_FINAL_FOWARD = 2800;
-    public static final double ROTATE_TURN_TARGET = 56;
+    public static final double ROTATE_TURN_TARGET = 51; //42.5
     public static final double ROTATE_TOLERANCE = 3;
     
     public static final double ROTATE_ANGLE = 90;

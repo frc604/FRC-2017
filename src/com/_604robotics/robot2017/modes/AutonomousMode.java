@@ -58,14 +58,14 @@ public class AutonomousMode extends Coordinator {
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Right"), "Power", Calibration.ROTATE_POWER));
                     		}
                     	}));
-                		
                 		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(
-                				modules.getModule("Drive").getTrigger("At Move Servo Target 2")
+                				modules.getModule("Drive").getTrigger("At Move Servo Target")
                 		)), new Coordinator() {
                 			protected void apply(ModuleManager modules) {
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move 2"), 
+                				this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move 2"),
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
                                 		"Limit", Math.sqrt(0.8)));
                 			}
                 		}));
@@ -113,14 +113,14 @@ public class AutonomousMode extends Coordinator {
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Left"), "Power", Calibration.ROTATE_POWER));
                     		}
                     	}));
-                		
                 		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(
-                				modules.getModule("Drive").getTrigger("At Move Servo Target 2")
+                				modules.getModule("Drive").getTrigger("At Move Servo Target")
                 		)), new Coordinator() {
                 			protected void apply(ModuleManager modules) {
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move 2"), 
+                				this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move 2"),
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
                                 		"Limit", Math.sqrt(0.8)));
                 			}
                 		}));
@@ -146,14 +146,14 @@ public class AutonomousMode extends Coordinator {
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Right"), "Power", Calibration.ROTATE_POWER));
                     		}
                     	}));
-                		
                 		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(
-                				modules.getModule("Drive").getTrigger("At Move Servo Target 2")
+                				modules.getModule("Drive").getTrigger("At Move Servo Target")
                 		)), new Coordinator() {
                 			protected void apply(ModuleManager modules) {
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move 2"), 
+                				this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move 2"),
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
                                 		"Limit", Math.sqrt(0.8)));
                 			}
                 		}));

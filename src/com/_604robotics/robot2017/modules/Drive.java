@@ -162,7 +162,7 @@ public class Drive extends Module {
         this.set(new TriggerMap() {{
         	add("Gyro Calibrated", () -> calibrated);
         	add("Reset", () -> reset);
-
+        	add("Forward Again", () -> true);
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
             add("At Move Servo Target 2", () -> pidMove2.isEnabled() && pidMove2.onTarget());            
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
@@ -331,6 +331,7 @@ public class Drive extends Module {
                 
                 public void end (ActionData data) {
                     pidMove.reset();
+                    pidMove.disable();
                     /* Should be normal default; pidMove does not have getter for output range */
                     pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
                     //pidRotate.reset();
