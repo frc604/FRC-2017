@@ -45,7 +45,7 @@ public class TeleopMode extends Coordinator {
 
     @Override
     protected void apply (ModuleManager modules) {
-    	/* Tank Drive */
+    	/* Default Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
@@ -90,7 +90,7 @@ public class TeleopMode extends Coordinator {
     	}
     	
     	/* Toggle Drive */
-    	{
+/*    	{
     		final TriggerToggle driveMode = new TriggerToggle(driver.buttons.X, false);
     		
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
@@ -103,14 +103,31 @@ public class TeleopMode extends Coordinator {
 					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
 					driveMode.on)));
     	}
+    	/* Ultrasonic */
+    	{
+    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.Y));
+
+    	}
     	/* Xbox Flip Axis */
     	{
     		this.bind(new Binding(modules.getModule("XboxFlip").getAction("Flip"), driver.buttons.RB));
     	}
-    	
-    	/*Calibrate*/
+    	/* Shifter */
     	{
-       		this.bind(new Binding(modules.getModule("Drive").getAction("Calibrate"), driver.buttons.X));           
+            this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
+    	}
+    	/* Climber */
+    	{
+       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.LT));
+    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Left));            
+    	}
+    	/* SpikeLight */
+    	{
+            this.bind(new Binding(modules.getModule("SpikeLight").getAction("On"), new TriggerToggle(driver.buttons.RT, false).on));
+    	}
+    	/* Calibrate*/
+    	{
+       		this.bind(new Binding(modules.getModule("Drive").getAction("Calibrate"), driver.buttons.Back));
     	}
     	/* Rumble Test */
     	{

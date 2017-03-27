@@ -22,7 +22,6 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
-        	System.out.println("Modules initialized.");
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());
             add("DynamicToggle", new DynamicToggle());
