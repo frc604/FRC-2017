@@ -62,7 +62,11 @@ public class XboxControllerButtons {
      * RT.
      */
     public final ControllerAxisButton RT;
-
+    
+    /**
+     * Start.
+     */
+    public final ControllerButton Start;
     /**
      * Creates Xbox controller buttons.
      * @param joystick Xbox controller containing the buttons.
@@ -75,6 +79,7 @@ public class XboxControllerButtons {
         this.LB   = new ControllerButton(joystick, 5);
         this.RB   = new ControllerButton(joystick, 6);
         this.Back = new ControllerButton(joystick, 7);
+        this.Start  = new ControllerButton(joystick, 8);
         
         this.LeftStick  = new ControllerButton(joystick,  9);
         this.RightStick = new ControllerButton(joystick, 10);

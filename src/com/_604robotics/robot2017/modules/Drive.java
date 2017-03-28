@@ -6,6 +6,7 @@ import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
 import com._604robotics.robotnik.action.field.FieldMap;
+import com._604robotics.robotnik.data.Data;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
@@ -30,6 +31,8 @@ public class Drive extends Module {
     // 430 is 180 degrees with one side locked
 
     // When decreasing angle it needs a little bit less than you'd think
+	private boolean calibrated = false;
+	private boolean reset = false;
 	    
 	private final RobotDrive drive = new RobotDrive(
             Ports.DRIVE_FRONT_LEFT_MOTOR,
@@ -96,7 +99,14 @@ public class Drive extends Module {
     */
 
     public Drive () {
-        horizGyro.calibrate();	
+    	{
+    		System.out.print("Calibrating Gyro...");
+    	}
+        horizGyro.calibrate();
+        {
+        	System.out.println("Done");
+        	calibrated = true;
+        }
 
         encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -135,6 +145,9 @@ public class Drive extends Module {
         }});
 
         this.set(new TriggerMap() {{
+        	add("Gyro Calibrated", () -> calibrated);
+        	add("Reset", () -> reset);
+        	add("Forward Again", () -> true);
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
             add("Timer Setpoint", () -> timer.get() > Calibration.TIMER_WAIT);
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
@@ -145,6 +158,9 @@ public class Drive extends Module {
             add("South Neg", () -> Calibration.ROTATE_TARGET_A * -2 -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_A * 2 + Calibration.ROTATE_TOLERANCE);
             add("NorthWest", () -> -Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
             add("NorthEast", () -> Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
+
+            add("Left Target", () -> -Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
+            add("Right Target", () -> Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
 
         }});
 
@@ -257,13 +273,19 @@ public class Drive extends Module {
             
             add("Servo Move", new Action(new FieldMap() {{
                 define("Clicks", 0D);
+                define("Limit", Calibration.DRIVE_MOVE_PID_MAX);
             }}) {
                 public void begin (ActionData data) {
+                	/* Get current value */
+                	pidMove.setOutputRange(-data.get("Limit"), data.get("Limit"));
                     encoderLeft.reset();
                     encoderRight.reset();
+                    //horizGyro.reset();
                     
                     pidMove.setSetpoint(data.get("Clicks"));
                     pidMove.enable();
+                    //pidRotate.setSetpoint(0);
+                    //pidRotate.enable();
                 }
                 
                 public void run (ActionData data){
@@ -276,10 +298,24 @@ public class Drive extends Module {
                         pidMove.setSetpoint(data.get("Clicks"));
                         pidMove.enable();
                     }
+                    /*
+                    if (pidRotate.getSetpoint() != 0) {
+                        pidRotate.reset();
+                        
+                        horizGyro.reset();
+                        
+                        pidRotate.setSetpoint(0);
+                        pidRotate.enable();
+                    }
+                    */
                 }
                 
                 public void end (ActionData data) {
                     pidMove.reset();
+                    pidMove.disable();
+                    /* Should be normal default; pidMove does not have getter for output range */
+                    pidMove.setOutputRange(-Calibration.DRIVE_MOVE_PID_MAX, Calibration.DRIVE_MOVE_PID_MAX);
+                    //pidRotate.reset();
                 }
             });
             
@@ -288,8 +324,6 @@ public class Drive extends Module {
             }}) {
                 public void begin (ActionData data) {
                     horizGyro.reset();
-                    
-                    pidOutput.move.pidWrite(0);
                     
                     pidRotate.setSetpoint(data.get("Angle"));
                     pidRotate.enable();
@@ -312,17 +346,13 @@ public class Drive extends Module {
             });
             add("Calibrate", new Action() {
             	public void begin (ActionData data) {
+            		reset = false;
             		encoderLeft.reset();
             		encoderRight.reset();
-            		horizGyro.calibrate();
-            		
-            		timer.reset();
-            		timer.start();
+            		horizGyro.reset();
             	}
-            	
             	public void end (ActionData data) {
-            		timer.stop();
-            		timer.reset();
+            		reset = true;
             	}
             });
             

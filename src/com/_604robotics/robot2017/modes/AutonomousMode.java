@@ -24,29 +24,7 @@ public class AutonomousMode extends Coordinator {
         //this.bind(new Binding(modules.getModule("Shifter").getAction("High Gear")));
         group(new Group(modules.getModule("Dashboard").getTrigger("Auton On"), new Coordinator() {
             protected void apply (ModuleManager modules) { 
-// >>>>>>>> Auton Obstacles Options <<<<<<<< //
-                group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
-                	protected void apply(ModuleManager modules) {
-                		step("Fail Safe", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIMEM));
-                    		}
-                    	}));
-                	}
-                }));
-                group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe 2"), new Coordinator() {
-                	protected void apply(ModuleManager modules) {
-                		step("Fail Safe 2", new Step(new TriggerMeasure(new TriggerNot(TriggerAlways.getInstance())), new Coordinator() {
-                    		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Power", Calibration.KINEMATIC_POWER2));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), "Time", Calibration.KINEMATIC_TIMELR));
-                    		}
-                    	}));
-                	}
-                }));
+            	
 // >>>>>>>> EO Auton Obstacles Options <<<<<<<< //
             }
         }));
