@@ -30,9 +30,6 @@ public class DashboardSystem extends Coordinator {
             
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Xbox Flipped",
             		modules.getModule("XboxFlip").getTrigger("Xbox Flipped")));
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Broom Extended",
-            		modules.getModule("Broom").getTrigger("Extended")));
-            
         }
     }
 }
