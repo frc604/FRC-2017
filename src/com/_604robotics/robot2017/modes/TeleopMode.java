@@ -5,7 +5,6 @@ import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.coordinator.connectors.DataWire;
 import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.controller.xbox.XboxController;
-import com._604robotics.robotnik.prefabs.trigger.TriggerAlways;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
 import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
@@ -103,27 +102,9 @@ public class TeleopMode extends Coordinator {
 					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
 					driveMode.on)));
     	}
-    	/* Ultrasonic */
-    	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.Y));
-
-    	}
     	/* Xbox Flip Axis */
     	{
     		this.bind(new Binding(modules.getModule("XboxFlip").getAction("Flip"), driver.buttons.RB));
-    	}
-    	/* Shifter */
-    	{
-            this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
-    	}
-    	/* Climber */
-    	{
-       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.LT));
-    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Left));            
-    	}
-    	/* SpikeLight */
-    	{
-            this.bind(new Binding(modules.getModule("SpikeLight").getAction("On"), new TriggerToggle(driver.buttons.RT, false).on));
     	}
     	/* Calibrate*/
     	{
@@ -134,7 +115,27 @@ public class TeleopMode extends Coordinator {
     		this.bind(new Binding(modules.getModule("RumbleControl").getAction("On")));
     		this.fill(new DataWire(modules.getModule("RumbleControl").getAction("On"), "High Power Rumble", testing.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("RumbleControl").getAction("On"), "Low Power Rumble", testing.rightStick.Y));
-
+    	}
+    	/* Bridge */
+    	{
+    		this.bind(new Binding(modules.getModule("Arbitrary").getAction("Test"), modules.getModule("Activator").getTrigger("Test Trigger")));
+    		
+    		/*
+    		this.bind(new Binding(modules.getModule("Activator").getAction("Initiate"), new TriggerAnd(
+    				driver.buttons.Start,
+    				new TriggerNot(modules.getModule("Arbitrary").getTrigger("Complete One")),
+    				new TriggerNot(modules.getModule("Arbitrary").getTrigger("Complete Two")),
+    				new TriggerNot(modules.getModule("Arbitrary").getTrigger("Complete Three"))
+    			)));
+    		
+    		this.bind(new Binding(modules.getModule("Arbitrary").getAction("Step One"), modules.getModule("Activator").getTrigger("Step One")));
+    		this.bind(new Binding(modules.getModule("Arbitrary").getAction("Step Two"), modules.getModule("Activator").getTrigger("Step Two")));
+    		this.bind(new Binding(modules.getModule("Arbitrary").getAction("Step Three"), modules.getModule("Activator").getTrigger("Step Three")));
+    		
+    		this.bind(new Binding(modules.getModule("Activator").getAction("Step One Finished"), modules.getModule("Arbitrary").getTrigger("Complete One")));
+    		this.bind(new Binding(modules.getModule("Activator").getAction("Step Two Finished"), modules.getModule("Arbitrary").getTrigger("Complete Two")));
+    		this.bind(new Binding(modules.getModule("Activator").getAction("Step Three Finished"), modules.getModule("Arbitrary").getTrigger("Complete Three")));
+    		*/
     	}
     }
 }

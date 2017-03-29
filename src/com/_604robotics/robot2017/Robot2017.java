@@ -2,6 +2,8 @@ package com._604robotics.robot2017;
 
 import com._604robotics.robot2017.modes.AutonomousMode;
 import com._604robotics.robot2017.modes.TeleopMode;
+import com._604robotics.robot2017.modules.Activator;
+import com._604robotics.robot2017.modules.Arbitrary;
 import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
@@ -28,6 +30,8 @@ public class Robot2017 extends Robot {
             add("XboxFlip", new XboxFlip());
             add("Vision", new Vision());
             add("RumbleControl", new RumbleControl());
+            add("Activator", new Activator());
+            add("Arbitrary", new Arbitrary());
         }});
 
         this.set(new CoordinatorList() {{

@@ -6,6 +6,7 @@ import com._604robotics.robotnik.action.ActionReference;
 import com._604robotics.robotnik.data.DataManager;
 import com._604robotics.robotnik.data.DataReference;
 import com._604robotics.robotnik.memory.IndexedTable;
+import com._604robotics.robotnik.trigger.Trigger;
 import com._604robotics.robotnik.trigger.TriggerManager;
 import com._604robotics.robotnik.trigger.TriggerReference;
 
