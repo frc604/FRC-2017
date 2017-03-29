@@ -3,7 +3,7 @@ package com._604robotics.robotnik.trigger;
 import java.util.HashMap;
 
 public class SimpleTriggerMap {
-	private HashMap<String, Trigger> triggerMap = new HashMap<String, Trigger>();
+	private HashMap<String, Trigger> triggerMap;
 	private HashMap<String, Boolean> booleanMap;
 	
 	public class SimpleTrigger implements Trigger {
