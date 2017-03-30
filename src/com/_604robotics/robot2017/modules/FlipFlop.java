@@ -10,22 +10,16 @@ import com._604robotics.robotnik.trigger.TriggerMap;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
-public class Broom extends Module {
+public class FlipFlop extends Module {
     private final DoubleSolenoid solenoid;
-    private boolean isExtended = false;
 
-    public Broom() {
-        this.solenoid = new DoubleSolenoid(Ports.BROOM_SOLENOID_FORWARD,Ports.BROOM_SOLENOID_REVERSE);
-        
-        this.set(new TriggerMap() {{
-        	add("Extended", () -> isExtended);
-        }});
+    public FlipFlop() {
+        this.solenoid = new DoubleSolenoid(Ports.FLIPFLOP_SOLENOID_FORWARD,Ports.FLIPFLOP_SOLENOID_REVERSE);
         
         this.set(new ElasticController() {{
             addDefault("Retract", new Action() {
                 @Override
                 public void begin (ActionData data) {
-                	isExtended = false;
                     solenoid.set(Value.kReverse);
                 }
             });
@@ -33,7 +27,6 @@ public class Broom extends Module {
             add("Extend", new Action() {
                 @Override
                 public void begin (ActionData data) {
-                	isExtended = true;
                     solenoid.set(Value.kForward);
                 }
             });

@@ -112,12 +112,12 @@ public class TeleopMode extends Coordinator {
     	{
             this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
     	}
-    	/* Gear Broom */
+    	/* Gear FlipFlop */
     	{
     		final TriggerToggle broomToggle = new TriggerToggle(driver.buttons.X, false);
     		
-    		this.bind(new Binding(modules.getModule("Broom").getAction("Retract"), broomToggle.off));
-    		this.bind(new Binding(modules.getModule("Broom").getAction("Extend"), broomToggle.on));
+    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract"), broomToggle.off));
+    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), broomToggle.on));
     	}
     	/* Climber */
     	{
