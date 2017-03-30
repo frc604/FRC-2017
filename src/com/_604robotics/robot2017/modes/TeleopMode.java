@@ -7,6 +7,7 @@ import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.controller.xbox.XboxController;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
 import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
+import com._604robotics.robotnik.prefabs.trigger.TriggerOr;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
 import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
@@ -75,35 +76,6 @@ public class TeleopMode extends Coordinator {
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
     	}
     	
-    	/* Toggle Drive */
-/*    	{
-    		final TriggerToggle driveMode = new TriggerToggle(driver.buttons.X, false);
-    		
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
-    				modules.getModule("Dashboard").getTrigger("Drive On"),
-    				modules.getModule("Dashboard").getTrigger("Toggle Drive"),
-    				driveMode.off)));
-
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
-    				modules.getModule("Dashboard").getTrigger("Drive On"),
-					modules.getModule("Dashboard").getTrigger("Toggle Drive"),
-					driveMode.on)));
-    	}
-    	/* Ultrasonic */
-    	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Align"), driver.buttons.Y));
-
-    	}
-    	/* Ultra Drive */
-/*    	{
-    		this.bind(new Binding(modules.getModule("Drive").getAction("Ultra Drive"), new TriggerAnd(
-    				new TriggerNot(driver.buttons.RB),
-    				new TriggerNot(driver.buttons.Y),
-            		driver.buttons.B,
-    				modules.getModule("Dashboard").getTrigger("Drive On"))));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Drive"), "Move Power", driver.leftStick.Y));
-    		this.fill(new DataWire(modules.getModule("Drive").getAction("Ultra Drive"), "Rotate Power", driver.rightStick.X));
-    	}*/
     	/* Xbox Flip Axis */
     	{
     		this.bind(new Binding(modules.getModule("XboxFlip").getAction("Flip"), driver.buttons.RB));
@@ -112,12 +84,14 @@ public class TeleopMode extends Coordinator {
     	{
             this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
     	}
-    	/* Gear FlipFlop */
-    	{
-    		final TriggerToggle broomToggle = new TriggerToggle(driver.buttons.X, false);
+    	/* Gear Pickup */
+    	{    		
+    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract"), driver.buttons.Y));
+    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), new TriggerOr(driver.buttons.X, driver.buttons.B)));
     		
-    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract"), broomToggle.off));
-    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), broomToggle.on));
+    		this.bind(new Binding(modules.getModule("Intake").getAction("Off"), driver.buttons.Y));
+    		this.bind(new Binding(modules.getModule("Intake").getAction("Forward"), driver.buttons.X));
+    		this.bind(new Binding(modules.getModule("Intake").getAction("Reverse"), driver.buttons.B));
     	}
     	/* Climber */
     	{

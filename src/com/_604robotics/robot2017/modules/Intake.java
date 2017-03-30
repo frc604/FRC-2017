@@ -4,6 +4,7 @@ import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
+import com._604robotics.robotnik.action.controllers.StateController;
 import com._604robotics.robotnik.action.field.FieldMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.MultiOutput;
@@ -22,7 +23,7 @@ public class Intake extends Module {
 		});
 	
 	public Intake() {		
-		this.set(new ElasticController() {{
+		this.set(new StateController() {{
             addDefault("Off", new Action() {
             	public void begin (ActionData data) {
             		timer.start();
@@ -44,10 +45,21 @@ public class Intake extends Module {
 				}
             });
 
-            add("Run", new Action() {
+            add("Forward", new Action() {
                 @Override
                 public void run (ActionData data) {
                 	mo.set(Calibration.INTAKE_POWER);
+                }
+                @Override
+                public void end (ActionData data) {
+                	mo.stopMotor();
+                }
+            });
+            
+            add("Reverse", new Action() {
+                @Override
+                public void run (ActionData data) {
+                	mo.set(-Calibration.INTAKE_POWER);
                 }
                 @Override
                 public void end (ActionData data) {
