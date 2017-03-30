@@ -68,4 +68,6 @@ public final class Calibration {
     public static final double ROTATE_ANGLE = 90;
     
     public static final double INTAKE_POWER = 1;
+    public static final int INTAKE_FORWARD_MOTOR = 1;
+    public static final int INTAKE_REVERSE_MOTOR = 6;
 }

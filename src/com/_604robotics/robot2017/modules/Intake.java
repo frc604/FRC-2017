@@ -17,8 +17,8 @@ public class Intake extends Module {
 	private Timer timer = new Timer();
 	private boolean init;
 	private MultiOutput mo = new MultiOutput(new PIDOutput[]{
-			new Victor(0), 
-			new Victor(1){{setInverted(true);}}
+			new Victor(Calibration.INTAKE_FORWARD_MOTOR), 
+			new Victor(Calibration.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
 		});
 	
 	public Intake() {		
