@@ -62,8 +62,10 @@ public final class Calibration {
     /* All for "Testing 1" */
     public static final double ROTATE_TURN_INIT_FOWARD = 1660;
     public static final double ROTATE_TURN_FINAL_FOWARD = 700;
-    public static final double ROTATE_TURN_TARGET = 55;
+    public static final double ROTATE_TURN_TARGET = 36;
     public static final double ROTATE_TOLERANCE = 3;
     
     public static final double ROTATE_ANGLE = 90;
+    
+    public static final double INTAKE_POWER = 1;
 }
