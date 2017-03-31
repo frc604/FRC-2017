@@ -4,6 +4,7 @@ import com._604robotics.robot2017.modes.AutonomousMode;
 import com._604robotics.robot2017.modes.TeleopMode;
 import com._604robotics.robot2017.modules.Activator;
 import com._604robotics.robot2017.modules.Arbitrary;
+import com._604robotics.robot2017.modules.Boop;
 import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
@@ -24,6 +25,7 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
+        	add("Boop", new Boop());
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());
             add("DynamicToggle", new DynamicToggle());
