@@ -134,6 +134,14 @@ public class AutonomousMode extends Coordinator {
                             }
                         }));
                 		
+                		step("Spit", new Step(new TriggerMeasure(new TriggerAnd (
+                				modules.getModule("FlipFlop").getTrigger("Extended")
+                		)), new Coordinator() {
+                			protected void apply (ModuleManager modules) {
+                				this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend")));
+                			}
+                		}));
+                		
                 		step("Backward", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
                         )), new Coordinator() {
@@ -152,12 +160,6 @@ public class AutonomousMode extends Coordinator {
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Right"), "Power", Calibration.ROTATE_POWER));
                     		}
                     	}));
-                		
-                		step("Pickup Down", new Step(new TriggerMeasure(modules.getModule("FlipFlop").getTrigger("Extended")), new Coordinator() {
-                			protected void apply (ModuleManager modules) {
-                				this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend")));
-                			}
-                		}));
                 		
                 		step("Roller On", new Step(new TriggerMeasure(modules.getModule("Intake").getTrigger("Running")), new Coordinator() {
                 			protected void apply (ModuleManager modules) {
@@ -195,6 +197,13 @@ public class AutonomousMode extends Coordinator {
                     			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Left"), "Power", Calibration.ROTATE_POWER));
                     		}
                     	}));
+                		
+
+                		step("Pickup Up", new Step(new TriggerMeasure(new TriggerNot(modules.getModule("FlipFlop").getTrigger("Extended"))), new Coordinator() {
+                			protected void apply (ModuleManager modules) {
+                				this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract")));
+                			}
+                		}));
                 		
                 		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
