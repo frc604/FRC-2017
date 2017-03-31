@@ -33,7 +33,7 @@ public class Intake extends Module {
             		timer.start();
             	}
             	public void run (ActionData data) {
-            		if( !init && timer.get() < 1 ) {
+            		if( !init && timer.get() < 0.25 ) {
             			running = true;
             			mo.set(-Calibration.INTAKE_POWER);
             		}

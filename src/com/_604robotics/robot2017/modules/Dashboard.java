@@ -18,7 +18,7 @@ public class Dashboard extends Module {
             add("Left Step", autonMode.add("Left Step"));
             add("Mid Step", autonMode.add("Mid Step"));
             add("Right Step", autonMode.add("Right Step"));
-            add("Two Gear Auto", autonMode.add("Two Gear Auto"));
+            //add("Two Gear Auto", autonMode.add("Two Gear Auto"));
             
             /*
             final DashboardTriggerChoice midModifier = new DashboardTriggerChoice("Mid Modifier");

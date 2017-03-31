@@ -99,6 +99,7 @@ public class AutonomousMode extends Coordinator {
                         }));
                 	}
                 }));
+                /*
                 group(new Group(modules.getModule("Dashboard").getTrigger("Two Gear Auto"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		
@@ -218,6 +219,7 @@ public class AutonomousMode extends Coordinator {
                         }));
                 	}
                 }));
+                */
                 group(new Group(modules.getModule("Dashboard").getTrigger("Right Step"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Calibrate", new Step(new TriggerMeasure(new TriggerAnd(
