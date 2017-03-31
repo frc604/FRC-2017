@@ -21,7 +21,7 @@ import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 public class AutonomousMode extends Coordinator {
 	protected void apply (ModuleManager modules) {
     	/* Uncomment below once actual shifter is written */
-        //this.bind(new Binding(modules.getModule("Shifter").getAction("High Gear")));
+        this.bind(new Binding(modules.getModule("GearShifter").getAction("Low Gear")));
         group(new Group(modules.getModule("Dashboard").getTrigger("Auton On"), new Coordinator() {
             protected void apply (ModuleManager modules) { 
 // >>>>>>>> Auton Obstacles Options <<<<<<<< //
