@@ -7,6 +7,7 @@ import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.StateController;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.MultiOutput;
+import com._604robotics.robotnik.trigger.Trigger;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -30,12 +31,30 @@ public class Intake extends Module {
 	private DigitalInput boop1 = new DigitalInput(1); // not real
 	private DigitalInput boop2 = new DigitalInput(2); // also not real
 	
+	public class SimpleTrigger implements Trigger {
+		private boolean state;
+		public SimpleTrigger() {
+			state = false;
+		}
+		public boolean run() {
+			update();
+			return state;
+		}
+		public void update() {
+			this.state = gearInNotif;
+		}
+	}
+	
 	public Intake() {	
+		// solo here means dont make another simple trigger in this class
+		SimpleTrigger solo = new SimpleTrigger();
+		Trigger soloAsTrigger = new Trigger(solo);
 		gearIn = false;
 		gearInNotif = false;
 		running = false;
 		this.set(new TriggerMap() {{
 			add("Running", () -> running);
+			add("Rumble", soloAsTrigger);
 		}});
 		this.set(new StateController() {{
             addDefault("Off", new Action() {
