@@ -34,13 +34,11 @@ public class Intake extends Module {
             	}
             	public void run (ActionData data) {
             		if( !init && timer.get() < 1 ) {
-            			System.out.println("Running overflow");
             			running = true;
-            			mo.set(Calibration.INTAKE_POWER);
+            			mo.set(-Calibration.INTAKE_POWER);
             		}
             		else {
             			running = false;
-            			System.out.println("Not running overflow");
             			mo.stopMotor();
             		}
             	}
@@ -58,7 +56,7 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	mo.set(Calibration.INTAKE_POWER);
+                	mo.set(-Calibration.INTAKE_POWER);
                 }
                 @Override
                 public void end (ActionData data) {
@@ -71,7 +69,7 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	mo.set(-Calibration.INTAKE_POWER);
+                	mo.set(Calibration.INTAKE_POWER);
                 }
                 @Override
                 public void end (ActionData data) {
@@ -83,7 +81,6 @@ public class Intake extends Module {
 	}
 	@Override
 	protected void begin() {
-		System.out.println("Begin called");
 		init = true;
 	}
 }

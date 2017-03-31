@@ -107,12 +107,8 @@ public class Drive extends Module {
     */
 
     public Drive () {
-    	{
-    		System.out.print("Calibrating Gyro...");
-    	}
         horizGyro.calibrate();
         {
-        	System.out.println("Done");
         	calibrated = true;
         }
 
@@ -215,6 +211,7 @@ public class Drive extends Module {
             
             add("Kinematic Drive", new Action(new FieldMap () {{
                 define("Power", 0D);
+                define("Time", 0D);
             }}) {
             	public void begin (ActionData data) {
             		timer.reset();

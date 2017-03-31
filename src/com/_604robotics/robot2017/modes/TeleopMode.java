@@ -69,11 +69,12 @@ public class TeleopMode extends Coordinator {
             		modules.getModule("DynamicToggle").getTrigger("Arcade Drive"))));
     		
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideTank"), new TriggerAnd(
-            		driver.buttons.A, new TriggerNot(driver.buttons.B))));
+            		driver.buttons.A, new TriggerNot(driver.buttons.Back))));
         	this.bind(new Binding(modules.getModule("DynamicToggle").getAction("OverrideArcade"), new TriggerAnd(
-            		driver.buttons.B, new TriggerNot(driver.buttons.A))));
+            		driver.buttons.B, new TriggerNot(driver.buttons.Start))));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightY", driver.rightStick.Y));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
+    		
     	}
     	
     	/* Xbox Flip Axis */
@@ -87,7 +88,7 @@ public class TeleopMode extends Coordinator {
     	/* Gear Pickup */
     	{    		
     		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract"), driver.buttons.Y));
-    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), new TriggerOr(driver.buttons.X, driver.buttons.B)));
+    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), new TriggerOr(driver.buttons.X, driver.buttons.B, driver.buttons.A)));
     		
     		this.bind(new Binding(modules.getModule("Intake").getAction("Off"), driver.buttons.Y));
     		this.bind(new Binding(modules.getModule("Intake").getAction("Forward"), driver.buttons.X));
@@ -105,7 +106,7 @@ public class TeleopMode extends Coordinator {
     	
     	/* Calibrate*/
     	{
-       		this.bind(new Binding(modules.getModule("Drive").getAction("Calibrate"), driver.buttons.Back));
+       		//this.bind(new Binding(modules.getModule("Drive").getAction("Calibrate"), driver.buttons.Back));
     	}
     }
 }

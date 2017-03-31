@@ -36,7 +36,7 @@ public class Robot2017 extends Robot {
             add("DynamicToggle", new DynamicToggle());
             add("GearShifter", new GearShifter(Ports.SHIFTER_SOLENOID_FORWARD, Ports.SHIFTER_SOLENOID_REVERSE));
             add("Regulator", new Regulator(Ports.COMPRESSOR));
-            add("Vision", new Vision());
+            //add("Vision", new Vision());
             add("XboxFlip", new XboxFlip());
             add("SpikeLight", new SpikeLight());
         }});
