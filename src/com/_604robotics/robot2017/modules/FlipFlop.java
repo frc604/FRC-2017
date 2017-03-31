@@ -13,15 +13,22 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 
 public class FlipFlop extends Module {
     private final DoubleSolenoid solenoid;
+    private boolean extended;
 
     public FlipFlop() {
+    	extended = false;
         this.solenoid = new DoubleSolenoid(Ports.FLIPFLOP_SOLENOID_FORWARD,Ports.FLIPFLOP_SOLENOID_REVERSE);
+        
+        this.set(new TriggerMap() {{
+        	add("Extended", () -> extended);
+        }});
         
         this.set(new StateController() {{
             addDefault("Retract", new Action() {
                 @Override
                 public void begin (ActionData data) {
                     solenoid.set(Value.kReverse);
+                    extended = false;
                 }
             });
 
@@ -29,6 +36,7 @@ public class FlipFlop extends Module {
                 @Override
                 public void begin (ActionData data) {
                     solenoid.set(Value.kForward);
+                    extended = true;
                 }
             });
         }});
