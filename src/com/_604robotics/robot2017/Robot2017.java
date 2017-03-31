@@ -9,8 +9,8 @@ import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
 import com._604robotics.robot2017.modules.FlipFlop;
 import com._604robotics.robot2017.modules.Intake;
+import com._604robotics.robot2017.modules.RumbleControl;
 import com._604robotics.robot2017.modules.SpikeLight;
-import com._604robotics.robot2017.modules.Vision;
 import com._604robotics.robot2017.modules.XboxFlip;
 import com._604robotics.robot2017.systems.DashboardSystem;
 import com._604robotics.robotnik.Robot;
@@ -28,6 +28,7 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
+        	add("RumbleControl", new RumbleControl());
         	add("FlipFlop", new FlipFlop());
         	add("Intake", new Intake());
             add("Climber", new Climber());

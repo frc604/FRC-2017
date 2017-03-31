@@ -19,7 +19,6 @@ public class Intake extends Module {
 	private Timer timer = new Timer();
 	private Timer timer2 = new Timer();
 	private boolean gearIn;
-	private boolean gearInNotif;
 	private boolean init;
 	private boolean running;
 	private MultiOutput mo = new MultiOutput(new PIDOutput[]{
@@ -27,8 +26,8 @@ public class Intake extends Module {
 			new Victor(Calibration.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
 		});
 	
-	private DigitalInput boop1 = new DigitalInput(1); // not real
-	private DigitalInput boop2 = new DigitalInput(2); // also not real
+	private DigitalInput boop1 = new DigitalInput(8);
+	private DigitalInput boop2 = new DigitalInput(9);
 	
 	private SimpleTriggerMap stm;
 	
@@ -36,10 +35,12 @@ public class Intake extends Module {
 		stm = new SimpleTriggerMap();
 		stm.add("Rumble");
 		gearIn = false;
-		gearInNotif = false;
+		stm.set("Rumble", false);
 		running = false;
 		this.set(new TriggerMap() {{
 			add("Running", () -> running);
+			add("Boop1", () -> boop1.get());
+			add("Boop2", () -> boop2.get());
 			add("Rumble", stm.getTrigger("Rumble"));
 		}});
 		this.set(new StateController() {{
@@ -71,9 +72,9 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	if( !boop1.get() && !boop2.get() ) {
+                	if( boop1.get() && boop2.get() ) {
                 		mo.set(-Calibration.INTAKE_POWER);
-                		gearInNotif = false;
+                		stm.set("Rumble", true);
                 		gearIn = false;
                 		timer2.reset();
                 		timer2.stop();
@@ -84,10 +85,10 @@ public class Intake extends Module {
                 			timer2.start();
                 		}
                 		else if( timer2.get() < 0.5 ) {
-                			gearInNotif = true;
+                			stm.set("Rumble", true);
                 		}
                 		else {
-                			gearInNotif = false;
+                			stm.set("Rumble", false);
                 		}
                 	}
                 }
