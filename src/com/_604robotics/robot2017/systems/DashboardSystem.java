@@ -53,6 +53,27 @@ public class DashboardSystem extends Coordinator {
             		modules.getModule("Intake").getTrigger("Boop1")));
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop2",
             		modules.getModule("Intake").getTrigger("Boop2")));
+            
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Gyro Calibrated",
+            		modules.getModule("Drive").getTrigger("Gyro Calibrated")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "L3",
+            		modules.getModule("Drive").getTrigger("L3")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "L2",
+            		modules.getModule("Drive").getTrigger("L2")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "L1",
+            		modules.getModule("Drive").getTrigger("L1")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "L0",
+            		modules.getModule("Drive").getTrigger("L0")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "CC",
+            		modules.getModule("Drive").getTrigger("CC")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "R0",
+            		modules.getModule("Drive").getTrigger("R0")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "R1",
+            		modules.getModule("Drive").getTrigger("R1")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "R2",
+            		modules.getModule("Drive").getTrigger("R2")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "R3",
+            		modules.getModule("Drive").getTrigger("R3")));
         }
     }
 }

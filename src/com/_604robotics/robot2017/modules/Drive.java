@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Drive extends Module {
     // 19.7 clicks per inch
@@ -101,7 +102,11 @@ public class Drive extends Module {
     	}
     });
     */    
-    public Drive () {
+    
+    private boolean started;
+    
+    public Drive () {    	
+    	started = false;
     	horizGyro.calibrate();
         {
         	calibrated = true;
@@ -121,7 +126,9 @@ public class Drive extends Module {
                 Calibration.DRIVE_ROTATE_PID_D,
                 invertedGyro,
                 pidOutput.rotate);
-        
+    	SmartDashboard.putData("PID Rotate", pidRotate);
+    	SmartDashboard.putData("PID Move", pidMove);
+
         /*
         pidLeft.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
         pidRight.setOutputRange(-Calibration.DRIVE_RIGHT_PID_MAX, Calibration.DRIVE_RIGHT_PID_MAX);
@@ -180,7 +187,17 @@ public class Drive extends Module {
 
             add("Left Target", () -> -Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
             add("Right Target", () -> Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
-
+            
+            add("L3", () -> !started && horizGyro.getAngle() <= -4 );
+            add("L2", () -> !started && horizGyro.getAngle() >= -4 && horizGyro.getAngle() <= -2 );
+            add("L1", () -> !started && horizGyro.getAngle() >= -2 && horizGyro.getAngle() <= -1 );
+            add("L0", () -> !started && horizGyro.getAngle() >= -1 && horizGyro.getAngle() <= -0.5 );
+            add("CC", () -> !started && horizGyro.getAngle() >= -0.5 && horizGyro.getAngle() <= 0.5 );
+            add("R0", () -> !started && horizGyro.getAngle() >= 0.5 && horizGyro.getAngle() <= 1 );
+            add("R1", () -> !started && horizGyro.getAngle() >= 1 && horizGyro.getAngle() <= 2 );
+            add("R2", () -> !started && horizGyro.getAngle() >= 2 && horizGyro.getAngle() <= 4 );
+            add("R3", () -> !started && horizGyro.getAngle() >= 4);
+            
         }});
 
         this.set(new ElasticController() {{
@@ -204,6 +221,9 @@ public class Drive extends Module {
                 define("Left Power", 0D);
                 define("Right Power", 0D);
             }}) {
+            	public void begin(ActionData data) {
+            		started = true;
+            	}
                 public void run (ActionData data) {
                 	drive.tankDrive(data.get("Left Power"), data.get("Right Power"));
                 }
@@ -263,6 +283,9 @@ public class Drive extends Module {
                 define("Move Power", 0D);
                 define("Rotate Power", 0D);
             }}) {
+            	public void begin (ActionData data) {
+            		started = true;
+            	}
                 public void run (ActionData data) {
                 	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
                 }

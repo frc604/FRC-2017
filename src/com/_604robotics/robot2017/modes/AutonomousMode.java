@@ -33,7 +33,7 @@ public class AutonomousMode extends Coordinator {
                             protected void apply (ModuleManager modules) {
                                 this.bind(new Binding(modules.getModule("Drive").getAction("Servo Rotate")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Rotate"), 
-                                        "Angle", 90));
+                                        "Angle", modules.getModule("Dashboard").getData("Testing Angle")));
                             }
                         }));
                 	}
@@ -87,6 +87,7 @@ public class AutonomousMode extends Coordinator {
                 group(new Group(modules.getModule("Dashboard").getTrigger("Mid Step"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		
+                		/*
                 		step("Wall Align", new Step(new TriggerMeasure(new TriggerAnd(
                 				modules.getModule("Drive").getTrigger("Timer Setpoint")
                 		)), new Coordinator() {
@@ -98,6 +99,7 @@ public class AutonomousMode extends Coordinator {
                 						"Time", 1D));
                 			}
                 		}));
+                		*/
                 		
                 		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")
@@ -124,6 +126,7 @@ public class AutonomousMode extends Coordinator {
                 			}
                 		}));
                 		
+                		//
                 		step("Wall Align", new Step(new TriggerMeasure(new TriggerAnd(
                 				modules.getModule("Drive").getTrigger("Timer Setpoint")
                 		)), new Coordinator() {
@@ -135,6 +138,7 @@ public class AutonomousMode extends Coordinator {
                 						"Time", 1D));
                 			}
                 		}));
+                		//
                 		
                 		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
                                 modules.getModule("Drive").getTrigger("At Move Servo Target")

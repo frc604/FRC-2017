@@ -1,11 +1,18 @@
 package com._604robotics.robot2017.modules;
 
+import com._604robotics.robot2017.constants.Calibration;
+import com._604robotics.robotnik.data.DataMap;
+import com._604robotics.robotnik.data.sources.DashboardData;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.trigger.TriggerMap;
 import com._604robotics.robotnik.trigger.sources.DashboardTriggerChoice;
 
 public class Dashboard extends Module {
     public Dashboard () {
+    	this.set(new DataMap() {{
+    		add("Testing Angle", new DashboardData("Testing Angle", Calibration.TESTING_ANGLE));
+    	}});
+    	
         this.set(new TriggerMap() {{
             final DashboardTriggerChoice driveOn = new DashboardTriggerChoice("Drive On");
             add("Drive On", driveOn.addDefault("Drive On"));

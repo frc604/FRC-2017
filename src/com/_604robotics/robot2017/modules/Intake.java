@@ -72,13 +72,13 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	if( !boop1.get() && !boop2.get() ) {
-                		mo.set(-Calibration.INTAKE_POWER);
-                		//stm.set("Rumble", false);
-                		//gearIn = false;
-                		timer2.reset();
-                		timer2.stop();
-                	}
+                	//if( !boop1.get() && !boop2.get() ) {
+            		mo.set(-Calibration.INTAKE_POWER);
+            		//stm.set("Rumble", false);
+            		//gearIn = false;
+            		timer2.reset();
+            		timer2.stop();
+                	//}
                 	/*
                 	else {
                 		if( !gearIn ) {
@@ -93,9 +93,11 @@ public class Intake extends Module {
                 		}
                 	}
                 	*/
+            		/*
                 	else {
                 		mo.stopMotor();
                 	}
+                	*/
                 }
                 @Override
                 public void end (ActionData data) {
