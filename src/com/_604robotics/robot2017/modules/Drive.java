@@ -6,12 +6,12 @@ import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
 import com._604robotics.robotnik.action.field.FieldMap;
-import com._604robotics.robotnik.data.Data;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
-import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
 import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 import com._604robotics.robotnik.prefabs.devices.ArcadeDrivePIDOutput;
+import com._604robotics.robotnik.prefabs.devices.InvertPIDSource;
+import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -65,7 +65,8 @@ public class Drive extends Module {
     */
     
 	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
-
+    private InvertPIDSource invertedGyro;
+	
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
     private final PIDController pidMove = new PIDController(
     		Calibration.DRIVE_LEFT_PID_P,
@@ -73,12 +74,7 @@ public class Drive extends Module {
     		Calibration.DRIVE_LEFT_PID_D,
     		encoderLeft,
     		pidOutput.move);
-    private final PIDController pidRotate = new PIDController(
-            Calibration.DRIVE_ROTATE_PID_P,
-            Calibration.DRIVE_ROTATE_PID_I,
-            Calibration.DRIVE_ROTATE_PID_D,
-            horizGyro,
-            pidOutput.rotate);
+    private final PIDController pidRotate;
     
     private final ArcadeDrivePIDOutput pidOutput2 = new ArcadeDrivePIDOutput(drive);
     private final PIDController pidMove2 = new PIDController(
@@ -104,10 +100,9 @@ public class Drive extends Module {
     		else PIDUltraOut = (output < -pid_power_cap) ? -pid_power_cap : output;
     	}
     });
-    */
-
+    */    
     public Drive () {
-        horizGyro.calibrate();
+    	horizGyro.calibrate();
         {
         	calibrated = true;
         }
@@ -116,6 +111,16 @@ public class Drive extends Module {
         encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
         
         horizGyro.setPIDSourceType(PIDSourceType.kDisplacement);
+        invertedGyro = new InvertPIDSource(horizGyro);
+        
+        invertedGyro.setPIDSourceType(PIDSourceType.kDisplacement);
+    	
+    	pidRotate = new PIDController(
+                Calibration.DRIVE_ROTATE_PID_P,
+                Calibration.DRIVE_ROTATE_PID_I,
+                Calibration.DRIVE_ROTATE_PID_D,
+                invertedGyro,
+                pidOutput.rotate);
         
         /*
         pidLeft.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
@@ -393,6 +398,8 @@ public class Drive extends Module {
                 }
                 
                 public void run (ActionData data){
+                    System.out.println(pidRotate.getError());
+
                     if (pidRotate.getSetpoint() != data.get("Angle")) {
                         pidRotate.reset();
                         

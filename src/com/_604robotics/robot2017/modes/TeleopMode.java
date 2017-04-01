@@ -105,11 +105,13 @@ public class TeleopMode extends Coordinator {
     	}
     	
     	/* Rumbling */
+    	/*
     	{
     		this.bind(new Binding(modules.getModule("RumbleControl").getAction("On"), modules.getModule("Intake").getTrigger("Rumble")));
     		this.fill(new DataWire(modules.getModule("RumbleControl").getAction("On"), "High Power Rumble", 1D));
     		this.fill(new DataWire(modules.getModule("RumbleControl").getAction("On"), "Low Power Rumble", 0D));    		
     	}
+    	*/
     	
     	/* Calibrate*/
     	{

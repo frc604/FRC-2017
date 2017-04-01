@@ -50,9 +50,9 @@ public final class Calibration {
     
     public static final double DRIVE_ROTATE_PID_P = 0.04;
     public static final double DRIVE_ROTATE_PID_I = 0;
-    public static final double DRIVE_ROTATE_PID_D = 0.04;
+    public static final double DRIVE_ROTATE_PID_D = 0.08;
     public static final double DRIVE_ROTATE_PID_MAX = Math.sqrt(0.7);
-    public static final double DRIVE_ROTATE_PID_TOLERANCE = 1;
+    public static final double DRIVE_ROTATE_PID_TOLERANCE = 1/6;
     
     public static final double KINEMATIC_POWER = 0.7;
     public static final double KINEMATIC_POWER2 = 1.0;
