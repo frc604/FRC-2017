@@ -170,7 +170,6 @@ public class Drive extends Module {
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
             add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
-            add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
             add("East", () -> Calibration.ROTATE_TARGET_A - Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
             add("West", () -> -Calibration.ROTATE_TARGET_A- Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
