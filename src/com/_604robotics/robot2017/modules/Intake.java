@@ -18,7 +18,7 @@ public class Intake extends Module {
 	// TODO: ports file
 	private Timer timer = new Timer();
 	private Timer timer2 = new Timer();
-	private boolean gearIn;
+	//private boolean gearIn;
 	private boolean init;
 	private boolean running;
 	private MultiOutput mo = new MultiOutput(new PIDOutput[]{
@@ -29,19 +29,19 @@ public class Intake extends Module {
 	private DigitalInput boop1 = new DigitalInput(8);
 	private DigitalInput boop2 = new DigitalInput(9);
 	
-	private SimpleTriggerMap stm;
+	//private SimpleTriggerMap stm;
 	
 	public Intake() {	
-		stm = new SimpleTriggerMap();
-		stm.add("Rumble");
-		gearIn = false;
-		stm.set("Rumble", false);
+		//stm = new SimpleTriggerMap();
+		//stm.add("Rumble");
+		//gearIn = false;
+		//stm.set("Rumble", false);
 		running = false;
 		this.set(new TriggerMap() {{
 			add("Running", () -> running);
 			add("Boop1", () -> boop1.get());
 			add("Boop2", () -> boop2.get());
-			add("Rumble", stm.getTrigger("Rumble"));
+			//add("Rumble", stm.getTrigger("Rumble"));
 		}});
 		this.set(new StateController() {{
             addDefault("Off", new Action() {
@@ -72,13 +72,14 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	if( boop1.get() && boop2.get() ) {
+                	if( !boop1.get() && !boop2.get() ) {
                 		mo.set(-Calibration.INTAKE_POWER);
-                		stm.set("Rumble", true);
-                		gearIn = false;
+                		//stm.set("Rumble", false);
+                		//gearIn = false;
                 		timer2.reset();
                 		timer2.stop();
                 	}
+                	/*
                 	else {
                 		if( !gearIn ) {
                 			gearIn = true;
@@ -90,6 +91,10 @@ public class Intake extends Module {
                 		else {
                 			stm.set("Rumble", false);
                 		}
+                	}
+                	*/
+                	else {
+                		mo.stopMotor();
                 	}
                 }
                 @Override
