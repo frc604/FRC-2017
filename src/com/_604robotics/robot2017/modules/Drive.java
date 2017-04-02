@@ -65,7 +65,7 @@ public class Drive extends Module {
             pidOutput.right);
     */
     
-	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
+	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO, 0, 0);
     private InvertPIDSource invertedGyro;
 	
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
@@ -107,7 +107,7 @@ public class Drive extends Module {
     
     public Drive () {    	
     	started = false;
-    	horizGyro.calibrate();
+    	//horizGyro.calibrate();
         {
         	calibrated = true;
         }
