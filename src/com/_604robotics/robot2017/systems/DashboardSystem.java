@@ -54,6 +54,11 @@ public class DashboardSystem extends Coordinator {
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop2",
             		modules.getModule("Intake").getTrigger("Boop2")));
             
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Left Drive Accel",
+                    modules.getModule("Drive").getData("Left Drive Accel")));
+            this.fill(new DataWire(DashboardOutput.asDouble(), "Right Drive Accel",
+                    modules.getModule("Drive").getData("Right Drive Accel")));
+            
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Gyro Calibrated",
             		modules.getModule("Drive").getTrigger("Gyro Calibrated")));
             this.fill(new DataWire(DashboardOutput.asBoolean(), "L3",

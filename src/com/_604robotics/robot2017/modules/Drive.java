@@ -6,6 +6,7 @@ import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.ElasticController;
 import com._604robotics.robotnik.action.field.FieldMap;
+import com._604robotics.robotnik.data.Data;
 import com._604robotics.robotnik.data.DataMap;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
@@ -104,8 +105,17 @@ public class Drive extends Module {
     */    
     
     private boolean started;
+
+    private double lastLeftRate;
+    private double lastRightRate;
+    private double leftAccel;
+    private double rightAccel;
     
-    public Drive () {    	
+    public Drive () { 
+    	lastLeftRate = 0;
+    	lastRightRate = 0;
+    	leftAccel = 0;
+    	rightAccel = 0;
     	started = false;
     	//horizGyro.calibrate();
         {
@@ -148,6 +158,9 @@ public class Drive extends Module {
 
             add("Left Drive Rate", encoderLeft::getRate);
             add("Right Drive Rate", encoderRight::getRate);
+            
+            add("Left Drive Accel", () -> leftAccel);
+            add("Right Drive Accel", () -> rightAccel);
 
             //add("Left PID Error", pidLeft::getAvgError);
             //add("Right PID Error", pidRight::getAvgError);
@@ -226,6 +239,10 @@ public class Drive extends Module {
             	}
                 public void run (ActionData data) {
                 	drive.tankDrive(data.get("Left Power"), data.get("Right Power"));
+                	leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
                 }
 
                 public void end (ActionData data) {
@@ -288,6 +305,10 @@ public class Drive extends Module {
             	}
                 public void run (ActionData data) {
                 	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
+                	leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
                 }
 
                 public void end (ActionData data) {
@@ -351,6 +372,10 @@ public class Drive extends Module {
                         pidRotate.enable();
                     }
                     */
+                    leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
                 }
                 
                 public void end (ActionData data) {
@@ -399,6 +424,10 @@ public class Drive extends Module {
                         pidRotate.enable();
                     }
                     */
+                    leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
                 }
                 
                 public void end (ActionData data) {
@@ -430,6 +459,10 @@ public class Drive extends Module {
                         pidRotate.setSetpoint(data.get("Angle"));
                         pidRotate.enable();
                     }
+                    leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
                 }
                 
                 public void end (ActionData data) {
@@ -453,6 +486,10 @@ public class Drive extends Module {
             }}) {
             	public void run (ActionData data) {
             		drive.arcadeDrive(0, -data.get("Power"));
+            		leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
             	}
             });
             
@@ -462,6 +499,10 @@ public class Drive extends Module {
             	// begin: calibrate gyro
             	public void run (ActionData data) {
             		drive.arcadeDrive(0, data.get("Power"));
+            		leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
             	}
             });
             
