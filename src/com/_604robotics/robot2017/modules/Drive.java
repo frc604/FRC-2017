@@ -85,6 +85,8 @@ public class Drive extends Module {
     //private final AnalogUltrasonic ultra = new AnalogUltrasonic(0);
     
     private final Timer timer = new Timer();
+    private double timerWait;
+    private boolean timerOn;
     
     /*
     private double pid_power_cap = 0.6;
@@ -97,8 +99,10 @@ public class Drive extends Module {
     	}
     });
     */
-
+    
     public Drive () {
+    	timerWait = 0;
+    	timerOn = false;
     	{
     		System.out.print("Calibrating Gyro...");
     	}
@@ -149,7 +153,9 @@ public class Drive extends Module {
         	add("Reset", () -> reset);
         	add("Forward Again", () -> true);
             add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
-            add("Timer Setpoint", () -> timer.get() > Calibration.TIMER_WAIT);
+            
+            add("Timer Setpoint", () -> timer.get() > timerWait && timerOn);
+            
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
             add("East", () -> Calibration.ROTATE_TARGET_A - Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
@@ -196,10 +202,13 @@ public class Drive extends Module {
             
             add("Kinematic Drive", new Action(new FieldMap () {{
                 define("Power", 0D);
+                define("Time", 0D);
             }}) {
             	public void begin (ActionData data) {
             		timer.reset();
             		timer.start();
+            		timerWait = data.get("Time");
+            		timerOn = true;
             	}
             	
                 public void run (ActionData data) {
@@ -213,6 +222,9 @@ public class Drive extends Module {
                     
                     timer.stop();
                     timer.reset();
+                    
+                    timerWait = 0;
+                    timerOn = false;
                 }
             });
             

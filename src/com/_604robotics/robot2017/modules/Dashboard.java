@@ -12,8 +12,7 @@ public class Dashboard extends Module {
             add("Drive Off", driveOn.add("Drive Off"));
             
             final DashboardTriggerChoice autonMode = new DashboardTriggerChoice("Auton Mode");
-            add("Fail Safe", autonMode.add("Fail Safe"));
-            add("Fail Safe 2", autonMode.add("Fail Safe 2"));
+            add("Center Peg", autonMode.addDefault("Center Peg"));
             
             final DashboardTriggerChoice autonOn = new DashboardTriggerChoice("Auton Switch");
             add("Auton On", autonOn.addDefault("Auton On"));

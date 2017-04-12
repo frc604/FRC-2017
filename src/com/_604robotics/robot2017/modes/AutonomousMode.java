@@ -24,7 +24,23 @@ public class AutonomousMode extends Coordinator {
         //this.bind(new Binding(modules.getModule("Shifter").getAction("High Gear")));
         group(new Group(modules.getModule("Dashboard").getTrigger("Auton On"), new Coordinator() {
             protected void apply (ModuleManager modules) { 
-            	
+// >>>>>>>> SO Auton Obstacles Options <<<<<<<< //
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Center Peg"), new Coordinator() {
+            		// drive straight with kinematics
+            		protected void apply(ModuleManager modules) {
+            			step("Kinematic Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                				modules.getModule("Drive").getTrigger("Timer Setpoint")
+                		)), new Coordinator() {
+                			protected void apply(ModuleManager modules) {
+                				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
+                                        "Power", Math.sqrt(0.7)));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
+                                		"Time", 3.0));
+                			}
+                		}));
+            		}
+            	}));
 // >>>>>>>> EO Auton Obstacles Options <<<<<<<< //
             }
         }));
