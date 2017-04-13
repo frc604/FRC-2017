@@ -22,7 +22,7 @@ public class PseudoShifter extends Module {
 			});
 			add("Low Gear", new Action() {
 				public void begin(ActionData data) {
-					gearRatio = 0.5;
+					gearRatio = Math.sqrt(0.5);
 				}
 			});
 		}});

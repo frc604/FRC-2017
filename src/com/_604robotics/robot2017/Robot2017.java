@@ -27,7 +27,7 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
-        	add("PseudoShfter", new PseudoShifter());
+        	add("PseudoShifter", new PseudoShifter());
         	add("ManualRegulator", new ManualRegulator());
         	add("Boop", new Boop());
             add("Dashboard", new Dashboard());
