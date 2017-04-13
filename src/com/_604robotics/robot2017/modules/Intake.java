@@ -1,12 +1,12 @@
 package com._604robotics.robot2017.modules;
 
 import com._604robotics.robot2017.constants.Calibration;
+import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.StateController;
 import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.MultiOutput;
-import com._604robotics.robotnik.prefabs.trigger.SimpleTriggerMap;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -22,8 +22,8 @@ public class Intake extends Module {
 	private boolean init;
 	private boolean running;
 	private MultiOutput mo = new MultiOutput(new PIDOutput[]{
-			new Victor(Calibration.INTAKE_FORWARD_MOTOR), 
-			new Victor(Calibration.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
+			new Victor(Ports.INTAKE_FORWARD_MOTOR), 
+			new Victor(Ports.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
 		});
 	
 	private DigitalInput boop1 = new DigitalInput(8);
