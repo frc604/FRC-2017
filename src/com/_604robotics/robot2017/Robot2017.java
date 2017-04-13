@@ -1,5 +1,6 @@
 package com._604robotics.robot2017;
 
+import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robot2017.modes.AutonomousMode;
 import com._604robotics.robot2017.modes.TeleopMode;
 import com._604robotics.robot2017.modules.Activator;
@@ -16,6 +17,7 @@ import com._604robotics.robotnik.Robot;
 import com._604robotics.robotnik.coordinator.CoordinatorList;
 import com._604robotics.robotnik.coordinator.ModeMap;
 import com._604robotics.robotnik.module.ModuleMap;
+import com._604robotics.robotnik.prefabs.modules.Regulator;
 
 public class Robot2017 extends Robot {
     public Robot2017() {
@@ -25,6 +27,7 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
+        	add("Regulator", new Regulator(Ports.COMPRESSOR));
         	add("Boop", new Boop());
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());

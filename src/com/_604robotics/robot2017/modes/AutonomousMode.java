@@ -36,7 +36,39 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
                                         "Power", Math.sqrt(0.7)));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
-                                		"Time", 3.0));
+                                		"Time", modules.getModule("Dashboard").getData("Forward Time")));
+                			}
+                		}));
+            		}
+            	}));
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Turn Right"), new Coordinator() {
+            		// drive straight with kinematics
+            		protected void apply(ModuleManager modules) {
+            			step("Kinematic Turn", new Step(new TriggerMeasure(new TriggerAnd(
+                				modules.getModule("Drive").getTrigger("Timer Setpoint")
+                		)), new Coordinator() {
+                			protected void apply(ModuleManager modules) {
+                				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
+                                        "Power", Math.sqrt(0.7)));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"),
+                                		"Time", modules.getModule("Dashboard").getData("Turning Time")));
+                			}
+                		}));
+            		}
+            	}));
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Turn Left"), new Coordinator() {
+            		// drive straight with kinematics
+            		protected void apply(ModuleManager modules) {
+            			step("Kinematic Turn", new Step(new TriggerMeasure(new TriggerAnd(
+                				modules.getModule("Drive").getTrigger("Timer Setpoint")
+                		)), new Coordinator() {
+                			protected void apply(ModuleManager modules) {
+                				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
+                                        "Power", -Math.sqrt(0.7)));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"),
+                                		"Time", modules.getModule("Dashboard").getData("Turning Time")));
                 			}
                 		}));
             		}

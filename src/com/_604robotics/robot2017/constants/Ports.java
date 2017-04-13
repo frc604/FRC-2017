@@ -8,7 +8,6 @@ public class Ports {
     public static final int CONTROLLER_TEST = 1;
         
     /* Analog */
-    
     public static final int HORIZGYRO = 0;
     
     /* Motors */
@@ -23,5 +22,8 @@ public class Ports {
     public static final int DRIVE_ENCODER_RIGHT_B = 3;
     public static final int DRIVE_ENCODER_LEFT_A = 1;
     public static final int DRIVE_ENCODER_LEFT_B = 0;
+    
+    /* Relay */
+    public static final int COMPRESSOR = 0;
 
 }

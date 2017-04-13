@@ -235,6 +235,7 @@ public class Drive extends Module {
             	public void begin (ActionData data) {
             		timer.reset();
             		timer.start();
+            		timerOn = true;
             	}
             	
                 public void run (ActionData data) {
@@ -246,6 +247,8 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     drive.stopMotor();
                     
+                    timerOn = false;
+                    timerWait = 0;
                     timer.stop();
                     timer.reset();
                 }
