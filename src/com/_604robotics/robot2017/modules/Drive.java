@@ -190,9 +190,10 @@ public class Drive extends Module {
             add("Tank Drive", new Action(new FieldMap () {{
                 define("Left Power", 0D);
                 define("Right Power", 0D);
+                define("Gear Ratio", 1D);
             }}) {
                 public void run (ActionData data) {
-                	drive.tankDrive(data.get("Left Power"), data.get("Right Power"));
+                	drive.tankDrive(data.get("Left Power")*data.get("Gear Ratio"), data.get("Right Power")*data.get("Gear Ratio"));
                 }
 
                 public void end (ActionData data) {
@@ -257,9 +258,10 @@ public class Drive extends Module {
             add("Arcade Drive", new Action(new FieldMap () {{
                 define("Move Power", 0D);
                 define("Rotate Power", 0D);
+                define("Gear Ratio", 1D);
             }}) {
                 public void run (ActionData data) {
-                	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
+                	drive.arcadeDrive(data.get("Move Power")*data.get("Gear Ratio"), data.get("Rotate Power")*data.get("Gear Ratio"));
                 }
 
                 public void end (ActionData data) {

@@ -53,6 +53,7 @@ public class TeleopMode extends Coordinator {
             		modules.getModule("Dashboard").getTrigger("Tank Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Left Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Gear Ratio", modules.getModule("PseudoShifter").getData("Gear Ratio")));
     		
     		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
     				new TriggerNot(driver.buttons.RB),
@@ -62,6 +63,8 @@ public class TeleopMode extends Coordinator {
             		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
+    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Gear Ratio", modules.getModule("PseudoShifter").getData("Gear Ratio")));
+
     	}
     	/* Dynamic Drive */
     	{
@@ -86,6 +89,21 @@ public class TeleopMode extends Coordinator {
             		driver.buttons.B, new TriggerNot(driver.buttons.A))));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightY", driver.rightStick.Y));
         	this.fill(new DataWire(modules.getModule("DynamicToggle").getAction("Check"), "rightX", driver.rightStick.X));
+    	}
+    	/* Manual Regulator */
+    	{
+    		final TriggerToggle charge = new TriggerToggle(driver.buttons.LT, false);
+    		
+    		this.bind(new Binding(modules.getModule("ManualRegulator").getAction("Charge"), charge.on));
+    		this.bind(new Binding(modules.getModule("ManualRegulator").getAction("Idle"), charge.off));
+    	}
+    	
+    	/* Pseudo Shifter */
+    	{
+    		final TriggerToggle shift = new TriggerToggle(driver.buttons.LB, false);
+    		
+    		this.bind(new Binding(modules.getModule("PseudoShifter").getAction("Low Gear"), shift.on));
+    		this.bind(new Binding(modules.getModule("PseudoShifter").getAction("High Gear"), shift.off));
     	}
     	
     	/* Toggle Drive */
