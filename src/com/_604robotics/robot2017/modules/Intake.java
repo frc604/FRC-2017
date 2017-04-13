@@ -1,6 +1,7 @@
 package com._604robotics.robot2017.modules;
 
 import com._604robotics.robot2017.constants.Calibration;
+import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.action.Action;
 import com._604robotics.robotnik.action.ActionData;
 import com._604robotics.robotnik.action.controllers.StateController;
@@ -21,8 +22,8 @@ public class Intake extends Module {
 	private boolean init;
 	private boolean running;
 	private MultiOutput mo = new MultiOutput(new PIDOutput[]{
-			new Victor(Calibration.INTAKE_FORWARD_MOTOR), 
-			new Victor(Calibration.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
+			new Victor(Ports.INTAKE_FORWARD_MOTOR), 
+			new Victor(Ports.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
 		});
 	
 	private DigitalInput boop1 = new DigitalInput(8);

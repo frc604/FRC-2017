@@ -8,6 +8,8 @@ import com._604robotics.robot2017.modules.Boop;
 import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
+import com._604robotics.robot2017.modules.FlipFlop;
+import com._604robotics.robot2017.modules.Intake;
 import com._604robotics.robot2017.modules.ManualRegulator;
 import com._604robotics.robot2017.modules.PseudoShifter;
 import com._604robotics.robot2017.modules.RumbleControl;
