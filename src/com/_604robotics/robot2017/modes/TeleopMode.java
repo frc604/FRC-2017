@@ -1,5 +1,7 @@
 package com._604robotics.robot2017.modes;
 
+import com._604robotics.robot2017.constants.Calibration;
+import com._604robotics.robot2017.constants.Ports;
 import com._604robotics.robotnik.coordinator.Coordinator;
 import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.coordinator.connectors.DataWire;
@@ -7,9 +9,8 @@ import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.controller.xbox.XboxController;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
 import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
+import com._604robotics.robotnik.prefabs.trigger.TriggerOr;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
-import com._604robotics.robot2017.constants.Calibration;
-import com._604robotics.robot2017.constants.Ports;
 
 public class TeleopMode extends Coordinator {
     public static final XboxController driver = new XboxController(Ports.CONTROLLER_DRIVER);
@@ -65,6 +66,15 @@ public class TeleopMode extends Coordinator {
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
     		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Gear Ratio", modules.getModule("PseudoShifter").getData("Gear Ratio")));
 
+    	}
+    	/* Gear Pickup */
+    	{    		
+    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract"), driver.buttons.Y));
+    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), new TriggerOr(driver.buttons.X, driver.buttons.B, driver.buttons.A)));
+    		
+    		this.bind(new Binding(modules.getModule("Intake").getAction("Off"), driver.buttons.Y));
+    		this.bind(new Binding(modules.getModule("Intake").getAction("Forward"), driver.buttons.X));
+    		this.bind(new Binding(modules.getModule("Intake").getAction("Reverse"), driver.buttons.B));
     	}
     	/* Dynamic Drive */
     	{
