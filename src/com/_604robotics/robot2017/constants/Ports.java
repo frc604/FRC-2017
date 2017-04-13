@@ -23,6 +23,12 @@ public class Ports {
     public static final int DRIVE_ENCODER_LEFT_A = 1;
     public static final int DRIVE_ENCODER_LEFT_B = 0;
     
+    /* Solenoids */
+    public static final int SHIFTER_SOLENOID_FORWARD = 0;
+    public static final int SHIFTER_SOLENOID_REVERSE = 1;
+    public static final int FLIPFLOP_SOLENOID_FORWARD = 6;
+    public static final int FLIPFLOP_SOLENOID_REVERSE = 7;
+    
     /* Relay */
     public static final int COMPRESSOR = 0;
 
