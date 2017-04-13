@@ -23,6 +23,9 @@ public class Ports {
    
     public static final int CLIMBER_MOTOR = 0;
     
+    public static final int INTAKE_FORWARD_MOTOR = 1;
+    public static final int INTAKE_REVERSE_MOTOR = 6;
+    
     /* Encoders */
     public static final int DRIVE_ENCODER_RIGHT_A = 2;
     public static final int DRIVE_ENCODER_RIGHT_B = 3;
