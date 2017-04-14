@@ -214,7 +214,7 @@ public class Drive extends Module {
             	
                 public void run (ActionData data) {
                 	if (timer.get() < data.get("Time")) {
-                		drive.tankDrive(data.get("Power"), data.get("Power"), false);
+                		drive.tankDrive(-data.get("Power"), -data.get("Power"), false);
                 	}
                 }
 
@@ -236,6 +236,7 @@ public class Drive extends Module {
             	public void begin (ActionData data) {
             		timer.reset();
             		timer.start();
+            		timerWait = data.get("Time");
             		timerOn = true;
             	}
             	
@@ -248,10 +249,11 @@ public class Drive extends Module {
                 public void end (ActionData data) {
                     drive.stopMotor();
                     
-                    timerOn = false;
-                    timerWait = 0;
                     timer.stop();
                     timer.reset();
+                    
+                    timerWait = 0;
+                    timerOn = false;
                 }
             });
             

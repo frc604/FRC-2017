@@ -34,7 +34,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
-                                        "Power", Math.sqrt(0.7)));
+                                        "Power", 0.7));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
                                 		"Time", modules.getModule("Dashboard").getData("Forward Time")));
                 			}
@@ -50,7 +50,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
-                                        "Power", Math.sqrt(0.7)));
+                                        "Power", 0.7));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"),
                                 		"Time", modules.getModule("Dashboard").getData("Turning Time")));
                 			}
