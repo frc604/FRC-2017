@@ -20,6 +20,8 @@ public class Dashboard extends Module {
             
             final DashboardTriggerChoice autonMode = new DashboardTriggerChoice("Auton Mode");
             add("Center Peg", autonMode.addDefault("Center Peg"));
+            add("Left Peg", autonMode.add("Left Peg"));
+            add("Right Peg", autonMode.add("Right Peg"));
             add("Turn Right", autonMode.add("Turn Right"));
             add("Turn Left", autonMode.add("Turn Left"));
             
