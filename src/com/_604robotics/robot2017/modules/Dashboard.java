@@ -24,6 +24,7 @@ public class Dashboard extends Module {
             add("Testing 1", autonMode.add("Testing 1"));
             add("Left Step", autonMode.add("Left Step"));
             add("Mid Step", autonMode.add("Mid Step"));
+            add("Wiggle Mid", autonMode.add("Wiggle Mid"));
             add("Right Step", autonMode.add("Right Step"));
             add("Testing", autonMode.add("Testing"));
             //add("Two Gear Auto", autonMode.add("Two Gear Auto"));

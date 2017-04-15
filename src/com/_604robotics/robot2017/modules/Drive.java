@@ -201,6 +201,9 @@ public class Drive extends Module {
             add("Left Target", () -> -Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
             add("Right Target", () -> Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
             
+            add("Left Wiggle Target", () -> -Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
+            add("Right Wiggle Target", () -> Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
+            
             add("L3", () -> !started && horizGyro.getAngle() <= -4 );
             add("L2", () -> !started && horizGyro.getAngle() >= -4 && horizGyro.getAngle() <= -2 );
             add("L1", () -> !started && horizGyro.getAngle() >= -2 && horizGyro.getAngle() <= -1 );

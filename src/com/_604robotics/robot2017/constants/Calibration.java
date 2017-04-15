@@ -44,7 +44,7 @@ public final class Calibration {
     
     public static final double KINEMATIC_TIMEM = 0.9;
     public static final double KINEMATIC_TIMELR = 2.2;
-    public static final double WAIT = 2;
+    public static final double WAIT = 3;
     public static final double ROTATE_TIME = 0.42;
     public static final double ROTATE_POWER = 0.5;
     
@@ -64,6 +64,7 @@ public final class Calibration {
     public static final double ROTATE_TURN_FINAL_FOWARD = 700;
     public static final double ROTATE_TURN_TARGET = 46; // min: 37 - max: 55 -- this hit 52 degrees
     public static final double ROTATE_TOLERANCE = 3;
+    public static final double ROTATE_WIGGLE_TARGET = 5;
     
     public static final double ROTATE_ANGLE = 90;
     
