@@ -8,7 +8,7 @@ import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 public class XboxFlip extends Module {
-	private boolean isFlipped = false;
+	private boolean isFlipped = true;
 	
 	public XboxFlip() {
 		this.set(new TriggerMap() {{

@@ -28,16 +28,16 @@ public class Robot2017 extends Robot {
         }});
 
         this.set(new ModuleMap() {{
-        	add("FlipFlop", new FlipFlop());
-        	add("Intake", new Intake());
+        	//add("FlipFlop", new FlipFlop());
+        	//add("Intake", new Intake());
         	add("PseudoShifter", new PseudoShifter());
-        	add("ManualRegulator", new ManualRegulator());
+        	//add("ManualRegulator", new ManualRegulator());
             add("Dashboard", new Dashboard());
             add("Drive", new Drive());
             add("DynamicToggle", new DynamicToggle());
             add("XboxFlip", new XboxFlip());
             add("Vision", new Vision());
-            add("RumbleControl", new RumbleControl());
+            //add("RumbleControl", new RumbleControl());
             add("Activator", new Activator());
             add("Arbitrary", new Arbitrary());
         }});

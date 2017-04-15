@@ -29,7 +29,7 @@ public class TeleopMode extends Coordinator {
 
         driver.rightStick.X.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
         driver.rightStick.Y.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
-        
+        /*
         testing.leftStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
         testing.leftStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
 
@@ -41,6 +41,7 @@ public class TeleopMode extends Coordinator {
 
         testing.rightStick.X.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
         testing.rightStick.Y.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
+        */
     }
 
     @Override
@@ -68,13 +69,15 @@ public class TeleopMode extends Coordinator {
 
     	}
     	/* Gear Pickup */
-    	{    		
+    	{ 
+    		/*
     		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract"), driver.buttons.Y));
     		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), new TriggerOr(driver.buttons.X, driver.buttons.B, driver.buttons.A)));
     		
     		this.bind(new Binding(modules.getModule("Intake").getAction("Off"), driver.buttons.Y));
     		this.bind(new Binding(modules.getModule("Intake").getAction("Forward"), driver.buttons.X));
     		this.bind(new Binding(modules.getModule("Intake").getAction("Reverse"), driver.buttons.B));
+    		*/
     	}
     	/* Dynamic Drive */
     	{
@@ -102,10 +105,12 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Manual Regulator */
     	{
+    		/*
     		final TriggerToggle charge = new TriggerToggle(driver.buttons.LT, false);
     		
     		this.bind(new Binding(modules.getModule("ManualRegulator").getAction("Charge"), charge.on));
     		this.bind(new Binding(modules.getModule("ManualRegulator").getAction("Idle"), charge.off));
+    		*/
     	}
     	
     	/* Pseudo Shifter */
@@ -140,13 +145,15 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Rumble Test */
     	{
+    		/*
     		this.bind(new Binding(modules.getModule("RumbleControl").getAction("On")));
     		this.fill(new DataWire(modules.getModule("RumbleControl").getAction("On"), "High Power Rumble", testing.leftStick.Y));
     		this.fill(new DataWire(modules.getModule("RumbleControl").getAction("On"), "Low Power Rumble", testing.rightStick.Y));
+    		*/
     	}
     	/* Bridge */
     	{
-    		this.bind(new Binding(modules.getModule("Arbitrary").getAction("Test"), modules.getModule("Activator").getTrigger("Test Trigger")));
+    		//this.bind(new Binding(modules.getModule("Arbitrary").getAction("Test"), modules.getModule("Activator").getTrigger("Test Trigger")));
     		
     		/*
     		this.bind(new Binding(modules.getModule("Activator").getAction("Initiate"), new TriggerAnd(

@@ -11,6 +11,7 @@ import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -21,10 +22,14 @@ public class Intake extends Module {
 	//private boolean gearIn;
 	private boolean init;
 	private boolean running;
+	/*
 	private MultiOutput mo = new MultiOutput(new PIDOutput[]{
 			new Victor(Ports.INTAKE_FORWARD_MOTOR), 
 			new Victor(Ports.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
 		});
+	*/
+	
+	private Relay pseudoMotor;
 	
 	private DigitalInput boop1 = new DigitalInput(8);
 	private DigitalInput boop2 = new DigitalInput(9);
@@ -32,6 +37,7 @@ public class Intake extends Module {
 	//private SimpleTriggerMap stm;
 	
 	public Intake() {	
+		pseudoMotor = new Relay(Ports.PSEUDO_MOTOR);
 		//stm = new SimpleTriggerMap();
 		//stm.add("Rumble");
 		//gearIn = false;
@@ -51,11 +57,13 @@ public class Intake extends Module {
             	public void run (ActionData data) {
             		if( !init && timer.get() < 0.5 ) {
             			running = true;
-            			mo.set(-Calibration.INTAKE_POWER);
+            			//mo.set(-Calibration.INTAKE_POWER);
+            			pseudoMotor.set(Relay.Value.kForward);
             		}
             		else {
             			running = false;
-            			mo.stopMotor();
+            			//mo.stopMotor();
+            			pseudoMotor.set(Relay.Value.kOff);
             		}
             	}
             	@Override
@@ -64,7 +72,8 @@ public class Intake extends Module {
 					timer.reset();
 					init = false;
 					running = false;
-					mo.stopMotor();
+					//mo.stopMotor();
+					pseudoMotor.set(Relay.Value.kOff);
 				}
             });
 
@@ -73,7 +82,8 @@ public class Intake extends Module {
                 public void run (ActionData data) {
                 	running = true;
                 	//if( !boop1.get() && !boop2.get() ) {
-            		mo.set(-Calibration.INTAKE_POWER);
+            		//mo.set(-Calibration.INTAKE_POWER);
+            		pseudoMotor.set(Relay.Value.kForward);
             		//stm.set("Rumble", false);
             		//gearIn = false;
             		timer2.reset();
@@ -102,7 +112,8 @@ public class Intake extends Module {
                 @Override
                 public void end (ActionData data) {
                 	running = true;
-                	mo.stopMotor();
+                	//mo.stopMotor();
+                	pseudoMotor.set(Relay.Value.kOff);
                 }
             });
             
@@ -110,12 +121,14 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	mo.set(Calibration.INTAKE_POWER);
+                	//mo.set(Calibration.INTAKE_POWER);
+                	pseudoMotor.set(Relay.Value.kReverse);
                 }
                 @Override
                 public void end (ActionData data) {
                 	running = false;
-                	mo.stopMotor();
+                	//mo.stopMotor();
+                	pseudoMotor.set(Relay.Value.kOff);
                 }
             });
         }});
