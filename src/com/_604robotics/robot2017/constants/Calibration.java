@@ -64,6 +64,7 @@ public final class Calibration {
     
     public static final double ROTATE_ANGLE = 90;
     
-    public static final double FORWARD_TIME = 1.05;
+    public static final double FORWARD_TIME = 1.1;
+    public static final double FORWARD_POWER = -0.55;
     public static final double TURNING_TIME = 0.25;
 }

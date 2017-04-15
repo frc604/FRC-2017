@@ -6,7 +6,6 @@
 
 package com._604robotics.robot2017.modes;
 
-import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robotnik.coordinator.Coordinator;
 import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.coordinator.connectors.DataWire;
@@ -14,9 +13,7 @@ import com._604robotics.robotnik.coordinator.groups.Group;
 import com._604robotics.robotnik.coordinator.steps.Step;
 import com._604robotics.robotnik.module.ModuleManager;
 import com._604robotics.robotnik.prefabs.measure.TriggerMeasure;
-import com._604robotics.robotnik.prefabs.trigger.TriggerAlways;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
-import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 
 public class AutonomousMode extends Coordinator {
 	protected void apply (ModuleManager modules) {
@@ -26,7 +23,6 @@ public class AutonomousMode extends Coordinator {
             protected void apply (ModuleManager modules) { 
 // >>>>>>>> SO Auton Obstacles Options <<<<<<<< //
             	group(new Group(modules.getModule("Dashboard").getTrigger("Center Peg"), new Coordinator() {
-            		// drive straight with kinematics
             		protected void apply(ModuleManager modules) {
             			step("Kinematic Forward", new Step(new TriggerMeasure(new TriggerAnd(
                 				modules.getModule("Drive").getTrigger("Timer Setpoint")
@@ -34,7 +30,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
-                                        "Power", 0.7));
+                                        "Power", modules.getModule("Dashboard").getData("Forward Power")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
                                 		"Time", modules.getModule("Dashboard").getData("Forward Time")));
                 			}
@@ -49,7 +45,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
-                                        "Power", 0.7));
+                                        "Power", modules.getModule("Dashboard").getData("Forward Power")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
                                 		"Time", modules.getModule("Dashboard").getData("Forward Time")));
                 			}
@@ -60,7 +56,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
-                                        "Power", -0.7));
+                                        "Power", 0.7));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"),
                                 		"Time", modules.getModule("Dashboard").getData("Turning Time")));
                 			}
@@ -71,7 +67,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
-                                        "Power", 0.7));
+                                        "Power", modules.getModule("Dashboard").getData("Forward Power")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
                                 		"Time", modules.getModule("Dashboard").getData("Forward Time")));
                 			}
@@ -86,7 +82,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
-                                        "Power", 0.7));
+                                        "Power", modules.getModule("Dashboard").getData("Forward Power")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
                                 		"Time", modules.getModule("Dashboard").getData("Forward Time")));
                 			}
@@ -97,7 +93,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
-                                        "Power", 0.7));
+                                        "Power", -0.7));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"),
                                 		"Time", modules.getModule("Dashboard").getData("Turning Time")));
                 			}
@@ -108,7 +104,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Drive")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"), 
-                                        "Power", 0.7));
+                                        "Power", modules.getModule("Dashboard").getData("Forward Power")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Drive"),
                                 		"Time", modules.getModule("Dashboard").getData("Forward Time")));
                 			}
@@ -122,8 +118,8 @@ public class AutonomousMode extends Coordinator {
                 		)), new Coordinator() {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
-                                        "Power", 0.7));
+                                this.fill(new DataWire( modules.getModule("Drive").getAction("Kinematic Rotate"), 
+                                        "Power", -0.7));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"),
                                 		"Time", modules.getModule("Dashboard").getData("Turning Time")));
                 			}
@@ -138,7 +134,7 @@ public class AutonomousMode extends Coordinator {
                 			protected void apply(ModuleManager modules) {
                 				this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
-                                        "Power", -0.7));
+                                        "Power", 0.7));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"),
                                 		"Time", modules.getModule("Dashboard").getData("Turning Time")));
                 			}

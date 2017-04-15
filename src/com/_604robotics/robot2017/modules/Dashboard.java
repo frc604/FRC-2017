@@ -11,6 +11,7 @@ public class Dashboard extends Module {
     public Dashboard () {
     	this.set(new DataMap() {{
     		add("Forward Time", new DashboardData("Forward Time", Calibration.FORWARD_TIME));
+    		add("Forward Power", new DashboardData("Forward Power", Calibration.FORWARD_POWER));
     		add("Turning Time", new DashboardData("Turning Time", Calibration.TURNING_TIME));
     	}});
         this.set(new TriggerMap() {{
