@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.Victor;
 public class Intake extends Module {
 	// TODO: ports file
 	private Timer timer = new Timer();
-	private Timer timer2 = new Timer();
+	//private Timer timer2 = new Timer();
 	//private boolean gearIn;
 	private boolean init;
 	private boolean running;
@@ -26,8 +26,8 @@ public class Intake extends Module {
 			new Victor(Ports.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
 		});
 	
-	private DigitalInput boop1 = new DigitalInput(8);
-	private DigitalInput boop2 = new DigitalInput(9);
+	private DigitalInput pew1 = new DigitalInput(8);
+	private DigitalInput pew2 = new DigitalInput(9);
 	
 	//private SimpleTriggerMap stm;
 	
@@ -39,8 +39,8 @@ public class Intake extends Module {
 		running = false;
 		this.set(new TriggerMap() {{
 			add("Running", () -> running);
-			add("Boop1", () -> boop1.get());
-			add("Boop2", () -> boop2.get());
+			add("Pew1", () -> pew1.get());
+			add("Pew2", () -> pew2.get());
 			//add("Rumble", stm.getTrigger("Rumble"));
 		}});
 		this.set(new StateController() {{
@@ -72,13 +72,13 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	//if( !boop1.get() && !boop2.get() ) {
-            		mo.set(-Calibration.INTAKE_POWER);
-            		//stm.set("Rumble", false);
-            		//gearIn = false;
-            		timer2.reset();
-            		timer2.stop();
-                	//}
+                	if( !pew1.get() && !pew2.get() ) {
+	            		mo.set(-Calibration.INTAKE_POWER);
+	            		//stm.set("Rumble", false);
+	            		//gearIn = false;
+	            		//timer2.reset();
+	            		//timer2.stop();
+                	}
                 	/*
                 	else {
                 		if( !gearIn ) {

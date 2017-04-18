@@ -49,10 +49,10 @@ public class DashboardSystem extends Coordinator {
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Running",
             		modules.getModule("Intake").getTrigger("Running")));
             
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop1",
-            		modules.getModule("Intake").getTrigger("Boop1")));
-            this.fill(new DataWire(DashboardOutput.asBoolean(), "Boop2",
-            		modules.getModule("Intake").getTrigger("Boop2")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Pew1",
+            		modules.getModule("Intake").getTrigger("Pew1")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Pew2",
+            		modules.getModule("Intake").getTrigger("Pew2")));
             
             this.fill(new DataWire(DashboardOutput.asDouble(), "Left Drive Accel",
                     modules.getModule("Drive").getData("Left Drive Accel")));
