@@ -71,4 +71,12 @@ public final class Calibration {
     public static final double INTAKE_POWER = 1;
     
     public static final double TESTING_ANGLE = 0;
+    public static final double CAL_ONE = 400;
+    public static final double CAL_TWO = 800;
+    public static final double CAL_THREE = 1200;
+    
+    public static final double CAL_ONE_DIST = 20;
+    public static final double CAL_TWO_DIST = 40;
+    public static final double CAL_THREE_DIST = 60;
+    public static final double TARGET = 80;
 }

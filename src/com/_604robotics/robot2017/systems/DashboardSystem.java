@@ -1,6 +1,5 @@
 package com._604robotics.robot2017.systems;
 
-import com._604robotics.robot2017.modes.TeleopMode;
 import com._604robotics.robotnik.coordinator.Coordinator;
 import com._604robotics.robotnik.coordinator.connectors.Binding;
 import com._604robotics.robotnik.coordinator.connectors.DataWire;
@@ -79,6 +78,9 @@ public class DashboardSystem extends Coordinator {
             		modules.getModule("Drive").getTrigger("R2")));
             this.fill(new DataWire(DashboardOutput.asBoolean(), "R3",
             		modules.getModule("Drive").getTrigger("R3")));
+            
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Ping",
+            		modules.getModule("Blinker").getTrigger("Ping")));
         }
     }
 }

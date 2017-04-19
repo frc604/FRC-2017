@@ -25,6 +25,67 @@ public class AutonomousMode extends Coordinator {
         group(new Group(modules.getModule("Dashboard").getTrigger("Auton On"), new Coordinator() {
             protected void apply (ModuleManager modules) { 
 // >>>>>>>> Auton Obstacles Options <<<<<<<< //
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Cal One"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.CAL_ONE));
+                            }
+                        }));
+                	}
+                }));
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Cal Two"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.CAL_TWO));
+                            }
+                        }));
+                	}
+                }));
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Cal Three"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", Calibration.CAL_THREE));
+                            }
+                        }));
+                	}
+                }));
+            	
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Calibrated"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("Forward", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("At Move Servo Target")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                            	
+                            	double target = modules.getModule("Dashboard").getData("Target").get();
+                            	double ca1 = modules.getModule("Dashboard").getData("Cal One Dist").get();
+                            	double ca2 = modules.getModule("Dashboard").getData("Cal Two Dist").get();
+                            	double ca3 = modules.getModule("Dashboard").getData("Cal Three Dist").get();
+                            	double clicks = (target / (((ca2-ca1)/200 + (ca3-ca2)/200) / 2));
+                                
+                            	this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
+                                        "Clicks", clicks));
+                            }
+                        }));
+                	}
+                }));           	            	
+            	            	
             	group(new Group(modules.getModule("Dashboard").getTrigger("Testing"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("PID Turn", new Step(new TriggerMeasure(new TriggerAnd(

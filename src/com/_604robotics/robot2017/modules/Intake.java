@@ -93,11 +93,11 @@ public class Intake extends Module {
                 		}
                 	}
                 	*/
-            		/*
+            		
                 	else {
                 		mo.stopMotor();
                 	}
-                	*/
+                	
                 }
                 @Override
                 public void end (ActionData data) {

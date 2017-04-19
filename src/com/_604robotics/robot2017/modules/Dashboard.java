@@ -11,6 +11,10 @@ public class Dashboard extends Module {
     public Dashboard () {
     	this.set(new DataMap() {{
     		add("Testing Angle", new DashboardData("Testing Angle", Calibration.TESTING_ANGLE));
+    		add("Cal One Distance", new DashboardData("Cal One Distance", Calibration.CAL_ONE_DIST));
+    		add("Cal Two Distance", new DashboardData("Cal One Distance", Calibration.CAL_TWO_DIST));
+    		add("Cal Three Distance", new DashboardData("Cal One Distance", Calibration.CAL_THREE_DIST));
+    		add("Target", new DashboardData("Target", Calibration.TARGET));
     	}});
     	
         this.set(new TriggerMap() {{
@@ -27,6 +31,9 @@ public class Dashboard extends Module {
             add("Wiggle Mid", autonMode.add("Wiggle Mid"));
             add("Right Step", autonMode.add("Right Step"));
             add("Testing", autonMode.add("Testing"));
+            add("Cal One", autonMode.add("Cal One"));
+            add("Cal Two", autonMode.add("Cal Two"));
+            add("Cal Three", autonMode.add("Cal Three"));
             //add("Two Gear Auto", autonMode.add("Two Gear Auto"));
             
             /*
