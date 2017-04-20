@@ -11,10 +11,12 @@ public class Dashboard extends Module {
     public Dashboard () {
     	this.set(new DataMap() {{
     		add("Testing Angle", new DashboardData("Testing Angle", Calibration.TESTING_ANGLE));
-    		add("Cal One Distance", new DashboardData("Cal One Distance", Calibration.CAL_ONE_DIST));
-    		add("Cal Two Distance", new DashboardData("Cal One Distance", Calibration.CAL_TWO_DIST));
-    		add("Cal Three Distance", new DashboardData("Cal One Distance", Calibration.CAL_THREE_DIST));
+    		add("Cal One Dist", new DashboardData("Cal One Dist", Calibration.CAL_ONE_DIST));
+    		add("Cal Two Dist", new DashboardData("Cal Two Dist", Calibration.CAL_TWO_DIST));
+    		add("Cal Three Dist", new DashboardData("Cal Three Dist", Calibration.CAL_THREE_DIST));
     		add("Target", new DashboardData("Target", Calibration.TARGET));
+    		add("Rotate Power", new DashboardData("Rotate Power", 0.8));
+    		add("Rotate Time", new DashboardData("Rotate Time", 1.5));
     	}});
     	
         this.set(new TriggerMap() {{
@@ -34,6 +36,8 @@ public class Dashboard extends Module {
             add("Cal One", autonMode.add("Cal One"));
             add("Cal Two", autonMode.add("Cal Two"));
             add("Cal Three", autonMode.add("Cal Three"));
+            add("Calibrated", autonMode.add("Calibrated"));
+            add("Kinematic Rotate", autonMode.add("Kinematic Rotate"));
             //add("Two Gear Auto", autonMode.add("Two Gear Auto"));
             
             /*

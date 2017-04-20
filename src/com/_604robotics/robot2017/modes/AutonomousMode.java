@@ -99,6 +99,23 @@ public class AutonomousMode extends Coordinator {
                         }));
                 	}
             	}));
+            	
+            	group(new Group(modules.getModule("Dashboard").getTrigger("Kinematic Rotate"), new Coordinator() {
+                	protected void apply(ModuleManager modules) {
+                		step("PID Turn", new Step(new TriggerMeasure(new TriggerAnd(
+                                modules.getModule("Drive").getTrigger("Timer Setpoint")
+                        )), new Coordinator() {
+                            protected void apply (ModuleManager modules) {
+                                this.bind(new Binding(modules.getModule("Drive").getAction("Kinematic Rotate")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
+                                        "Power", modules.getModule("Dashboard").getData("Rotate Power")));
+                                this.fill(new DataWire(modules.getModule("Drive").getAction("Kinematic Rotate"), 
+                                        "Time", modules.getModule("Dashboard").getData("Rotate Time")));
+                            }
+                        }));
+                	}
+            	}));
+            	
             	group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
                 		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(

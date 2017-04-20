@@ -8,7 +8,7 @@ public class Ports {
     
     /* Digital */
     public static final int COMPRESSOR = 0;
-    public static final int PEW = 1;
+    public static final int PEW = 9;
     
     /* Analog */
     public static final int ULTRASONIC_LEFT = 1;

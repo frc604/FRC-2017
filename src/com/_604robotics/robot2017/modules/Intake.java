@@ -25,10 +25,7 @@ public class Intake extends Module {
 			new Victor(Ports.INTAKE_FORWARD_MOTOR), 
 			new Victor(Ports.INTAKE_REVERSE_MOTOR){{setInverted(true);}}
 		});
-	
-	private DigitalInput pew1 = new DigitalInput(8);
-	private DigitalInput pew2 = new DigitalInput(9);
-	
+		
 	//private SimpleTriggerMap stm;
 	
 	public Intake() {	
@@ -39,8 +36,6 @@ public class Intake extends Module {
 		running = false;
 		this.set(new TriggerMap() {{
 			add("Running", () -> running);
-			add("Pew1", () -> pew1.get());
-			add("Pew2", () -> pew2.get());
 			//add("Rumble", stm.getTrigger("Rumble"));
 		}});
 		this.set(new StateController() {{
@@ -72,13 +67,11 @@ public class Intake extends Module {
                 @Override
                 public void run (ActionData data) {
                 	running = true;
-                	if( !pew1.get() && !pew2.get() ) {
 	            		mo.set(-Calibration.INTAKE_POWER);
 	            		//stm.set("Rumble", false);
 	            		//gearIn = false;
 	            		//timer2.reset();
 	            		//timer2.stop();
-                	}
                 	/*
                 	else {
                 		if( !gearIn ) {
@@ -93,11 +86,6 @@ public class Intake extends Module {
                 		}
                 	}
                 	*/
-            		
-                	else {
-                		mo.stopMotor();
-                	}
-                	
                 }
                 @Override
                 public void end (ActionData data) {
