@@ -12,7 +12,7 @@ public class Ports {
     
     /* Analog */
     public static final int ULTRASONIC_LEFT = 1;
-    public static final int ULTRASONIC_RIGHT = 2;
+    public static final int ULTRASONIC_RIGHT = 3;
     
     public static final int HORIZGYRO = 0;
     

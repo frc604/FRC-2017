@@ -65,7 +65,7 @@ public class Drive extends Module {
             pidOutput.right);
     */
     
-	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO, 0, 0);
+	private final AnalogGyro horizGyro = new AnalogGyro(Ports.HORIZGYRO);
     private InvertPIDSource invertedGyro;
 	
     private final ArcadeDrivePIDOutput pidOutput = new ArcadeDrivePIDOutput(drive);
