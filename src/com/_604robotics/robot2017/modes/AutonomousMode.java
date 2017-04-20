@@ -13,10 +13,9 @@ import com._604robotics.robotnik.coordinator.connectors.DataWire;
 import com._604robotics.robotnik.coordinator.groups.Group;
 import com._604robotics.robotnik.coordinator.steps.Step;
 import com._604robotics.robotnik.module.ModuleManager;
+import com._604robotics.robotnik.prefabs.measure.TimeMeasure;
 import com._604robotics.robotnik.prefabs.measure.TriggerMeasure;
-import com._604robotics.robotnik.prefabs.trigger.TriggerAlways;
 import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
-import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 
 public class AutonomousMode extends Coordinator {
 	protected void apply (ModuleManager modules) {
@@ -111,26 +110,25 @@ public class AutonomousMode extends Coordinator {
             	}));
             	
             	group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
-                	protected void apply(ModuleManager modules) {
-                		step("Forward Again", new Step(new TriggerMeasure(new TriggerAnd(
-                                modules.getModule("Drive").getTrigger("At Move Servo Target")
-                        )), new Coordinator() {
-                            protected void apply (ModuleManager modules) {
-                                this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
-                                        "Clicks", 2800));
-                                this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
-                                        "Limit", Math.sqrt(0.8)));
-                            }
-                        }));
-                	}
-                }));
+            		protected void apply(ModuleManager modules) {
+            			step("Forward", new Step(new TimeMeasure(5), new Coordinator() {
+            				protected void apply (ModuleManager modules) {
+            					this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive")));
+            					this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"),
+            							"Left Power", 0.7));
+            					this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"),
+            							"Right Power", 0.7));
+            				}
+            			}));
+            		}
+            	}));
+
                 group(new Group(modules.getModule("Dashboard").getTrigger("Testing 1"), new Coordinator() {
                 	protected void apply(ModuleManager modules) {
-                		step("Turn Right", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Right Target")), new Coordinator() {
+                		step("Turn Right", new Step(new TriggerMeasure(modules.getModule("Drive").getTrigger("Left Target")), new Coordinator() {
                     		protected void apply (ModuleManager modules) {
-                    			this.bind(new Binding(modules.getModule("Drive").getAction("Manual Rotate Right")));
-                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Right"), "Power", Calibration.ROTATE_POWER));
+                    			this.bind(new Binding(modules.getModule("Drive").getAction("Manual Rotate Left")));
+                    			this.fill(new DataWire(modules.getModule("Drive").getAction("Manual Rotate Left"), "Power", Calibration.ROTATE_POWER));
                     		}
                     	}));
                 	}
@@ -382,7 +380,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.8)));
+                                		"Limit", Math.sqrt(0.5)));
                 			}
                 		}));
                 	}
@@ -429,7 +427,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.8)));
+                                		"Limit", Math.sqrt(0.5)));
                 			}
                 		}));
                 	}
@@ -476,7 +474,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.8)));
+                                		"Limit", Math.sqrt(0.5)));
                 			}
                 		}));
                 	}
@@ -522,7 +520,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.8)));
+                                		"Limit", Math.sqrt(0.5)));
                 			}
                 		}));
                 	}

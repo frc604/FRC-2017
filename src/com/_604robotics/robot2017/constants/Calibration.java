@@ -62,7 +62,7 @@ public final class Calibration {
     /* All for "Testing 1" */
     public static final double ROTATE_TURN_INIT_FOWARD = 1730;
     public static final double ROTATE_TURN_FINAL_FOWARD = 1000;
-    public static final double ROTATE_TURN_TARGET = 51; // min: 37 - max: 55 -- this hit 52 degrees
+    public static final double ROTATE_TURN_TARGET = 53; // min: 37 - max: 55 -- this hit 52 degrees
     public static final double ROTATE_TOLERANCE = 3;
     public static final double ROTATE_WIGGLE_TARGET = 5;
     

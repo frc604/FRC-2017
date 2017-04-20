@@ -210,8 +210,8 @@ public class Drive extends Module {
             add("NorthWest", () -> -Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
             add("NorthEast", () -> Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
 
-            add("Left Target", () -> -Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
-            add("Right Target", () -> Calibration.ROTATE_TURN_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TURN_TARGET + Calibration.ROTATE_TOLERANCE);
+            add("Left Target", () -> -53-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -53 + Calibration.ROTATE_TOLERANCE);
+            add("Right Target", () -> 56-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < 56 + Calibration.ROTATE_TOLERANCE);
             
             add("Left Wiggle Target", () -> -Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
             add("Right Wiggle Target", () -> Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
