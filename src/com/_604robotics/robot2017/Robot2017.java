@@ -12,6 +12,7 @@ import com._604robotics.robot2017.modules.FlipFlop;
 import com._604robotics.robot2017.modules.Intake;
 import com._604robotics.robot2017.modules.RumbleControl;
 import com._604robotics.robot2017.modules.SpikeLight;
+import com._604robotics.robot2017.modules.Vision;
 import com._604robotics.robot2017.modules.XboxFlip;
 import com._604robotics.robot2017.systems.DashboardSystem;
 import com._604robotics.robotnik.Robot;
@@ -39,7 +40,7 @@ public class Robot2017 extends Robot {
             add("DynamicToggle", new DynamicToggle());
             add("GearShifter", new GearShifter(Ports.SHIFTER_SOLENOID_FORWARD, Ports.SHIFTER_SOLENOID_REVERSE));
             add("Regulator", new Regulator(Ports.COMPRESSOR));
-            //add("Vision", new Vision());
+            add("Vision", new Vision());
             add("XboxFlip", new XboxFlip());
             add("SpikeLight", new SpikeLight());
         }});
