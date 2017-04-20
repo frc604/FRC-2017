@@ -81,6 +81,11 @@ public class DashboardSystem extends Coordinator {
             
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Ping",
             		modules.getModule("Blinker").getTrigger("Ping")));
+
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Recording",
+            		modules.getModule("Recorder").getAction("Record").active()));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Playing",
+            		modules.getModule("Recorder").getAction("Play").active()));
         }
     }
 }

@@ -9,7 +9,9 @@ import com._604robotics.robot2017.modules.Dashboard;
 import com._604robotics.robot2017.modules.Drive;
 import com._604robotics.robot2017.modules.DynamicToggle;
 import com._604robotics.robot2017.modules.FlipFlop;
+import com._604robotics.robot2017.modules.GameMode;
 import com._604robotics.robot2017.modules.Intake;
+import com._604robotics.robot2017.modules.Recorder;
 import com._604robotics.robot2017.modules.RumbleControl;
 import com._604robotics.robot2017.modules.SpikeLight;
 import com._604robotics.robot2017.modules.XboxFlip;
@@ -24,7 +26,8 @@ import com._604robotics.robotnik.prefabs.modules.Regulator;
 public class Robot2017 extends Robot {
     public Robot2017() {
         this.set(new ModeMap() {{
-            setAutonomousMode(new AutonomousMode());
+            //setAutonomousMode(new AutonomousMode());
+            setAutonomousMode(new TeleopMode());
             setTeleopMode(new TeleopMode());
         }});
 
@@ -42,6 +45,8 @@ public class Robot2017 extends Robot {
             //add("Vision", new Vision());
             add("XboxFlip", new XboxFlip());
             add("SpikeLight", new SpikeLight());
+            add("Recorder", new Recorder());
+            add("GameMode", new GameMode());
         }});
 
         this.set(new CoordinatorList() {{

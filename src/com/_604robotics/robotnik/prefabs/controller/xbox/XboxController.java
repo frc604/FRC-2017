@@ -39,11 +39,9 @@ public class XboxController {
 
     /**
      * Creates an Xbox controller.
-     * @param port Port of the controller.
+     * @param joystick Base joystick object.
      */
-    public XboxController (int port) {
-        final Joystick joystick = new Joystick(port);
-        
+    public XboxController (Joystick joystick) {
         this.buttons = new XboxControllerButtons(joystick);
         
         this.leftStick  = new XboxControllerStick(joystick, 0, 1);
@@ -54,5 +52,13 @@ public class XboxController {
         this.dpad = new XboxControllerDpad(joystick);
         
         this.rumble = new ControllerRumble(joystick);
+    }
+
+    /**
+     * Creates an Xbox controller.
+     * @param port Port of the controller.
+     */
+    public XboxController (int port) {
+        this(new Joystick(port));
     }
 }

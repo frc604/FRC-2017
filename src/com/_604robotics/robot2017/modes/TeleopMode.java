@@ -9,11 +9,17 @@ import com._604robotics.robotnik.prefabs.trigger.TriggerAnd;
 import com._604robotics.robotnik.prefabs.trigger.TriggerNot;
 import com._604robotics.robotnik.prefabs.trigger.TriggerOr;
 import com._604robotics.robotnik.prefabs.trigger.TriggerToggle;
+
+import net.spinda.frc.RecordableJoystick;
+
 import com._604robotics.robot2017.constants.Calibration;
 import com._604robotics.robot2017.constants.Ports;
 
 public class TeleopMode extends Coordinator {
-    public static final XboxController driver = new XboxController(Ports.CONTROLLER_DRIVER);
+    public static final RecordableJoystick joystick = new RecordableJoystick(Ports.CONTROLLER_DRIVER);
+    public static final XboxController driver = new XboxController(joystick);
+
+    private final XboxController manipulator = new XboxController(Ports.CONTROLLER_MANIPULATOR);
 
     public TeleopMode () {
     	/* Default factor set here; changed in other parts of the code */
@@ -32,6 +38,16 @@ public class TeleopMode extends Coordinator {
 
     @Override
     protected void apply (ModuleManager modules) {
+        /* Recorder */
+        {
+            final TriggerToggle recordToggle = new TriggerToggle(manipulator.buttons.A, false);
+            this.bind(new Binding(modules.getModule("Recorder").getAction("Record"), new TriggerAnd(
+                    modules.getModule("GameMode").getTrigger("Teleop"),
+                    recordToggle.on)));
+
+            this.bind(new Binding(modules.getModule("Recorder").getAction("Play"), modules.getModule("GameMode").getTrigger("Autonomous")));
+        }
+        
     	/* Default Drive */
     	{
     		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
