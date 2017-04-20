@@ -17,6 +17,7 @@ public class Dashboard extends Module {
     		add("Target", new DashboardData("Target", Calibration.TARGET));
     		add("Rotate Power", new DashboardData("Rotate Power", 0.8));
     		add("Rotate Time", new DashboardData("Rotate Time", 1.5));
+    		add("Testing Clicks", new DashboardData("Testing Clicks", 0));
     	}});
     	
         this.set(new TriggerMap() {{
@@ -28,15 +29,22 @@ public class Dashboard extends Module {
             add("Fail Safe", autonMode.add("Fail Safe"));
             //add("Fail Safe 2", autonMode.add("Fail Safe 2"));
             add("Testing 1", autonMode.add("Testing 1"));
-            add("Left Step", autonMode.add("Left Step"));
+            add("Blue Left Step", autonMode.add("Blue Left Step"));
+            add("Blue Right Step", autonMode.add("Blue Right Step"));
+            add("Red Left Step", autonMode.add("Red Left Step"));
+            add("Red Right Step", autonMode.add("Red Right Step"));
+
             add("Mid Step", autonMode.add("Mid Step"));
+            add("Test Mid", autonMode.add("Test Mid"));
             add("Wiggle Mid", autonMode.add("Wiggle Mid"));
             add("Right Step", autonMode.add("Right Step"));
             add("Testing", autonMode.add("Testing"));
+            /*
             add("Cal One", autonMode.add("Cal One"));
             add("Cal Two", autonMode.add("Cal Two"));
             add("Cal Three", autonMode.add("Cal Three"));
             add("Calibrated", autonMode.add("Calibrated"));
+            */
             add("Kinematic Rotate", autonMode.add("Kinematic Rotate"));
             //add("Two Gear Auto", autonMode.add("Two Gear Auto"));
             

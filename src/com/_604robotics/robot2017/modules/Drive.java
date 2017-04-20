@@ -12,6 +12,7 @@ import com._604robotics.robotnik.prefabs.devices.AnalogUltrasonic;
 import com._604robotics.robotnik.prefabs.devices.ArcadeDrivePIDOutput;
 import com._604robotics.robotnik.prefabs.devices.InvertPIDSource;
 import com._604robotics.robotnik.prefabs.devices.UltrasonicPair;
+import com._604robotics.robotnik.trigger.Trigger;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
@@ -183,7 +184,19 @@ public class Drive extends Module {
         	add("Gyro Calibrated", () -> calibrated);
         	add("Reset", () -> reset);
         	add("Forward Again", () -> true);
-            add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
+            // add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
+            add("At Move Servo Target", new Trigger() {private Timer pidTimer = new Timer();
+            	public boolean run() {
+            		if (pidMove.isEnabled() && pidMove.onTarget()) {
+            			pidTimer.start();
+            			return pidTimer.get() >= 1;
+            		} else {
+            			pidTimer.stop();
+            			pidTimer.reset();
+            			return false;
+            		}
+            	}
+            });
             add("At Move Servo Target 2", () -> pidMove2.isEnabled() && pidMove2.onTarget());            
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
@@ -486,6 +499,9 @@ public class Drive extends Module {
             add("Manual Rotate Right", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
+            	public void begin(ActionData data) {
+            		timer.start();
+            	}
             	public void run (ActionData data) {
             		drive.arcadeDrive(0, -data.get("Power"));
             		leftAccel = encoderLeft.getRate() - lastLeftRate;
@@ -493,18 +509,29 @@ public class Drive extends Module {
                 	lastLeftRate = encoderLeft.getRate();
                 	lastRightRate = encoderRight.getRate();
             	}
+            	public void end(ActionData data) {
+            		timer.stop();
+            		timer.reset();
+            	}
             });
             
             add("Manual Rotate Left", new Action(new FieldMap () {{
             	define("Power", 0D);
             }}) {
             	// begin: calibrate gyro
+            	public void begin(ActionData data) {
+            		timer.start();
+            	}
             	public void run (ActionData data) {
             		drive.arcadeDrive(0, data.get("Power"));
             		leftAccel = encoderLeft.getRate() - lastLeftRate;
                 	rightAccel = encoderRight.getRate() - lastRightRate;
                 	lastLeftRate = encoderLeft.getRate();
                 	lastRightRate = encoderRight.getRate();
+            	}
+            	public void end(ActionData data) {
+            		timer.stop();
+            		timer.start();
             	}
             });
             

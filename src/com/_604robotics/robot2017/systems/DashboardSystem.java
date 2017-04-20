@@ -21,6 +21,9 @@ public class DashboardSystem extends Coordinator {
             this.fill(new DataWire(DashboardOutput.asDouble(), "Right Drive Rate",
                     modules.getModule("Drive").getData("Right Drive Rate")));
 
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "At Rotate Servo Target",
+                    modules.getModule("Drive").getTrigger("At Rotate Servo Target")));
+            
             this.fill(new DataWire(DashboardOutput.asDouble(), "Horizontal Gyro Angle",
                 	modules.getModule("Drive").getData("Horizontal Gyro Angle")));
             

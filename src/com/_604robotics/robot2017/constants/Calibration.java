@@ -44,7 +44,7 @@ public final class Calibration {
     
     public static final double KINEMATIC_TIMEM = 0.9;
     public static final double KINEMATIC_TIMELR = 2.2;
-    public static final double WAIT = 3;
+    public static final double WAIT = 1.5;
     public static final double ROTATE_TIME = 0.42;
     public static final double ROTATE_POWER = 0.5;
     
@@ -61,8 +61,8 @@ public final class Calibration {
     public static final double ROTATE_TARGET_B = 40;
     /* All for "Testing 1" */
     public static final double ROTATE_TURN_INIT_FOWARD = 1730;
-    public static final double ROTATE_TURN_FINAL_FOWARD = 700;
-    public static final double ROTATE_TURN_TARGET = 46; // min: 37 - max: 55 -- this hit 52 degrees
+    public static final double ROTATE_TURN_FINAL_FOWARD = 1000;
+    public static final double ROTATE_TURN_TARGET = 51; // min: 37 - max: 55 -- this hit 52 degrees
     public static final double ROTATE_TOLERANCE = 3;
     public static final double ROTATE_WIGGLE_TARGET = 5;
     
@@ -70,7 +70,7 @@ public final class Calibration {
     
     public static final double INTAKE_POWER = 0.8;
     
-    public static final double TESTING_ANGLE = 0;
+    public static final double TESTING_ANGLE = 60;
     public static final double CAL_ONE = 400;
     public static final double CAL_TWO = 800;
     public static final double CAL_THREE = 1200;
@@ -79,4 +79,6 @@ public final class Calibration {
     public static final double CAL_TWO_DIST = 40;
     public static final double CAL_THREE_DIST = 60;
     public static final double TARGET = 80;
+    
+    public static final double TESTING_CLICKS = 1346.4;
 }
