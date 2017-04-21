@@ -111,13 +111,13 @@ public class AutonomousMode extends Coordinator {
             	
             	group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
             		protected void apply(ModuleManager modules) {
-            			step("Forward", new Step(new TimeMeasure(5), new Coordinator() {
+            			step("Forward", new Step(new TimeMeasure(modules.getModule("Dashboard").getData("Fail Safe Time").get()), new Coordinator() {
             				protected void apply (ModuleManager modules) {
             					this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive")));
             					this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"),
-            							"Left Power", 0.7));
+            							"Left Power", Calibration.FAIL_SAFE_POWER_LEFT));
             					this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"),
-            							"Right Power", 0.7));
+            							"Right Power", Calibration.FAIL_SAFE_POWER_RIGHT));
             				}
             			}));
             		}
@@ -353,7 +353,7 @@ public class AutonomousMode extends Coordinator {
                             protected void apply (ModuleManager modules) {
                                 this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
-                                        "Clicks", 1580));
+                                        "Clicks", modules.getModule("Dashboard").getData("Blue Left Step")));
                             }
                         }));
                 		
@@ -380,7 +380,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.5)));
+                                		"Limit", modules.getModule("Dashboard").getData("Sidestep Power 2").get()));
                 			}
                 		}));
                 	}
@@ -401,7 +401,7 @@ public class AutonomousMode extends Coordinator {
                             protected void apply (ModuleManager modules) {
                                 this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
-                                        "Clicks", 1350));
+                                        "Clicks", modules.getModule("Dashboard").getData("Blue Right Step")));
                             }
                         }));
                 		
@@ -427,7 +427,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.5)));
+                                		"Limit", modules.getModule("Dashboard").getData("Sidestep Power 2").get()));
                 			}
                 		}));
                 	}
@@ -449,7 +449,7 @@ public class AutonomousMode extends Coordinator {
                             protected void apply (ModuleManager modules) {
                                 this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
-                                        "Clicks", 1750));
+                                        "Clicks", modules.getModule("Dashboard").getData("Red Left Step")));
                             }
                         }));
                 		
@@ -474,7 +474,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.5)));
+                                		"Limit", modules.getModule("Dashboard").getData("Sidestep Power 2").get()));
                 			}
                 		}));
                 	}
@@ -495,7 +495,7 @@ public class AutonomousMode extends Coordinator {
                             protected void apply (ModuleManager modules) {
                                 this.bind(new Binding(modules.getModule("Drive").getAction("Servo Move")));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
-                                        "Clicks", 1970));
+                                        "Clicks", modules.getModule("Dashboard").getData("Red Right Step")));
                             }
                         }));
                 		
@@ -520,7 +520,7 @@ public class AutonomousMode extends Coordinator {
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"), 
                                         "Clicks", Calibration.ROTATE_TURN_FINAL_FOWARD));
                                 this.fill(new DataWire(modules.getModule("Drive").getAction("Servo Move"),
-                                		"Limit", Math.sqrt(0.5)));
+                                		"Limit", modules.getModule("Dashboard").getData("Sidestep Power 2").get()));
                 			}
                 		}));
                 	}

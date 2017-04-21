@@ -81,4 +81,13 @@ public final class Calibration {
     public static final double TARGET = 80;
     
     public static final double TESTING_CLICKS = 1346.4;
+    public static final double FAIL_SAFE_TIME = 5;
+    public static final double FAIL_SAFE_POWER_LEFT = Math.sqrt(0.5);
+    public static final double FAIL_SAFE_POWER_RIGHT = Math.sqrt(0.5);
+    public static final double SIDESTEP_POWER_2 = Math.sqrt(0.5);
+    
+    public static final double BLUE_LEFT_STEP = 1580;
+    public static final double BLUE_RIGHT_STEP = 1350;
+    public static final double RED_LEFT_STEP = 1750;
+    public static final double RED_RIGHT_STEP = 1970;
 }

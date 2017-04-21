@@ -18,6 +18,13 @@ public class Dashboard extends Module {
     		add("Rotate Power", new DashboardData("Rotate Power", 0.8));
     		add("Rotate Time", new DashboardData("Rotate Time", 1.5));
     		add("Testing Clicks", new DashboardData("Testing Clicks", 0));
+
+    		add("Fail Safe Time", new DashboardData("Fail Safe Time", Calibration.FAIL_SAFE_TIME));
+    		add("Sidestep Power 2", new DashboardData("Sidestep Power 2", Calibration.SIDESTEP_POWER_2));
+    		add("Blue Left Step", new DashboardData("Blue Left Step", Calibration.BLUE_LEFT_STEP));
+    		add("Blue Right Step", new DashboardData("Blue Right Step", Calibration.BLUE_RIGHT_STEP));
+    		add("Red Left Step", new DashboardData("Red Left Step", Calibration.RED_LEFT_STEP));
+    		add("Red Right Step", new DashboardData("Red Right Step", Calibration.RED_RIGHT_STEP));
     	}});
     	
         this.set(new TriggerMap() {{
