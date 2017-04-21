@@ -1,6 +1,8 @@
 package com._604robotics.robotnik.prefabs.measure;
 
 import com._604robotics.robotnik.coordinator.steps.Measure;
+import com._604robotics.robotnik.data.DataAccess;
+import com._604robotics.robotnik.data.sources.ConstData;
 
 import edu.wpi.first.wpilibj.Timer;
 
@@ -9,13 +11,21 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class TimeMeasure extends Measure {
     private final Timer timer = new Timer();
-    private final double seconds;
+    private final DataAccess seconds;
 
     /**
      * Creates a time measure.
      * @param seconds Target elapsed time to measure for.
      */
     public TimeMeasure (double seconds) {
+        this(new ConstData(seconds));
+    }
+
+    /**
+     * Creates a time measure.
+     * @param seconds Data specifying the target elapsed time to measure for.
+     */
+    public TimeMeasure (DataAccess seconds) {
         this.seconds = seconds;
     }
 
@@ -27,7 +37,7 @@ public class TimeMeasure extends Measure {
 
     @Override
     public boolean complete () {
-        final boolean complete = timer.get() > seconds;
+        final boolean complete = timer.get() > seconds.get();
         if (complete)
             timer.stop();
         return complete;
