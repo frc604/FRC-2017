@@ -20,11 +20,15 @@ public class Dashboard extends Module {
     		add("Testing Clicks", new DashboardData("Testing Clicks", 0));
 
     		add("Fail Safe Time", new DashboardData("Fail Safe Time", Calibration.FAIL_SAFE_TIME));
+    		add("Fail Safe Power Left", new DashboardData("Fail Safe Power Left", Calibration.FAIL_SAFE_POWER_LEFT));
+    		add("Fail Safe Power Right", new DashboardData("Fail Safe Power Right", Calibration.FAIL_SAFE_POWER_RIGHT));
     		add("Sidestep Power 2", new DashboardData("Sidestep Power 2", Calibration.SIDESTEP_POWER_2));
     		add("Blue Left Step", new DashboardData("Blue Left Step", Calibration.BLUE_LEFT_STEP));
     		add("Blue Right Step", new DashboardData("Blue Right Step", Calibration.BLUE_RIGHT_STEP));
     		add("Red Left Step", new DashboardData("Red Left Step", Calibration.RED_LEFT_STEP));
     		add("Red Right Step", new DashboardData("Red Right Step", Calibration.RED_RIGHT_STEP));
+    		add("Rotate Wait", new DashboardData("Rotate Wait", Calibration.ROTATE_WAIT));
+    		add("Wiggle Wait", new DashboardData("Wiggle Wait", Calibration.WIGGLE_WAIT));
     	}});
     	
         this.set(new TriggerMap() {{
@@ -40,7 +44,8 @@ public class Dashboard extends Module {
             add("Blue Right Step", autonMode.add("Blue Right Step"));
             add("Red Left Step", autonMode.add("Red Left Step"));
             add("Red Right Step", autonMode.add("Red Right Step"));
-
+            add("Macro Blue Left Step", autonMode.add("Macro Blue Left Step"));
+            
             add("Mid Step", autonMode.add("Mid Step"));
             add("Test Mid", autonMode.add("Test Mid"));
             add("Wiggle Mid", autonMode.add("Wiggle Mid"));

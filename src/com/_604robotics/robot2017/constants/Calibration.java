@@ -44,7 +44,7 @@ public final class Calibration {
     
     public static final double KINEMATIC_TIMEM = 0.9;
     public static final double KINEMATIC_TIMELR = 2.2;
-    public static final double WAIT = 1.5;
+    public static final double ROTATE_WAIT = 0.5;
     public static final double ROTATE_TIME = 0.42;
     public static final double ROTATE_POWER = 0.5;
     
@@ -61,10 +61,12 @@ public final class Calibration {
     public static final double ROTATE_TARGET_B = 40;
     /* All for "Testing 1" */
     public static final double ROTATE_TURN_INIT_FOWARD = 1730;
-    public static final double ROTATE_TURN_FINAL_FOWARD = 1000;
+    public static final double ROTATE_TURN_FINAL_FOWARD = 2000;
     public static final double ROTATE_TURN_TARGET = 53; // min: 37 - max: 55 -- this hit 52 degrees
     public static final double ROTATE_TOLERANCE = 3;
     public static final double ROTATE_WIGGLE_TARGET = 5;
+    public static final double ROTATE_LEFT_TARGET = 53;
+    public static final double ROTATE_RIGHT_TARGET = 56;
     
     public static final double ROTATE_ANGLE = 90;
     
@@ -86,8 +88,9 @@ public final class Calibration {
     public static final double FAIL_SAFE_POWER_RIGHT = Math.sqrt(0.5);
     public static final double SIDESTEP_POWER_2 = Math.sqrt(0.5);
     
-    public static final double BLUE_LEFT_STEP = 1580;
+    public static final double BLUE_LEFT_STEP = 1980;
     public static final double BLUE_RIGHT_STEP = 1350;
     public static final double RED_LEFT_STEP = 1750;
     public static final double RED_RIGHT_STEP = 1970;
+    public static final double WIGGLE_WAIT = 3;
 }

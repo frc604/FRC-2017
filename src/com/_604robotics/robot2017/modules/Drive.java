@@ -209,7 +209,7 @@ public class Drive extends Module {
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
-            add("Timer Setpoint", () -> timer.get() > Calibration.WAIT);
+            add("Timer Setpoint", () -> timer.get() > Calibration.ROTATE_WAIT);
             add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
             add("East", () -> Calibration.ROTATE_TARGET_A - Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
             add("West", () -> -Calibration.ROTATE_TARGET_A- Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
@@ -218,8 +218,8 @@ public class Drive extends Module {
             add("NorthWest", () -> -Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
             add("NorthEast", () -> Calibration.ROTATE_TARGET_B-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_B + Calibration.ROTATE_TOLERANCE);
 
-            add("Left Target", () -> -53-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -53 + Calibration.ROTATE_TOLERANCE);
-            add("Right Target", () -> 56-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < 56 + Calibration.ROTATE_TOLERANCE);
+            add("Left Target", () -> -Calibration.ROTATE_LEFT_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_LEFT_TARGET + Calibration.ROTATE_TOLERANCE);
+            add("Right Target", () -> Calibration.ROTATE_RIGHT_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_RIGHT_TARGET + Calibration.ROTATE_TOLERANCE);
             
             add("Left Wiggle Target", () -> -Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
             add("Right Wiggle Target", () -> Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
@@ -520,6 +520,49 @@ public class Drive extends Module {
             	public void end(ActionData data) {
             		timer.stop();
             		timer.reset();
+            	}
+            });
+            
+            add("Macro Right", new Action(new FieldMap () {{
+            	define("Power", 0D);
+            	define("Clicks", 0D);
+                define("Limit", Calibration.DRIVE_LEFT_PID_MAX);
+            }}) {
+            	public void begin(ActionData data) {
+            		timer.start();
+            		pidMove.setOutputRange(-data.get("Limit"), data.get("Limit"));
+                    encoderLeft.reset();
+                    encoderRight.reset();
+                    //horizGyro.reset();
+                    
+                    pidMove.setSetpoint(data.get("Clicks"));
+                    pidMove.enable();
+            	}
+            	public void run (ActionData data) {
+            		if( timer.get() < 3 ) {
+            			if( horizGyro.getAngle() < 53 ) {
+            				drive.arcadeDrive(0, -data.get("Power"));
+            			}
+            		} else {
+            			if (pidMove.getSetpoint() != data.get("Clicks")) {
+                            pidMove.reset();
+                            
+                            encoderLeft.reset();
+                            encoderRight.reset();
+                            
+                            pidMove.setSetpoint(data.get("Clicks"));
+                            pidMove.enable();
+                        }
+            		}
+            	}
+            	public void end(ActionData data) {
+            		timer.stop();
+            		timer.reset();
+            		pidMove.reset();
+                    pidMove.disable();
+                    /* Should be normal default; pidMove does not have getter for output range */
+                    pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
+                    //pidRotate.reset();
             	}
             });
             

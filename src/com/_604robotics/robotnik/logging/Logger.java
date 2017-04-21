@@ -107,6 +107,7 @@ public class Logger {
 		std.println(line);
 		if (LOG_FILE != null) {
 			LOG_FILE.println(line);
+			LOG_FILE.flush();
 		}
 	}
 
@@ -114,6 +115,7 @@ public class Logger {
 		t.printStackTrace();
 		if (LOG_FILE != null) {
 			LOG_FILE.println(t);
+			LOG_FILE.flush();
 		}
 	}
 }
