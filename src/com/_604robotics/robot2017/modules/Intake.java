@@ -9,7 +9,6 @@ import com._604robotics.robotnik.module.Module;
 import com._604robotics.robotnik.prefabs.devices.MultiOutput;
 import com._604robotics.robotnik.trigger.TriggerMap;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Victor;
