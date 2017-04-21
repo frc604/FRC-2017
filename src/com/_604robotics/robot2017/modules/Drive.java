@@ -513,6 +513,11 @@ public class Drive extends Module {
             		timer.start();
             	}
             	public void run (ActionData data) {
+            		if( timer.get() < 5 ) {
+                		drive.arcadeDrive(0, -data.get("Power"));
+            		} else {
+            			drive.tankDrive(0.7, 0.7);
+            		}
             		drive.arcadeDrive(0, -data.get("Power"));
             		leftAccel = encoderLeft.getRate() - lastLeftRate;
                 	rightAccel = encoderRight.getRate() - lastRightRate;
@@ -592,7 +597,11 @@ public class Drive extends Module {
             		timer.start();
             	}
             	public void run (ActionData data) {
-            		drive.arcadeDrive(0, data.get("Power"));
+            		if( timer.get() < 5 ) {
+            			drive.arcadeDrive(0, data.get("Power"));
+            		} else {
+            			drive.tankDrive(0.7, 0.7);
+            		}
             		leftAccel = encoderLeft.getRate() - lastLeftRate;
                 	rightAccel = encoderRight.getRate() - lastRightRate;
                 	lastLeftRate = encoderLeft.getRate();

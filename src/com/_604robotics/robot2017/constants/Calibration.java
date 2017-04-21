@@ -89,8 +89,8 @@ public final class Calibration {
     public static final double SIDESTEP_POWER_2 = Math.sqrt(0.5);
     
     public static final double BLUE_LEFT_STEP = 1980;
-    public static final double BLUE_RIGHT_STEP = 1350;
-    public static final double RED_LEFT_STEP = 1750;
+    public static final double BLUE_RIGHT_STEP = 1360;
+    public static final double RED_LEFT_STEP = 1300;
     public static final double RED_RIGHT_STEP = 2000;
     public static final double WIGGLE_WAIT = 3;
     public static final double TIMER_FORWARD = 3;

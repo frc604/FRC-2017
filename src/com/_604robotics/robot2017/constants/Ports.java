@@ -41,4 +41,5 @@ public class Ports {
     
     /* Relay */
     public static final int SPIKELIGHT = 0;
+    public static final int LED = 1;
 }

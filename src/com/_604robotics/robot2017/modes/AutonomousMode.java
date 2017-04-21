@@ -111,13 +111,13 @@ public class AutonomousMode extends Coordinator {
             	
             	group(new Group(modules.getModule("Dashboard").getTrigger("Fail Safe"), new Coordinator() {
             		protected void apply(ModuleManager modules) {
-            			step("Forward", new Step(new TimeMeasure(modules.getModule("Dashboard").getData("Fail Safe Time").get()), new Coordinator() {
+            			step("Forward", new Step(new TimeMeasure(Calibration.FAIL_SAFE_TIME), new Coordinator() {
             				protected void apply (ModuleManager modules) {
             					this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive")));
             					this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"),
-            							"Left Power", modules.getModule("Dashboard").getData("Fail Safe Power Left")));
+            							"Left Power", Calibration.FAIL_SAFE_POWER_LEFT));
             					this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"),
-            							"Right Power", modules.getModule("Dashboard").getData("Fail Safe Power Right")));
+            							"Right Power", Calibration.FAIL_SAFE_POWER_RIGHT));
             				}
             			}));
             		}

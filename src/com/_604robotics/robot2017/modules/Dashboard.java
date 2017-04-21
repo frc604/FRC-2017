@@ -19,9 +19,6 @@ public class Dashboard extends Module {
     		add("Rotate Time", new DashboardData("Rotate Time", 1.5));
     		add("Testing Clicks", new DashboardData("Testing Clicks", 0));
 
-    		add("Fail Safe Time", new DashboardData("Fail Safe Time", Calibration.FAIL_SAFE_TIME));
-    		add("Fail Safe Power Left", new DashboardData("Fail Safe Power Left", Calibration.FAIL_SAFE_POWER_LEFT));
-    		add("Fail Safe Power Right", new DashboardData("Fail Safe Power Right", Calibration.FAIL_SAFE_POWER_RIGHT));
     		add("Sidestep Power 2", new DashboardData("Sidestep Power 2", Calibration.SIDESTEP_POWER_2));
     		add("Blue Left Step", new DashboardData("Blue Left Step", Calibration.BLUE_LEFT_STEP));
     		add("Blue Right Step", new DashboardData("Blue Right Step", Calibration.BLUE_RIGHT_STEP));

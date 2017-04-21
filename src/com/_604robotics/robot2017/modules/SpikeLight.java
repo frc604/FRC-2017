@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class SpikeLight extends Module {
 	private final Relay light = new Relay(Ports.SPIKELIGHT);
+	private final Relay LED = new Relay(Ports.LED);
 	private DigitalInput pew1 = new DigitalInput(Ports.PEW);
-	private final Timer timer = new Timer();
 
 	public SpikeLight() {
 		this.set(new TriggerMap() {{
@@ -25,18 +25,11 @@ public class SpikeLight extends Module {
 		this.set(new ElasticController() {{
 			addDefault("Off", new Action() {
 				public void run (ActionData data) {
+					light.set(Value.kOff);
 					if( !pew1.get() ) {
-						if( timer.get() == 0D )
-							timer.start();
-						else if( timer.get() < 1D ) {
-							light.set(Value.kForward);
-						} else {
-							light.set(Value.kOff);
-						}
+						LED.set(Value.kForward);
 					} else {
-						light.set(Value.kOff);
-						timer.stop();
-						timer.reset();
+						LED.set(Value.kOff);
 					}
 				}
 			});
@@ -44,6 +37,11 @@ public class SpikeLight extends Module {
 			add("On", new Action() {
 				public void begin (ActionData data) {
 					light.set(Value.kForward);
+					if( !pew1.get() ) {
+						LED.set(Value.kForward);
+					} else {
+						LED.set(Value.kOff);
+					}
 				}
 			});
 		}});
