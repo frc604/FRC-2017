@@ -17,6 +17,7 @@ import com._604robotics.robotnik.trigger.TriggerMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -210,6 +211,7 @@ public class Drive extends Module {
             add("Aligned", () -> Math.abs(ultra.getDifference()) <= 0.5);
             add("Past Ultra Target", () -> ultra.getDistance() < Calibration.ULTRA_TARGET && ultra.getAngle() < 3);
             add("Timer Setpoint", () -> timer.get() > Calibration.ROTATE_WAIT);
+            add("Timer Forward", () -> timer.get() > Calibration.TIMER_FORWARD);
             add("North", () -> -Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TOLERANCE);
             add("East", () -> Calibration.ROTATE_TARGET_A - Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
             add("West", () -> -Calibration.ROTATE_TARGET_A- Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_TARGET_A + Calibration.ROTATE_TOLERANCE);
@@ -529,6 +531,7 @@ public class Drive extends Module {
                 define("Limit", Calibration.DRIVE_LEFT_PID_MAX);
             }}) {
             	public void begin(ActionData data) {
+            		System.err.println("Start Start Macro Right");
             		timer.start();
             		pidMove.setOutputRange(-data.get("Limit"), data.get("Limit"));
                     encoderLeft.reset();
@@ -536,14 +539,27 @@ public class Drive extends Module {
                     //horizGyro.reset();
                     
                     pidMove.setSetpoint(data.get("Clicks"));
-                    pidMove.enable();
+                    //pidMove.enable();
+                    System.err.println("End Start Macro Right");
             	}
             	public void run (ActionData data) {
+            		boolean doneTime=false;
+            		boolean printed=false;
             		if( timer.get() < 3 ) {
+            			if (!printed) {
+            				System.err.println("Timer section");
+            				printed=true;
+            			}
             			if( horizGyro.getAngle() < 53 ) {
             				drive.arcadeDrive(0, -data.get("Power"));
             			}
             		} else {
+            			doneTime=true;
+            			if (printed) {
+            				System.err.println("PID section");
+            				pidMove.enable();
+            				printed=false;
+            			}
             			if (pidMove.getSetpoint() != data.get("Clicks")) {
                             pidMove.reset();
                             
@@ -556,6 +572,7 @@ public class Drive extends Module {
             		}
             	}
             	public void end(ActionData data) {
+            		System.err.println("Start End Macro Right");
             		timer.stop();
             		timer.reset();
             		pidMove.reset();
@@ -563,6 +580,7 @@ public class Drive extends Module {
                     /* Should be normal default; pidMove does not have getter for output range */
                     pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
                     //pidRotate.reset();
+                    System.err.println("End End Macro Right");
             	}
             });
             
