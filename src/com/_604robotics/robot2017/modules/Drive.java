@@ -185,17 +185,25 @@ public class Drive extends Module {
         	add("Reset", () -> reset);
         	add("Forward Again", () -> true);
             // add("At Move Servo Target", () -> pidMove.isEnabled() && pidMove.onTarget());
-            add("At Move Servo Target", new Trigger() {private Timer pidTimer = new Timer();
-            	public boolean run() {
-            		if (pidMove.isEnabled() && pidMove.onTarget()) {
-            			pidTimer.start();
-            			return pidTimer.get() >= 1;
-            		} else {
-            			pidTimer.stop();
-            			pidTimer.reset();
-            			return false;
-            		}
-            	}
+            add("At Move Servo Target", new Trigger() {
+                private final Timer timer = new Timer();
+                private boolean timing = false;
+                public boolean run () {
+                    if (pidMove.isEnabled() && pidMove.onTarget()) {
+                        if (!timing) {
+                            timing = true;
+                            timer.start();
+                        }
+                        return timer.get() >= 0.5;
+                    } else {
+                        if (timing) {
+                            timing = false;
+                            timer.stop();
+                            timer.reset();
+                        }
+                        return false;
+                    }
+                }
             });
             add("At Move Servo Target 2", () -> pidMove2.isEnabled() && pidMove2.onTarget());            
             add("At Rotate Servo Target", () -> pidRotate.isEnabled() && pidRotate.onTarget());
