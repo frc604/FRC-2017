@@ -36,17 +36,24 @@ public class Dashboard extends Module {
             final DashboardTriggerChoice autonMode = new DashboardTriggerChoice("Auton Mode");
             add("Fail Safe", autonMode.addDefault("Fail Safe"));
             //add("Fail Safe 2", autonMode.add("Fail Safe 2"));
-            add("Testing 1", autonMode.add("Testing 1"));
+            //add("Testing 1", autonMode.add("Testing 1"));
+            
             add("Blue Left Step", autonMode.add("Blue Left Step"));
             add("Blue Right Step", autonMode.add("Blue Right Step"));
             add("Red Left Step", autonMode.add("Red Left Step"));
             add("Red Right Step", autonMode.add("Red Right Step"));
-            add("Macro Blue Left Step", autonMode.add("Macro Blue Left Step"));
             
-            add("Mid Step", autonMode.add("Mid Step"));
-            add("Test Mid", autonMode.add("Test Mid"));
-            add("Wiggle Mid", autonMode.add("Wiggle Mid"));
-            add("Right Step", autonMode.add("Right Step"));
+            //add("Macro Blue Left Step", autonMode.add("Macro Blue Left Step"));
+            
+            add("Backup Blue Left Step", autonMode.add("Backup Blue Left Step"));
+            add("Backup Blue Right Step", autonMode.add("Backup Blue Right Step"));
+            add("Backup Red Left Step", autonMode.add("Backup Red Left Step"));
+            add("Backup Red Right Step", autonMode.add("Backup Red Right Step"));
+            
+            //add("Mid Step", autonMode.add("Mid Step"));
+            //add("Test Mid", autonMode.add("Test Mid"));
+            //add("Wiggle Mid", autonMode.add("Wiggle Mid"));
+            //add("Right Step", autonMode.add("Right Step"));
             add("Testing", autonMode.add("Testing"));
             /*
             add("Cal One", autonMode.add("Cal One"));
@@ -54,7 +61,7 @@ public class Dashboard extends Module {
             add("Cal Three", autonMode.add("Cal Three"));
             add("Calibrated", autonMode.add("Calibrated"));
             */
-            add("Kinematic Rotate", autonMode.add("Kinematic Rotate"));
+            //add("Kinematic Rotate", autonMode.add("Kinematic Rotate"));
             //add("Two Gear Auto", autonMode.add("Two Gear Auto"));
             
             /*

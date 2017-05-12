@@ -226,6 +226,8 @@ public class Drive extends Module {
             add("Left Wiggle Target", () -> -Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < -Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
             add("Right Wiggle Target", () -> Calibration.ROTATE_WIGGLE_TARGET-Calibration.ROTATE_TOLERANCE < horizGyro.getAngle() && horizGyro.getAngle() < Calibration.ROTATE_WIGGLE_TARGET + Calibration.ROTATE_TOLERANCE);
             
+            add("FALSE", () -> false);
+            
             add("L3", () -> !started && horizGyro.getAngle() <= -4 );
             add("L2", () -> !started && horizGyro.getAngle() >= -4 && horizGyro.getAngle() <= -2 );
             add("L1", () -> !started && horizGyro.getAngle() >= -2 && horizGyro.getAngle() <= -1 );
@@ -276,8 +278,7 @@ public class Drive extends Module {
             });
             
             add("Kinematic Drive", new Action(new FieldMap () {{
-                define("Power", 0D);
-                define("Time", 0D);
+                define("Time", 3);
             }}) {
             	public void begin (ActionData data) {
             		timer.reset();
@@ -286,7 +287,7 @@ public class Drive extends Module {
             	
                 public void run (ActionData data) {
                 	if (timer.get() < data.get("Time")) {
-                		drive.tankDrive(data.get("Power"), data.get("Power"), false);
+                		drive.tankDrive(0.881, 0.889);
                 	}
                 }
 
@@ -515,8 +516,98 @@ public class Drive extends Module {
             	public void run (ActionData data) {
             		if( timer.get() < 3 ) {
                 		drive.arcadeDrive(0, -data.get("Power"));
-            		} else {
+            		} else if(timer.get() < 6) {
             			drive.tankDrive(0.7, 0.7);
+            		} else {
+            			drive.stopMotor();
+            		}
+            		leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
+            	}
+            	public void end(ActionData data) {
+            		timer.stop();
+            		timer.reset();
+            		drive.stopMotor();
+            	}
+            });
+            
+            
+            
+//            add("Macro Right", new Action(new FieldMap () {{
+//            	define("Power", 0D);
+//            	define("Clicks", 0D);
+//                define("Limit", Calibration.DRIVE_LEFT_PID_MAX);
+//            }}) {
+//            	public void begin(ActionData data) {
+//            		System.err.println("Start Start Macro Right");
+//            		timer.start();
+//            		pidMove.setOutputRange(-data.get("Limit"), data.get("Limit"));
+//                    encoderLeft.reset();
+//                    encoderRight.reset();
+//                    //horizGyro.reset();
+//                    
+//                    pidMove.setSetpoint(data.get("Clicks"));
+//                    //pidMove.enable();
+//                    System.err.println("End Start Macro Right");
+//            	}
+//            	public void run (ActionData data) {
+//            		boolean doneTime=false;
+//            		boolean printed=false;
+//            		if( timer.get() < 3 ) {
+//            			if (!printed) {
+//            				System.err.println("Timer section");
+//            				printed=true;
+//            			}
+//            			if( horizGyro.getAngle() < 53 ) {
+//            				drive.arcadeDrive(0, -data.get("Power"));
+//            			}
+//            		} else {
+//            			doneTime=true;
+//            			if (printed) {
+//            				System.err.println("PID section");
+//            				pidMove.enable();
+//            				printed=false;
+//            			}
+//            			if (pidMove.getSetpoint() != data.get("Clicks")) {
+//                            pidMove.reset();
+//                            
+//                            encoderLeft.reset();
+//                            encoderRight.reset();
+//                            
+//                            pidMove.setSetpoint(data.get("Clicks"));
+//                            pidMove.enable();
+//                        }
+//            		}
+//            	}
+//            	public void end(ActionData data) {
+//            		System.err.println("Start End Macro Right");
+//            		timer.stop();
+//            		timer.reset();
+//            		pidMove.reset();
+//                    pidMove.disable();
+//                    /* Should be normal default; pidMove does not have getter for output range */
+//                    pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
+//                    //pidRotate.reset();
+//                    System.err.println("End End Macro Right");
+//            	}
+//            });
+            
+            add("Macro Right", new Action(new FieldMap () {{
+            }}) {
+            	public void begin(ActionData data) {
+            		timer.start();
+            	}
+            	public void run (ActionData data) {
+            		if( timer.get() < 3 && horizGyro.getAngle() < 53 ) {
+                		drive.arcadeDrive(0, -data.get("Power"));
+            		} else if( timer.get() < 4.5 ) {
+            			drive.tankDrive(0, 0);
+            		} else if( timer.get() < 8 ) {
+            			drive.tankDrive(0.881, 0.889);
+            		} else {
+            			drive.stopMotor();
             		}
             		leftAccel = encoderLeft.getRate() - lastLeftRate;
                 	rightAccel = encoderRight.getRate() - lastRightRate;
@@ -529,62 +620,30 @@ public class Drive extends Module {
             	}
             });
             
-            add("Macro Right", new Action(new FieldMap () {{
-            	define("Power", 0D);
-            	define("Clicks", 0D);
-                define("Limit", Calibration.DRIVE_LEFT_PID_MAX);
+            add("Macro Left", new Action(new FieldMap () {{
             }}) {
             	public void begin(ActionData data) {
-            		System.err.println("Start Start Macro Right");
             		timer.start();
-            		pidMove.setOutputRange(-data.get("Limit"), data.get("Limit"));
-                    encoderLeft.reset();
-                    encoderRight.reset();
-                    //horizGyro.reset();
-                    
-                    pidMove.setSetpoint(data.get("Clicks"));
-                    //pidMove.enable();
-                    System.err.println("End Start Macro Right");
             	}
             	public void run (ActionData data) {
-            		boolean doneTime=false;
-            		boolean printed=false;
-            		if( timer.get() < 3 ) {
-            			if (!printed) {
-            				System.err.println("Timer section");
-            				printed=true;
-            			}
-            			if( horizGyro.getAngle() < 53 ) {
-            				drive.arcadeDrive(0, -data.get("Power"));
-            			}
+            		if( timer.get() < 3 && horizGyro.getAngle() > -50 ) {
+                		drive.arcadeDrive(0, data.get("Power"));
+            		} else if( timer.get() < 4.5 ) {
+            			drive.tankDrive(0, 0);
+            		} else if( timer.get() < 8 ) {
+            			drive.tankDrive(0.881, 0.889);
             		} else {
-            			doneTime=true;
-            			if (printed) {
-            				System.err.println("PID section");
-            				pidMove.enable();
-            				printed=false;
-            			}
-            			if (pidMove.getSetpoint() != data.get("Clicks")) {
-                            pidMove.reset();
-                            
-                            encoderLeft.reset();
-                            encoderRight.reset();
-                            
-                            pidMove.setSetpoint(data.get("Clicks"));
-                            pidMove.enable();
-                        }
+            			drive.stopMotor();
             		}
+            		leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
             	}
             	public void end(ActionData data) {
-            		System.err.println("Start End Macro Right");
             		timer.stop();
             		timer.reset();
-            		pidMove.reset();
-                    pidMove.disable();
-                    /* Should be normal default; pidMove does not have getter for output range */
-                    pidMove.setOutputRange(-Calibration.DRIVE_LEFT_PID_MAX, Calibration.DRIVE_LEFT_PID_MAX);
-                    //pidRotate.reset();
-                    System.err.println("End End Macro Right");
+            		drive.stopMotor();
             	}
             });
             
@@ -598,8 +657,10 @@ public class Drive extends Module {
             	public void run (ActionData data) {
             		if( timer.get() < 3 ) {
             			drive.arcadeDrive(0, data.get("Power"));
-            		} else {
+            		} else if( timer.get() < 6 )  {
             			drive.tankDrive(0.7, 0.7);
+            		} else {
+            			drive.stopMotor();
             		}
             		leftAccel = encoderLeft.getRate() - lastLeftRate;
                 	rightAccel = encoderRight.getRate() - lastRightRate;
@@ -608,7 +669,8 @@ public class Drive extends Module {
             	}
             	public void end(ActionData data) {
             		timer.stop();
-            		timer.start();
+            		timer.reset();
+            		drive.stopMotor();
             	}
             });
             
