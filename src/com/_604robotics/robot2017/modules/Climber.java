@@ -20,7 +20,19 @@ public class Climber extends Module {
         		}
         	});
         	
-            add("Run", new Action(new FieldMap () {{
+            add("Run Driver", new Action(new FieldMap () {{
+                define("Power", 0D);
+            }}) {
+                public void run (ActionData data) {
+                    motor.set(data.get("Power"));
+                }
+
+                public void end (ActionData data){
+                    motor.stopMotor();
+                } 
+            });
+            
+            add("Run Override", new Action(new FieldMap () {{
                 define("Power", 0D);
             }}) {
                 public void run (ActionData data) {

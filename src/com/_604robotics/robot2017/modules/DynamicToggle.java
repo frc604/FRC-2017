@@ -22,7 +22,30 @@ public class DynamicToggle extends Module {
         }});
         
         this.set(new ElasticController() {{
-            addDefault("Check", new Action(new FieldMap () {{
+        	addDefault("Idle", new Action() {
+        	});
+            addDefault("Check Driver", new Action(new FieldMap () {{
+                define("rightY", 0D);
+                define("rightX", 0D);
+            }}) {
+                public void begin (ActionData data) {
+                    driveChange = DriveSwitch.ARCADE;
+                }
+                
+                public void run (ActionData data) {
+                    if (driveChange == DriveSwitch.TANK) {
+                        if (Math.abs(data.get("rightY")) <= 0.2 && Math.abs(data.get("rightX")) > 0.3) {
+                            driveChange = DriveSwitch.ARCADE;
+                        }
+                    } else {
+                        if (Math.abs(data.get("rightX")) <= 0.2 && Math.abs(data.get("rightY")) > 0.3) {
+                            driveChange = DriveSwitch.TANK;
+                        }
+                    }
+                }
+            });
+            
+            addDefault("Check Override", new Action(new FieldMap () {{
                 define("rightY", 0D);
                 define("rightX", 0D);
             }}) {
