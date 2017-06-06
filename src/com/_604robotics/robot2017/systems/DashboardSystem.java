@@ -45,6 +45,8 @@ public class DashboardSystem extends Coordinator {
             
             this.fill(new DataWire(DashboardOutput.asBoolean(), "Gyro Calibrated",
             		modules.getModule("Drive").getTrigger("Gyro Calibrated")));
+            this.fill(new DataWire(DashboardOutput.asBoolean(), "Override",
+            		modules.getModule("DynamicToggle").getTrigger("Override")));
             /*
             this.fill(new DataWire(DashboardOutput.asBoolean(), "L3",
             		modules.getModule("Drive").getTrigger("L3")));

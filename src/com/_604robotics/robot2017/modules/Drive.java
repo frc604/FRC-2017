@@ -340,7 +340,47 @@ public class Drive extends Module {
                     drive.stopMotor();
                 }
             });
+            
+            add("Tank Override", new Action(new FieldMap () {{
+                define("Left Power", 0D);
+                define("Right Power", 0D);
+            }}) {
+            	public void begin(ActionData data) {
+            		started = true;
+            	}
+                public void run (ActionData data) {
+                	drive.tankDrive(data.get("Left Power"), data.get("Right Power"));
+                	leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
+                }
 
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                }
+            });
+            
+            add("Arcade Override", new Action(new FieldMap () {{
+                define("Move Power", 0D);
+                define("Rotate Power", 0D);
+            }}) {
+            	public void begin (ActionData data) {
+            		started = true;
+            	}
+                public void run (ActionData data) {
+                	drive.arcadeDrive(data.get("Move Power"), data.get("Rotate Power"));
+                	leftAccel = encoderLeft.getRate() - lastLeftRate;
+                	rightAccel = encoderRight.getRate() - lastRightRate;
+                	lastLeftRate = encoderLeft.getRate();
+                	lastRightRate = encoderRight.getRate();
+                }
+
+                public void end (ActionData data) {
+                    drive.stopMotor();
+                }
+            });
+            
             /*
             add("Straight Drive", new Action(new FieldMap () {{
                 define("Move Power", 0D);

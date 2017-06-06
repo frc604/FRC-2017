@@ -29,6 +29,18 @@ public class TeleopMode extends Coordinator {
 
         driver.rightStick.X.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
         driver.rightStick.Y.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
+        
+        override.leftStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
+        override.leftStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
+
+        override.leftStick.X.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
+        override.leftStick.Y.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
+
+        override.rightStick.X.setDeadband(Calibration.TELEOP_DEADBAND);
+        override.rightStick.Y.setDeadband(Calibration.TELEOP_DEADBAND);
+
+        override.rightStick.X.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
+        override.rightStick.Y.setFactor(Calibration.TELEOP_FACTOR_DEFAULT);
     }
 
     @Override
@@ -38,9 +50,10 @@ public class TeleopMode extends Coordinator {
     	
     	/* Default Controls */
     	{
-	    	/* Default Drive */
+    		/* Default Drive */
 	    	{
 	    		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
+	    				overrideToggle.off,
 	    				new TriggerNot(driver.buttons.RB),
 	            		new TriggerNot(driver.buttons.B),
 	    				modules.getModule("Dashboard").getTrigger("Drive On"),
@@ -49,6 +62,7 @@ public class TeleopMode extends Coordinator {
 	    		this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Drive"), "Right Power", driver.rightStick.Y));
 	    		
 	    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
+	    				overrideToggle.off,
 	    				new TriggerNot(driver.buttons.RB),
 	    				new TriggerNot(driver.buttons.Y),
 	            		new TriggerNot(driver.buttons.B),
@@ -57,10 +71,7 @@ public class TeleopMode extends Coordinator {
 	    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Move Power", driver.leftStick.Y));
 	    		this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Drive"), "Rotate Power", driver.rightStick.X));
 	    	}
-    	}
-    	
-    	/* Driver Controls */
-    	{
+    		
 	    	/* Dynamic Drive */
 	    	{
 	    		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
@@ -136,9 +147,30 @@ public class TeleopMode extends Coordinator {
     	
     	/* Override Controls */
     	{
+    		/* Default Drive */
+    		{
+    			this.bind(new Binding(modules.getModule("Drive").getAction("Tank Override"), new TriggerAnd(
+    					overrideToggle.on,
+    					new TriggerNot(override.buttons.RB),
+    	        		new TriggerNot(override.buttons.B),
+    					modules.getModule("Dashboard").getTrigger("Drive On"),
+    	        		modules.getModule("Dashboard").getTrigger("Tank Drive"))));
+    			this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Override"), "Left Power", override.leftStick.Y));
+    			this.fill(new DataWire(modules.getModule("Drive").getAction("Tank Override"), "Right Power", override.rightStick.Y));
+    			
+    			this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Override"), new TriggerAnd(
+    					overrideToggle.on,
+    					new TriggerNot(override.buttons.RB),
+    					new TriggerNot(override.buttons.Y),
+    	        		new TriggerNot(override.buttons.B),
+    					modules.getModule("Dashboard").getTrigger("Drive On"),
+    	        		modules.getModule("Dashboard").getTrigger("Arcade Drive"))));
+    			this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Override"), "Move Power", override.leftStick.Y));
+    			this.fill(new DataWire(modules.getModule("Drive").getAction("Arcade Override"), "Rotate Power", override.rightStick.X));
+    		}
 	    	/* Dynamic Drive */
 	    	{
-	    		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Drive"), new TriggerAnd(
+	    		this.bind(new Binding(modules.getModule("Drive").getAction("Tank Override"), new TriggerAnd(
 	            		overrideToggle.on,
 	    				new TriggerNot(override.buttons.RB),
 	            		new TriggerNot(override.buttons.Y),
@@ -146,7 +178,7 @@ public class TeleopMode extends Coordinator {
 	    				modules.getModule("Dashboard").getTrigger("Drive On"),
 	            		modules.getModule("Dashboard").getTrigger("Dynamic Drive"),
 	            		modules.getModule("DynamicToggle").getTrigger("Tank Drive"))));
-	    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Drive"), new TriggerAnd(
+	    		this.bind(new Binding(modules.getModule("Drive").getAction("Arcade Override"), new TriggerAnd(
 	    				overrideToggle.on,
 	    				new TriggerNot(override.buttons.RB),
 	    				new TriggerNot(override.buttons.Y),
@@ -196,7 +228,7 @@ public class TeleopMode extends Coordinator {
 	    	}
 	    	/* Climber */
 	    	{
-	       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), new TriggerAnd(
+	       		this.bind(new Binding(modules.getModule("Climber").getAction("Run Override"), new TriggerAnd(
 	       				overrideToggle.on,
 	       				override.buttons.LT)));
 	    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run Override"), "Power", override.triggers.Left));            

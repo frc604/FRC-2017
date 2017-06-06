@@ -23,6 +23,9 @@ public class XboxFlip extends Module {
 					TeleopMode.driver.leftStick.X.flipFactor();
 					TeleopMode.driver.leftStick.Y.flipFactor();
 					TeleopMode.driver.rightStick.Y.flipFactor();
+					TeleopMode.override.leftStick.X.flipFactor();
+					TeleopMode.override.leftStick.Y.flipFactor();
+					TeleopMode.override.rightStick.Y.flipFactor();
 				}
 			});
 		}});

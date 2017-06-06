@@ -14,11 +14,13 @@ public class DynamicToggle extends Module {
     }
     
     private DriveSwitch driveChange = DriveSwitch.TANK;
+    private boolean override;
     
     public DynamicToggle () {
         this.set(new TriggerMap() {{
             add("Tank Drive", () -> driveChange == DriveSwitch.TANK);
             add("Arcade Drive", () -> driveChange == DriveSwitch.ARCADE);
+            add("Override", () -> override);
         }});
         
         this.set(new ElasticController() {{
@@ -33,6 +35,7 @@ public class DynamicToggle extends Module {
                 }
                 
                 public void run (ActionData data) {
+                	override = false;
                     if (driveChange == DriveSwitch.TANK) {
                         if (Math.abs(data.get("rightY")) <= 0.2 && Math.abs(data.get("rightX")) > 0.3) {
                             driveChange = DriveSwitch.ARCADE;
@@ -54,6 +57,7 @@ public class DynamicToggle extends Module {
                 }
                 
                 public void run (ActionData data) {
+                	override = true;
                     if (driveChange == DriveSwitch.TANK) {
                         if (Math.abs(data.get("rightY")) <= 0.2 && Math.abs(data.get("rightX")) > 0.3) {
                             driveChange = DriveSwitch.ARCADE;
