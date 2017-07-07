@@ -123,10 +123,11 @@ public class IndexedTable {
      * @param key Key of the raw value.
      * @param value Value to put.
      */
+    /* !!!!!!!!UNUSED!!!!!!!!
     public void putValue (String key, Object value) {
         this.table.putValue(key, value);
         this.addKey(key);
-    }
+    }*/
 
     private void addKey (String key) {
         if (!this.keys.contains(key)) {
@@ -225,8 +226,10 @@ public class IndexedTable {
          * Puts a raw value in the slice.
          * @param value Value to put.
          */
+        /* !!!!!!!!UNUSED!!!!!!!!
         public void putValue (Object value) {
             this.source.putValue(this.key, value);
         }
+        */
     }
 }

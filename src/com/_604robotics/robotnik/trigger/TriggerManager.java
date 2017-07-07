@@ -11,7 +11,6 @@ import com._604robotics.robotnik.memory.IndexedTable;
  */
 public class TriggerManager {
     private final Map<String, TriggerReference> triggerTable;
-    
     /**
      * Creates a trigger manager.
      * @param triggerMap Map of triggers to manage.
