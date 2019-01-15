@@ -34,10 +34,10 @@ public class Ports {
     public static final int DRIVE_ENCODER_LEFT_B = 0;
     
     /* Solenoids */
-    public static final int SHIFTER_SOLENOID_FORWARD = 0;
-    public static final int SHIFTER_SOLENOID_REVERSE = 1;
-    public static final int FLIPFLOP_SOLENOID_FORWARD = 6;
-    public static final int FLIPFLOP_SOLENOID_REVERSE = 7;
+    public static final int PROTOTYPE_SOLENOID_1_FORWARD = 0;
+    public static final int PROTOTYPE_SOLENOID_1_REVERSE = 1;
+    public static final int PROTOTYPE_SOLENOID_FORWARD = 2;
+    public static final int PROTOTYPE_SOLENOID_REVERSE = 3;
     
     /* Relay */
     public static final int SPIKELIGHT = 0;

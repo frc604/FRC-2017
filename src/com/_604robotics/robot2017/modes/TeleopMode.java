@@ -83,21 +83,27 @@ public class TeleopMode extends Coordinator {
     	}
     	/* Shifter */
     	{
-            this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
+			/*this.bind(new Binding(modules.getModule("GearShifter").getAction("High Gear"), new TriggerToggle(driver.buttons.LB, false).on));
+			*/
     	}
     	/* Gear Pickup */
     	{    		
-    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Retract"), driver.buttons.Y));
-    		this.bind(new Binding(modules.getModule("FlipFlop").getAction("Extend"), new TriggerOr(driver.buttons.X, driver.buttons.B, driver.buttons.A)));
+    		this.bind(new Binding(modules.getModule("ProtoypeSolenoid").getAction("Retract"), driver.buttons.Y));
+			this.bind(new Binding(modules.getModule("ProtoypeSolenoid").getAction("Extend"), driver.buttons.X));
+			
+			this.bind(new Binding(modules.getModule("ProtoypeSolenoid_1").getAction("Retract"), driver.buttons.A));
+    		this.bind(new Binding(modules.getModule("ProtoypeSolenoid_1").getAction("Extend"), driver.buttons.B));
     		
-    		this.bind(new Binding(modules.getModule("Intake").getAction("Off"), driver.buttons.Y));
+    		/*this.bind(new Binding(modules.getModule("Intake").getAction("Off"), driver.buttons.Y));
     		this.bind(new Binding(modules.getModule("Intake").getAction("Forward"), driver.buttons.X));
-    		this.bind(new Binding(modules.getModule("Intake").getAction("Reverse"), driver.buttons.B));
+			this.bind(new Binding(modules.getModule("Intake").getAction("Reverse"), driver.buttons.B));
+			*/
     	}
     	/* Climber */
     	{
-       		this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.LT));
-    		this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Left));            
+       		/*this.bind(new Binding(modules.getModule("Climber").getAction("Run"), driver.buttons.LT));
+			this.fill(new DataWire(modules.getModule("Climber").getAction("Run"), "Power", driver.triggers.Left));      
+			*/      
     	}
     	/* SpikeLight */
     	{
